@@ -21,7 +21,7 @@ var mongoose = require('mongoose');
         user.comparePassword(req.body.password, function (err, isMatch) {
           if (isMatch && !err) {
             // if user is found and password is right create a token
-            var token = jwt.sign(user, config.secret);
+            var token = jwt.sign(user, config.secret, { expiresIn: '1d' });
             // return the information including token as JSON
             res.json({token: 'JWT ' + token,user: user});
           } else {
