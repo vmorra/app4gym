@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
 import {default as UUID} from "node-uuid";
 import { Redirect } from 'react-router';
-import AuthService from '../../../components/auth'
+import AuthService from '../../../components/auth';
+import AccountInput from './AccountInput';
 
 class Login extends Component {
 
@@ -97,10 +98,7 @@ class Login extends Component {
                   <div className="card-block">
                     <h1>Login</h1>
                     <p className="text-muted">Sign In to your account</p>
-                    <div className={inGrupoAccountNameClass}>
-                      <span className="input-group-addon"><i className="icon-user"></i></span>
-                      <input type="text" className={btnAccountNameClass} placeholder="Username" onChange={this.handleChangeAccountName}/>
-                    </div>
+                    <AccountInput cefan={this.state.cefan} handleChangeAccountName={this.handleChangeAccountName}/>
                     <div className="input-group mb-4">
                       <span className="input-group-addon"><i className="icon-lock"></i></span>
                       <input type="password" className="form-control" placeholder="Password" onChange={this.handleChangePwd}/>
