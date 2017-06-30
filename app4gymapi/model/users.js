@@ -20,6 +20,10 @@ var UserSchema = new Schema({
         type: String,
         required: true
     },
+    a_email: {
+        type: String,
+        required: true
+    },
     a_first_name: String,
     a_last_name: String,
     d_birth_date: Date,

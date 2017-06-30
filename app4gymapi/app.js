@@ -10,7 +10,8 @@ var bodyParser = require('body-parser');
 var jwt = require('jsonwebtoken');
 var passport = require('passport');
 var passportJWT = require("passport-jwt");
-var cors = require('cors')
+var cors = require('cors');
+nev = require('email-verification')(mongoose);
 
 var corsOptions = {
   origin: 'http://localhost:3000',
@@ -49,6 +50,41 @@ var strategy = new JwtStrategy(jwtOptions, function(jwt_payload, next) {
 });
 
 passport.use(strategy);
+
+//Init Opts Email Verification
+nev.configure({
+    verificationURL: 'http://localhost:3001/api/auth/email-verification/${URL}',
+    URLLength: 48,
+    persistentUserModel: userm.usermodel,
+    emailFieldName: 'a_email',
+
+    expirationTime: 120,
+
+    transportOptions: {
+        service: 'Gmail',
+        auth: {
+            user: 'ingvincenzomorra@gmail.com',
+            pass: 'EdinsonCavani0/25'
+        }
+    },
+    verifyMailOptions: {
+        from: 'Do Not Reply <myawesomeemail_do_not_reply@gmail.com>',
+        subject: 'Please confirm account',
+        html: 'Click the following link to confirm your account:</p><p>${URL}</p>',
+        text: 'Please confirm your account by clicking the following link: ${URL}'
+    }
+}, function(error, options){
+});
+
+nev.generateTempUserModel(userm.usermodel, function(err, tempUserModel) {
+   if (err) {
+     console.log(err);
+     return;
+   }
+
+   console.log('generated temp user model: ' + (typeof tempUserModel === 'function'));
+ });
+
 
 var app = express();
 

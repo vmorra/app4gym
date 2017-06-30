@@ -5,6 +5,9 @@ var passport = require('passport');
 var userm = require('../model/users');
 var config = require('../config/passport');
 var mongoose = require('mongoose');
+const uuidv4 = require('uuid/v4');
+
+
 
 
 
@@ -36,9 +39,10 @@ var mongoose = require('mongoose');
    function(req, res){
      console.log("Signup User");
      var newUser = userm.usermodel({
-       i_account: mongoose.Types.ObjectId('4edd40c86762e0fb12000003'),
+       i_account: mongoose.Types.ObjectId(),
        i_account_name: req.body.account_name,
        i_password: req.body.password,
+       a_email: req.body.email,
        a_first_name: req.body.first_name,
        a_last_name: req.body.last_name,
        d_birth_date: new Date(req.body.birth_date),
@@ -47,12 +51,49 @@ var mongoose = require('mongoose');
        d_created_at: new Date(),
        d_updated_at: new Date()
      });
+     var useremail=req.body.email;
 
-    newUser.save(function(err) {
+      console.log("create TempUSer");
+      nev.createTempUser(newUser, function(err, existingPersistentUser, newTempUser) {
+        console.log("create TempUSer");
+      if (err) {
+        return res.status(404).send('ERROR: creating temp user FAILED');
+      }
+
+      // user already exists in persistent collection
+      if (existingPersistentUser) {
+        return res.json({
+          msg: 'You have already signed up and confirmed your account. Did you forget your password?'
+        });
+      }
+
+      // new user created
+      if (newTempUser) {
+        console.log("NewTempUser"+newTempUser);
+        var URL = newTempUser[nev.options.URLFieldName];
+        console.log("URL TEMP "+URL);
+        nev.sendVerificationEmail(useremail, URL, function(err, info) {
+          if (err) {
+            return res.status(404).send('ERROR: sending verification email FAILED');
+          }
+          res.json({
+            msg: 'An email has been sent to you. Please check it to verify your account.',
+            info: info
+          });
+        });
+
+      // user already exists in temporary collection!
+      } else {
+        res.json({
+          msg: 'You have already signed up. Please check your email to verify your account.'
+        });
+      }
+    });
+    /*newUser.save(function(err) {
       if (err) throw err;
       console.log('User created!');
       res.status(202).end();
-    });
+    });*/
 
    });
 
@@ -62,6 +103,28 @@ var mongoose = require('mongoose');
     console.log("Logout User");
     req.logout();
     res.redirect('/');
+  });
+
+
+  // user accesses the link that is sent
+  router.get('/email-verification/:URL', function(req, res) {
+    var url = req.params.URL;
+
+    nev.confirmTempUser(url, function(err, user) {
+      if (user) {
+        nev.sendConfirmationEmail(user.a_email, function(err, info) {
+          if (err) {
+            return res.status(404).send('ERROR: sending confirmation email FAILED');
+          }
+          res.json({
+            msg: 'CONFIRMED!',
+            info: info
+          });
+        });
+      } else {
+        return res.status(404).send('ERROR: confirming temp user FAILED');
+      }
+    });
   });
 
 router.get('/profile/:idaccount',passport.authenticate('jwt', { session: false}),
