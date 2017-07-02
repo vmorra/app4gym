@@ -12,17 +12,17 @@ var passport = require('passport');
 var passportJWT = require("passport-jwt");
 var cors = require('cors');
 nev = require('email-verification')(mongoose);
+var swaggerJSDoc = require('swagger-jsdoc');
 
-var corsOptions = {
-  origin: 'http://localhost:3000',
-  optionsSuccessStatus: 200 // some legacy browsers (IE11, various SmartTVs) choke on 204
-}
+var corsOptions = confige.corsOptions;
 
 var ExtractJwt = passportJWT.ExtractJwt;
 var JwtStrategy = passportJWT.Strategy;
 
 var userm = require('./model/users');
 var config = require('./config/passport');
+var confige = require('./config/express');
+var configm = require('./config/mongoose');
 
 var index = require('./routes/index');
 var users = require('./routes/users');
@@ -53,7 +53,7 @@ passport.use(strategy);
 
 //Init Opts Email Verification
 nev.configure({
-    verificationURL: 'http://localhost:3001/api/auth/email-verification/${URL}',
+    verificationURL: confige.nevVerificationURL,
     URLLength: 48,
     persistentUserModel: userm.usermodel,
     emailFieldName: 'a_email',
@@ -63,8 +63,8 @@ nev.configure({
     transportOptions: {
         service: 'Gmail',
         auth: {
-            user: 'ingvincenzomorra@gmail.com',
-            pass: 'EdinsonCavani0/25'
+            user: confige.newMailAccount,
+            pass: confige.newMailPwd
         }
     },
     verifyMailOptions: {
@@ -85,15 +85,38 @@ nev.generateTempUserModel(userm.usermodel, function(err, tempUserModel) {
    console.log('generated temp user model: ' + (typeof tempUserModel === 'function'));
  });
 
+//Init Swageer JSDoc
+// swagger definition
+var swaggerDefinition = {
+  info: {
+    title: 'App4Gym API',
+    version: '1.0.0',
+    description: 'RESTful API App4Gym',
+  },
+  host: 'localhost:3001',
+  basePath: confige.apiBasePath,
+};
+
+// options for the swagger docs
+var options = {
+  // import swaggerDefinitions
+  swaggerDefinition: swaggerDefinition,
+  // path to the API docs
+  apis: ['./routes/*.js'],
+};
+
+// initialize swagger-jsdoc
+var swaggerSpec = swaggerJSDoc(options);
 
 var app = express();
 
-mongoose.connect('mongodb://app4gymbe:app4gymbe@ds129352.mlab.com:29352/app4gymco');
 //Get the default connection
+mongoose.connect(configm.mongoURL);
 var db = mongoose.connection;
 
 //Bind connection to error event (to get notification of connection errors)
 db.on('error', console.error.bind(console, 'MongoDB connection error:'));
+
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');
@@ -115,8 +138,8 @@ app.use(cors(corsOptions));
 
 
 app.use('/', index);
-app.use('/api/users', users);
-app.use('/api/auth', authr);
+app.use(confige.apiBasePath+'/users', users);
+app.use(confige.apiBasePath+'/auth', authr);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

@@ -18,7 +18,7 @@ const uuidv4 = require('uuid/v4');
       if (err) throw err;
 
       if (!user) {
-        res.status(400).json({error: 400, msg: 'Authentication failed. User not found.'});
+        res.status(400).json({code: 1000, msg: 'Authentication failed. User not found.'});
       } else {
         // check if password matches
         user.comparePassword(req.body.password, function (err, isMatch) {
@@ -28,7 +28,7 @@ const uuidv4 = require('uuid/v4');
             // return the information including token as JSON
             res.json({token: 'JWT ' + token,user: user});
           } else {
-            res.send({success: false, msg: 'Authentication failed. Wrong password.'});
+            res.,status(400).json({code: 1001, msg: 'Authentication failed. Wrong password.'});
           }
         });
       }
@@ -53,18 +53,15 @@ const uuidv4 = require('uuid/v4');
      });
      var useremail=req.body.email;
 
-      console.log("create TempUSer");
       nev.createTempUser(newUser, function(err, existingPersistentUser, newTempUser) {
         console.log("create TempUSer");
       if (err) {
-        return res.status(404).send('ERROR: creating temp user FAILED');
+        return res.status(500).json({code: 2000, msg: 'Error During Signup'});
       }
 
       // user already exists in persistent collection
       if (existingPersistentUser) {
-        return res.json({
-          msg: 'You have already signed up and confirmed your account. Did you forget your password?'
-        });
+        return res.status(400)json({code: 1002, msg: 'User Already Signup'});
       }
 
       // new user created
@@ -74,19 +71,14 @@ const uuidv4 = require('uuid/v4');
         console.log("URL TEMP "+URL);
         nev.sendVerificationEmail(useremail, URL, function(err, info) {
           if (err) {
-            return res.status(404).send('ERROR: sending verification email FAILED');
+            return res.status(500).json({code: 2001, msg: 'Error Sending Email Verification'});
           }
-          res.json({
-            msg: 'An email has been sent to you. Please check it to verify your account.',
-            info: info
-          });
+          res.status(202).end();
         });
 
       // user already exists in temporary collection!
       } else {
-        res.json({
-          msg: 'You have already signed up. Please check your email to verify your account.'
-        });
+        return res.status(400).json({code: 1003, msg: 'You have already signed up. Please check your email to verify your account'});
       }
     });
     /*newUser.save(function(err) {
@@ -102,7 +94,6 @@ const uuidv4 = require('uuid/v4');
   function(req, res){
     console.log("Logout User");
     req.logout();
-    res.redirect('/');
   });
 
 
@@ -114,15 +105,12 @@ const uuidv4 = require('uuid/v4');
       if (user) {
         nev.sendConfirmationEmail(user.a_email, function(err, info) {
           if (err) {
-            return res.status(404).send('ERROR: sending confirmation email FAILED');
+            return res.status(500).json({code: 2002, msg: 'ERROR Sending Confirmation Mail'});
           }
-          res.json({
-            msg: 'CONFIRMED!',
-            info: info
-          });
+          res.status(201).end();
         });
       } else {
-        return res.status(404).send('ERROR: confirming temp user FAILED');
+        return res.status(400).json({code: 1004, msg: 'ERROR Sending Confirmation Mail'};
       }
     });
   });
@@ -130,7 +118,7 @@ const uuidv4 = require('uuid/v4');
 router.get('/profile/:idaccount',passport.authenticate('jwt', { session: false}),
   //require('connect-ensure-login').ensureLoggedIn(),
   function(req, res){
-    var user_id = req.param('id');
+    var user_id = req.param('idaccount');
     userm.usermodel.findOne({
       i_account_name: req.param.idaccount
     }, function(err, user) {
