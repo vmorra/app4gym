@@ -14,10 +14,7 @@ var cors = require('cors');
 nev = require('email-verification')(mongoose);
 var swaggerJSDoc = require('swagger-jsdoc');
 
-var corsOptions = confige.corsOptions;
 
-var ExtractJwt = passportJWT.ExtractJwt;
-var JwtStrategy = passportJWT.Strategy;
 
 var userm = require('./model/users');
 var config = require('./config/passport');
@@ -27,7 +24,12 @@ var configm = require('./config/mongoose');
 var index = require('./routes/index');
 var users = require('./routes/users');
 var authr = require('./routes/authr');
+var adocs = require('./routes/adocs');
 
+var corsOptions = confige.corsOptions;
+
+var ExtractJwt = passportJWT.ExtractJwt;
+var JwtStrategy = passportJWT.Strategy;
 
 //Init Startegy Passport
 var jwtOptions = {}
@@ -106,7 +108,7 @@ var options = {
 };
 
 // initialize swagger-jsdoc
-var swaggerSpec = swaggerJSDoc(options);
+swaggerSpec = swaggerJSDoc(options);
 
 var app = express();
 
@@ -137,9 +139,13 @@ app.use(passport.session());
 app.use(cors(corsOptions));
 
 
-app.use('/', index);
+//Routing
 app.use(confige.apiBasePath+'/users', users);
 app.use(confige.apiBasePath+'/auth', authr);
+app.use(confige.apiBasePath+'/doc', adocs);
+
+
+
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

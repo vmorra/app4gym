@@ -8,9 +8,30 @@ var mongoose = require('mongoose');
 const uuidv4 = require('uuid/v4');
 
 
-
-
-
+/**
+ * @swagger
+ * /login:
+ *   post:
+ *     description: Login to the application
+ *     produces:
+ *       - application/json
+ *     parameters:
+ *       - name: username
+ *         description: Username to use for login.
+ *         in: body
+ *         required: true
+ *         type: string
+ *       - name: password
+ *         description: User's password.
+ *         in: body
+ *         required: true
+ *         type: string
+ *     responses:
+ *       200:
+ *         description: login
+ *       400:
+ *        description: Authentication failed
+ */
   router.post('/login', function(req, res) {
     userm.usermodel.findOne({
       i_account_name: req.body.username
@@ -28,7 +49,7 @@ const uuidv4 = require('uuid/v4');
             // return the information including token as JSON
             res.json({token: 'JWT ' + token,user: user});
           } else {
-            res.,status(400).json({code: 1001, msg: 'Authentication failed. Wrong password.'});
+            res.status(400).json({code: 1001, msg: 'Authentication failed. Wrong password.'});
           }
         });
       }
@@ -61,7 +82,7 @@ const uuidv4 = require('uuid/v4');
 
       // user already exists in persistent collection
       if (existingPersistentUser) {
-        return res.status(400)json({code: 1002, msg: 'User Already Signup'});
+        return res.status(400).json({code: 1002, msg: 'User Already Signup'});
       }
 
       // new user created
@@ -110,7 +131,7 @@ const uuidv4 = require('uuid/v4');
           res.status(201).end();
         });
       } else {
-        return res.status(400).json({code: 1004, msg: 'ERROR Sending Confirmation Mail'};
+        return res.status(400).json({code: 1004, msg: 'ERROR Sending Confirmation Mail'});
       }
     });
   });
