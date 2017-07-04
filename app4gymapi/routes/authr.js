@@ -5,7 +5,7 @@ var passport = require('passport');
 var userm = require('../model/users');
 var config = require('../config/passport');
 var mongoose = require('mongoose');
-const uuidv4 = require('uuid/v4');
+  const uuidv4 = require('uuid/v4');
 
 
 /**
@@ -44,10 +44,20 @@ const uuidv4 = require('uuid/v4');
         // check if password matches
         user.comparePassword(req.body.password, function (err, isMatch) {
           if (isMatch && !err) {
+            var idaccount={
+              i_account: user.i_account,
+              i_account_name: user.i_account_name,
+              a_email: user.a_email,
+              a_first_name: user.a_first_name,
+              a_last_name: user.a_last_name,
+              d_birth_date: user.d_birth_date,
+              a_address: user.a_address,
+              a_city: user.a_city
+            };
             // if user is found and password is right create a token
-            var token = jwt.sign(user, config.secret, { expiresIn: '1d' });
+            var token = jwt.sign(idaccount, config.secret, { expiresIn: '1d' });
             // return the information including token as JSON
-            res.json({token: 'JWT ' + token,user: user});
+            res.json({token: token,user: user});
           } else {
             res.status(400).json({code: 1001, msg: 'Authentication failed. Wrong password.'});
           }

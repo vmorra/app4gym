@@ -3,6 +3,8 @@ var path = require('path');
 var favicon = require('serve-favicon');
 var logger = require('morgan');
 var mongoose = require('mongoose');
+var mongooseTypes = require("mongoose-types");
+mongooseTypes.loadTypes(mongoose);
 
 var _ = require("lodash");
 var cookieParser = require('cookie-parser');
@@ -25,6 +27,7 @@ var index = require('./routes/index');
 var users = require('./routes/users');
 var authr = require('./routes/authr');
 var adocs = require('./routes/adocs');
+var programr = require('./routes/program');
 
 var corsOptions = confige.corsOptions;
 
@@ -38,15 +41,16 @@ jwtOptions.secretOrKey = config.secret;
 
 var strategy = new JwtStrategy(jwtOptions, function(jwt_payload, next) {
   console.log('payload received', jwt_payload);
+  console.log('JWT ID', jwt_payload.i_account);
   // usually this would be a database call:
-  var user = userm.usermodel.findOne({'i_account' :jwt_payload.id}, function(err, user){
+  var user = userm.usermodel.findOne({'i_account' :jwt_payload.i_account}, function(err, user){
     if (err) {
-          return done(err, false);
+          return next(err, false);
           }
           if (user) {
-              done(null, user);
+              next(null, user);
           } else {
-              done(null, false);
+              next(null, false);
           }
   });
 });
@@ -143,6 +147,8 @@ app.use(cors(corsOptions));
 app.use(confige.apiBasePath+'/users', users);
 app.use(confige.apiBasePath+'/auth', authr);
 app.use(confige.apiBasePath+'/doc', adocs);
+app.use(confige.apiBasePath+'/programs', programr);
+
 
 
 
