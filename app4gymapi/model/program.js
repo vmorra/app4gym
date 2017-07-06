@@ -1,3 +1,4 @@
+
 var mongoose = require('mongoose');
 var mongoosePaginate = require('mongoose-paginate');
 var Url = mongoose.SchemaTypes.Url;
@@ -13,6 +14,10 @@ var ProgramSchema = new Schema({
         required: true,
         maxlength: 36
     },
+    type: {
+        type: String,
+        required: true
+    },
     name: {
         type: String,
         required: true
@@ -20,6 +25,11 @@ var ProgramSchema = new Schema({
     description: {
         type: String,
         required: true
+    },
+    period:{
+      type: String,
+      enum: ['2017-2020', '2021-2024'],
+      required: true
     },
     skills: [{
           code: {

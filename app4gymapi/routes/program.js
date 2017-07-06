@@ -20,8 +20,17 @@ var _ = require('underscore');
  *         type: string
  *       name:
  *         type: string
+ *       type:
+ *         type: string
+ *         example:
+ *          - Codice Punteggi Internazionale
+ *          - Programma Silver
+ *          - Programma Gold
  *       description:
  *         type: string
+ *       period:
+ *         type: string
+ *         enum: ['2017-2020', '2021-2024']
  *       skills:
  *         type: array
  *         minLength: 0
@@ -279,9 +288,15 @@ router.get('/',passport.authenticate('jwt', { session: false}),function(req, res
       page:     parseInt(req.query.page),
       limit:    parseInt(req.query.limit)
   };
-  programm.programmodel.paginate(query, options).then(function(err,result) {
+  if(req.query.protype){
+    query.type=req.query.protype
+  }
+  if(req.query.proname){
+    query.name=req.query.proname
+  }
+  programm.programmodel.paginate(query, options).then(function(result,err) {
       if(err){
-        console.log('ERR '+err);
+        console.log('ERR '+JSON.stringify(err));
         return res.status(500).json({code: 2000, msg: 'Error Generic'});
       }
       var response={
