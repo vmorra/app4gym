@@ -281,6 +281,7 @@ var _ = require('underscore');
 
 router.post('/', passport.authenticate('jwt', { session: false}),function(req, res) {
   var newProgram = programm.programmodel(req.body);
+  newProgram.created_account=req.user.i_account;
   newProgram.save(function(err) {
     if (err) {
       console.log('ERR '+err);
@@ -304,6 +305,7 @@ router.put('/',passport.authenticate('jwt', { session: false}),function(req, res
       res.status(404).end();
     } else {
       _.extend(program, req.body);
+      program.updated_account=req.user.i_account;
       program.save(function(err) {
         if (err) {
           console.log('ERR '+err);
@@ -317,6 +319,7 @@ router.put('/',passport.authenticate('jwt', { session: false}),function(req, res
 });
 
 router.get('/',passport.authenticate('jwt', { session: false}),function(req, res) {
+
   var query   = {};
   var options = {
       sort:     { publishDate: -1 },
@@ -325,30 +328,39 @@ router.get('/',passport.authenticate('jwt', { session: false}),function(req, res
       limit:    parseInt(req.query.limit)
   };
   if(req.query.protype){
-    query.type=req.query.protype
+    console.log("Param Type: "+req.query.protype);
+    query.type=req.query.protype;
   }
   if(req.query.proname){
-    query.name=req.query.proname
+    console.log("Param Name: "+req.query.proname);
+    query.name=req.query.proname;
   }
   if(req.query.skname){
-    query.skills.name=req.query.skname
+    console.log("Param Skill Name: "+req.query.skname);
+    query.skills.name=req.query.skname;
   }
   if(req.query.brname){
+    console.log("Param Branch Name: "+req.query.brname);
     query.skills.branch.name=req.query.brname
   }
   if(req.query.brlabel){
+    console.log("Param Branch Label: "+req.query.brlabel);
     query.skills.branch.label=req.query.brlabel
   }
   if(req.query.appname){
+    console.log("Param Apparatus Name: "+req.query.appname);
     query.skills.branch.apparatus.name=req.query.appname
   }
   if(req.query.applabel){
+    console.log("Param Apparatus Label: "+req.query.applabel);
     query.skills.branch.apparatus.label=req.query.applabel
   }
   if(req.query.egname){
+    console.log("Param ElementGroup Name: "+req.query.egname);
     query.skills.branch.apparatus.elementgroup.name=req.query.egname
   }
   if(req.query.eglabel){
+    console.log("Param ElementGroup Label: "+req.query.eglabel);
     query.skills.branch.apparatus.elementgroup.label=req.query.eglabel
   }
 

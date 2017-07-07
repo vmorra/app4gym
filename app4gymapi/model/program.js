@@ -100,7 +100,13 @@ var ProgramSchema = new Schema({
         required: true
     },
     created_at: Date,
-    updated_at: Date
+    updated_at: Date,
+    created_account: {
+      type: String
+    },
+    updated_account: {
+      type: String
+    }
 });
 
 ProgramSchema.plugin(mongoosePaginate);
