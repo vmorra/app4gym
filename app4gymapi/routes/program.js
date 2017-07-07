@@ -114,6 +114,15 @@ var _ = require('underscore');
  *     properties:
  *       name:
  *         type: string
+ *         example:
+ *          - Corpo Libero
+ *          - Cavallo con Maniglie
+ *          - Anelli
+ *          - Volteggio
+ *          - Parallele
+ *          - Sbarra
+ *          - Parallele asimmetriche
+ *          - Trave
  *       label:
  *         type: string
  *       elementGroup:
@@ -203,6 +212,33 @@ var _ = require('underscore');
   *     produces:
   *       - application/json
   *     parameters:
+  *       - name: protype
+  *         description: Program type
+  *         in: query
+  *       - name: proname
+  *         description: Program Name
+  *         in: query
+  *       - name: skname
+  *         description: Skill Name
+  *         in: query
+  *       - name: brname
+  *         description: Branch Name
+  *         in: query
+  *       - name: brlabel
+  *         description: Branch Label
+  *         in: query
+  *       - name: appname
+  *         description: Apparatus Name
+  *         in: query
+  *       - name: applabel
+  *         description: Apparatus Label
+  *         in: query
+  *       - name: egname
+  *         description: ElementGroup Name
+  *         in: query
+  *       - name: egname
+  *         description: ElementGroup Label
+  *         in: query
   *       - $ref: "#/parameters/limit"
   *       - $ref: "#/parameters/page"
   *     responses:
@@ -294,6 +330,28 @@ router.get('/',passport.authenticate('jwt', { session: false}),function(req, res
   if(req.query.proname){
     query.name=req.query.proname
   }
+  if(req.query.skname){
+    query.skills.name=req.query.skname
+  }
+  if(req.query.brname){
+    query.skills.branch.name=req.query.brname
+  }
+  if(req.query.brlabel){
+    query.skills.branch.label=req.query.brlabel
+  }
+  if(req.query.appname){
+    query.skills.branch.apparatus.name=req.query.appname
+  }
+  if(req.query.applabel){
+    query.skills.branch.apparatus.label=req.query.applabel
+  }
+  if(req.query.egname){
+    query.skills.branch.apparatus.elementgroup.name=req.query.egname
+  }
+  if(req.query.eglabel){
+    query.skills.branch.apparatus.elementgroup.label=req.query.eglabel
+  }
+
   programm.programmodel.paginate(query, options).then(function(result,err) {
       if(err){
         console.log('ERR '+JSON.stringify(err));
