@@ -22,6 +22,10 @@ class AuthService{
     sessionStorage.removeItem('jwttoken');
     sessionStorage.removeItem('uprofile');
   }
+
+  static getUserSession(){
+    return sessionStorage.getItem('uprofile');
+  }
 }
 
 export { AuthService as default}
