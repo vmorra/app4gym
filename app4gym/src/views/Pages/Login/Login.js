@@ -18,9 +18,14 @@ class Login extends Component {
      this.handleChangeAccountName = this.handleChangeAccountName.bind(this);
      this.handleChangePwd = this.handleChangePwd.bind(this);
      this.handleSubmit = this.handleSubmit.bind(this);
+     this.handleChangeRedirect = this.handleChangeRedirect.bind(this);
      this.movetoregister = this.movetoregister.bind(this);
   }
-
+  
+  handleChangeRedirect(event){	 
+	  this.setState({redirect: event.target.value});
+  }
+  
   handleChangeAccountName(event) {
     console.log(event.target.value);
     //this.setState({value: event.target.value});

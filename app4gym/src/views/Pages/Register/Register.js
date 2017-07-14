@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import Recaptcha from 'react-google-invisible-recaptcha';
 import {default as UUID} from "node-uuid";
 import { Redirect } from 'react-router';
+import AuthService from '../../../components/auth'
 
 class Register extends Component {
   constructor( props ) {
@@ -52,6 +53,33 @@ class Register extends Component {
  }
  onResolved() {
    alert( 'Recaptcha resolved with response: ' + this.recaptcha.getResponse() );
+   var myHeaders = new Headers();
+   myHeaders.append("Content-Type", "application/json");
+   myHeaders.append("X-Client-RequestId", UUID.v4());
+
+   var myInit = { method: 'POST',
+                  headers: myHeaders,
+                  body: JSON.stringify({
+                          username: this.state.accountname,
+                          password: this.state.password,
+                          repeatpassword: this.state.repeatpassword,
+                          email: this.state.email
+                        }),
+                  mode: 'cors',
+                  cache: 'default' };
+
+   var myRequest = new Request('http://localhost:3001/api/auth/signup', myInit);
+   var component = this;
+   return fetch(myRequest).then(response => {
+       if(response.ok){
+         response.json().then( data =>{
+           AuthService.populateUserSession(data);
+           console.log("Response Login "+JSON.stringify(data));
+           //component.setState({redirect:true});
+           console.log("State" +JSON.stringify(component.state));
+         });
+       }
+     });
  }
 
   render() {
