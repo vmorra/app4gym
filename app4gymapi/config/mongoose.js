@@ -1,4 +1,4 @@
 module.exports = {
-  'mongoURL': 'mongodb://app4gymbe:app4gymbe@ds129352.mlab.com:29352/app4gymco'
+  'mongoURL': 'mongodb://app4gymbe:app4gymbe@ds159112.mlab.com:59112/app4gymco'
 
 };
