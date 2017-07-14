@@ -1,7 +1,7 @@
 class AuthService{
 
   static requireAuth() {
-    if (!sessionStorage.getItem('jwttoken')){
+    if (!localStorage.getItem('jwttoken')){
       //console.log("Not Authenticated User");
       //console.log(JSON.stringify(sessionStorage));
       return true;
@@ -14,17 +14,20 @@ class AuthService{
   }
 
   static populateUserSession(data){
-    sessionStorage.setItem('jwttoken', data.token);
-    sessionStorage.setItem('uprofile', data.user);
+    localStorage.setItem('jwttoken', data.token);
+    localStorage.setItem('uprofile', JSON.stringify(data.user));
   }
 
   static clearUserSession(){
-    sessionStorage.removeItem('jwttoken');
-    sessionStorage.removeItem('uprofile');
+    localStorage.removeItem('jwttoken');
+    localStorage.removeItem('uprofile');
   }
 
   static getUserSession(){
-    return sessionStorage.getItem('uprofile');
+    if (localStorage.getItem('uprofile')!=null){
+    	return localStorage.getItem('uprofile');
+    }
+    else return "{}";
   }
 }
 
