@@ -34,12 +34,26 @@ class Register extends Component {
     console.log(event.target.value);
     this.setState({password: event.target.value});
   }
+
   handleChangeRepeatPassword(event) {
     console.log(event.target.value);
     if ( this.state.password == event.target.value ) {
       this.setState({repeatpassword: event.target.value});
     }
   }
+
+  onSubmit() {
+   if ( '' == this.state.accountname || '' == this.state.email || '' == this.state.password || '' == this.state.repeatpassword ) {
+     alert( 'Validation failed! Inputs cannot be empty.' );
+     this.recaptcha.reset();
+   } else {
+     this.recaptcha.execute();
+   }
+ }
+ onResolved() {
+   alert( 'Recaptcha resolved with response: ' + this.recaptcha.getResponse() );
+ }
+
   render() {
     return (
       <div className="app flex-row align-items-center">
@@ -89,17 +103,6 @@ class Register extends Component {
       </div>
     );
   }
-  onSubmit() {
-   if ( '' == this.state.accountname || '' == this.state.email || '' == this.state.password || '' == this.state.repeatpassword ) {
-     alert( 'Validation failed! Inputs cannot be empty.' );
-     this.recaptcha.reset();
-   } else {
-     this.recaptcha.execute();
-   }
- }
- onResolved() {
-   alert( 'Recaptcha resolved with response: ' + this.recaptcha.getResponse() );
- }
 }
 
 export default Register;
