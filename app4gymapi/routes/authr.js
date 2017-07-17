@@ -52,7 +52,12 @@ var mongoose = require('mongoose');
               a_last_name: user.a_last_name,
               d_birth_date: user.d_birth_date,
               a_address: user.a_address,
-              a_city: user.a_city
+              a_city: user.a_city,
+              type: user.type,
+              roles: user.roles,
+              status: user.status,
+              groups: user.groups,
+              clubs: user.clubs
             };
             // if user is found and password is right create a token
             var token = jwt.sign(idaccount, config.secret, { expiresIn: '1d' });
@@ -69,19 +74,9 @@ var mongoose = require('mongoose');
   router.post('/signup',
    function(req, res){
      console.log("Signup User");
-     var newUser = userm.usermodel({
-       i_account: mongoose.Types.ObjectId(),
-       i_account_name: req.body.account_name,
-       i_password: req.body.password,
-       a_email: req.body.email,
-       a_first_name: req.body.first_name,
-       a_last_name: req.body.last_name,
-       d_birth_date: new Date(req.body.birth_date),
-       a_address: req.body.address,
-       a_city: req.body.city,
-       d_created_at: new Date(),
-       d_updated_at: new Date()
-     });
+     var newUser = userm.usermodel(req.body);
+     newUser.i_account=mongoose.Types.ObjectId();
+
      var useremail=req.body.email;
 
       nev.createTempUser(newUser, function(err, existingPersistentUser, newTempUser) {
