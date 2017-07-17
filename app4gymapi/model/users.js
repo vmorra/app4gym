@@ -1,5 +1,6 @@
 var mongoose = require('mongoose');
 var bcrypt = require('bcrypt-nodejs');
+var mongoosePaginate = require('mongoose-paginate');
 
 var records=[
     { id: 1, username: 'jack', password: 'secret', displayName: 'Jack', emails: [ { value: 'jack@example.com' } ] }
@@ -29,8 +30,57 @@ var UserSchema = new Schema({
     d_birth_date: Date,
     a_address: String,
     a_city: String,
+    type: {
+      type: String,
+      required: true,
+      enum: ['Tecnico', 'Ginnasta','Organizzazione']
+    },
+    roles: [{
+          code: {
+            type: Number,
+            required: true,
+            enum: [1,2,3,4]
+          },
+          label: {
+            type: String,
+            required: true,
+            enum: ['User', 'Team','Organization','Admin']
+          },
+          description: {
+            type: String
+          }
+        }],
+    status: {
+      type: String,
+      required: true,
+      enum: ['Pending', 'Active','Deleted']
+    },
+    groups: [{
+          label: {
+            type: String,
+            required: true
+          },
+          description: {
+            type: String
+          }
+        }],
+    clubs: [{
+          label: {
+            type: String,
+            required: true
+          },
+          description: {
+            type: String
+          }
+        }],
     d_created_at: Date,
-    d_updated_at: Date
+    d_updated_at: Date,
+    created_account: {
+      type: String
+    },
+    updated_account: {
+      type: String
+    }
 });
 
 
@@ -38,6 +88,8 @@ var UserSchema = new Schema({
 UserSchema.pre('save', function (next) {
     var user = this;
     if (this.isModified('i_password') || this.isNew) {
+        user.d_created_at= new Date();
+        user.d_updated_at= new Date();
         console.log("encrypt pwd");
         bcrypt.genSalt(10, function (err, salt) {
             if (err) {
@@ -53,9 +105,23 @@ UserSchema.pre('save', function (next) {
                 next();
             });
         });
-    } else {
-        return next();
     }
+    if(this.isNew){
+      user.d_created_at= new Date();
+      user.d_updated_at= new Date();
+      if(typeof this.roles === 'undefined' || this.roles.length === 0){
+        user.roles[0]={
+          code: 1,
+          label: 'User'
+        }
+      }
+      next();
+    }
+    if(!this.isNew){
+      user.d_updated_at= new Date();
+      next();
+    }
+      return next();
 });
 
 UserSchema.methods.comparePassword = function (passw, cb) {
@@ -89,6 +155,8 @@ exports.findByUsername = function(username) {
     return new Object();
   });
 }
+
+UserSchema.plugin(mongoosePaginate);
 // Compile model from schema
 var UserModel = mongoose.model('UserModel', UserSchema );
 module.exports.usermodel=UserModel

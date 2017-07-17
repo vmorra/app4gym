@@ -148,6 +148,51 @@ var _ = require('underscore');
 *     in: query
 *     description: Page number
 *     type: integer
+*    protype:
+*     name: protype
+*     in: query
+*     description: Program Type
+*     type: string
+*    proname:
+*     name: proname
+*     in: query
+*     description: Program Name
+*     type: string
+*    skname:
+*     name: skname
+*     in: query
+*     description: Skill Name
+*     type: string
+*    brname:
+*     name: brname
+*     in: query
+*     description: Branch Name
+*     type: string
+*    brlabel:
+*     name: brlabel
+*     in: query
+*     description: Branch Label
+*     type: string
+*    appname:
+*     name: appname
+*     in: query
+*     description: Apparatus Name
+*     type: string
+*    applabel:
+*     name: applabel
+*     in: query
+*     description: Apparatus Label
+*     type: string
+*    egname:
+*     name: egname
+*     in: query
+*     description: Element Group
+*     type: string
+*    eglabel:
+*     name: eglabel
+*     in: query
+*     description: Element Label
+*     type: string
 */
 
 /**
@@ -212,33 +257,15 @@ var _ = require('underscore');
   *     produces:
   *       - application/json
   *     parameters:
-  *       - name: protype
-  *         description: Program type
-  *         in: query
-  *       - name: proname
-  *         description: Program Name
-  *         in: query
-  *       - name: skname
-  *         description: Skill Name
-  *         in: query
-  *       - name: brname
-  *         description: Branch Name
-  *         in: query
-  *       - name: brlabel
-  *         description: Branch Label
-  *         in: query
-  *       - name: appname
-  *         description: Apparatus Name
-  *         in: query
-  *       - name: applabel
-  *         description: Apparatus Label
-  *         in: query
-  *       - name: egname
-  *         description: ElementGroup Name
-  *         in: query
-  *       - name: egname
-  *         description: ElementGroup Label
-  *         in: query
+  *       - $ref: "#/parameters/protype"
+  *       - $ref: "#/parameters/proname"
+  *       - $ref: "#/parameters/skname"
+  *       - $ref: "#/parameters/brname"
+  *       - $ref: "#/parameters/brlabel"
+  *       - $ref: "#/parameters/appname"
+  *       - $ref: "#/parameters/applabel"
+  *       - $ref: "#/parameters/egname"
+  *       - $ref: "#/parameters/eglabel"
   *       - $ref: "#/parameters/limit"
   *       - $ref: "#/parameters/page"
   *     responses:
