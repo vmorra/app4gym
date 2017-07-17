@@ -32,27 +32,27 @@ var UserSchema = new Schema({
     a_city: String,
     type: {
       type: String,
-      required: true.
+      required: true,
       enum: ['Tecnico', 'Ginnasta','Organizzazione']
     },
     roles: [{
           code: {
             type: Number,
             required: true,
-            enum: ['1', '2','3','4']
+            enum: [1,2,3,4]
           },
           label: {
             type: String,
-            required: true.
+            required: true,
             enum: ['User', 'Team','Organization','Admin']
           },
           description: {
             type: String
           }
-        ],
+        }],
     status: {
       type: String,
-      required: true.
+      required: true,
       enum: ['Pending', 'Active','Deleted']
     },
     groups: [{
@@ -63,7 +63,7 @@ var UserSchema = new Schema({
           description: {
             type: String
           }
-        ],
+        }],
     clubs: [{
           label: {
             type: String,
@@ -72,7 +72,7 @@ var UserSchema = new Schema({
           description: {
             type: String
           }
-        ],
+        }],
     d_created_at: Date,
     d_updated_at: Date,
     created_account: {
@@ -88,8 +88,8 @@ var UserSchema = new Schema({
 UserSchema.pre('save', function (next) {
     var user = this;
     if (this.isModified('i_password') || this.isNew) {
-        user.d_created_at: new Date();
-        user.d_updated_at: new Date();
+        user.d_created_at= new Date();
+        user.d_updated_at= new Date();
         console.log("encrypt pwd");
         bcrypt.genSalt(10, function (err, salt) {
             if (err) {
@@ -107,8 +107,8 @@ UserSchema.pre('save', function (next) {
         });
     }
     if(this.isNew){
-      user.d_created_at: new Date();
-      user.d_updated_at: new Date();
+      user.d_created_at= new Date();
+      user.d_updated_at= new Date();
       if(typeof this.roles === 'undefined' || this.roles.length === 0){
         user.roles[0]={
           code: 1,
@@ -118,7 +118,7 @@ UserSchema.pre('save', function (next) {
       next();
     }
     if(!this.isNew){
-      user.d_updated_at: new Date();
+      user.d_updated_at= new Date();
       next();
     }
       return next();

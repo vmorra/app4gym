@@ -127,33 +127,64 @@ var _ = require('underscore');
     *     in: query
     *     description: Page number
     *     type: integer
+    *    idaccount:
+    *     name: idaccount
+    *     in: query
+    *     description: ID of Accoun
+    *     type: string
+    *     required: true
+    *    i_account_name:
+    *     name: i_account_name
+    *     in: query
+    *     description: Account Name
+    *     type: string
+    *    a_first_name:
+    *     name: a_first_name
+    *     in: query
+    *     description: Account First Name
+    *     type: string
+    *    a_last_name:
+    *     name: a_last_name
+    *     in: query
+    *     description: Account Last Name
+    *     type: string
+    *    grlabel:
+    *     name: grlabel
+    *     in: query
+    *     description: Group Label
+    *     type: string
+    *    cllabel:
+    *     name: cllabel
+    *     in: query
+    *     description: Club Label
+    *     type: string
     */
 
 
     /**
      * @swagger
      * paths:
-     *  /user/{idaccount}:
+     *  /users/{idaccount}:
      *    get:
-     *      description: get account detail
-     *      produces:
-     *      - application/json
-     *      parameters:
-     *      - name: idaccount
-     *        in: path
-     *        type: string
-     *        description: ID of Account
-     *        required: true
-     *      responses:
-     *        200:
-     *          description: Account
-     *          schema:
-     *            type: object
-     *            $ref: "#/definitions/User"
-     *        404:
-     *          description: User not Found
-     *        500:
-     *          description: Error Query
+     *     description: get account detail
+     *     produces:
+     *       - application/json
+     *     parameters:
+     *       - name: idaccount
+     *         in: query
+     *         description: ID of Accoun
+     *         type: string
+     *         required: true
+     *     responses:
+     *       200:
+     *         description: Account
+     *         schema:
+     *           type: object
+     *           $ref: "#/definitions/User"
+     *       404:
+     *         description: User not Found
+     *       500:
+     *         description: Error Query
      *  /users:
      *    put:
      *     description: update user
@@ -175,26 +206,16 @@ var _ = require('underscore');
      *         description: User not Found
      *       500:
      *        description: Error Saving User
-     *   get:
-     *     description: update program
+     *    get:
+     *     description: get Users
      *     produces:
      *       - application/json
      *     parameters:
-     *       - name: i_account_name
-     *         description: Account Name
-     *         in: query
-     *       - name: a_first_name
-     *         description: First Name
-     *         in: query
-     *       - name: a_last_name
-     *         description: Last Name
-     *         in: query
-     *       - name: grlabel
-     *         description: Gruop Lable
-     *         in: query
-     *       - name: cllabel
-     *         description: Club Label
-     *         in: query
+     *       - $ref: "#/parameters/i_account_name"
+     *       - $ref: "#/parameters/a_first_name"
+     *       - $ref: "#/parameters/a_last_name"
+     *       - $ref: "#/parameters/grlabel"
+     *       - $ref: "#/parameters/cllabel"
      *       - $ref: "#/parameters/limit"
      *       - $ref: "#/parameters/page"
      *     responses:
