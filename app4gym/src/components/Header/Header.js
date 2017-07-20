@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { Dropdown, DropdownMenu, DropdownItem } from 'reactstrap';
+import AuthService from '../auth';
 
 class Header extends Component {
 
@@ -71,7 +72,7 @@ class Header extends Component {
             <Dropdown isOpen={this.state.dropdownOpen} toggle={this.toggle}>
               <button onClick={this.toggle} className="nav-link dropdown-toggle" data-toggle="dropdown" type="button" aria-haspopup="true" aria-expanded={this.state.dropdownOpen}>
                 <img src={'img/avatars/6.jpg'} className="img-avatar" alt="admin@bootstrapmaster.com"/>
-                <span className="d-md-down-none">admin</span>
+                <span className="d-md-down-none">{JSON.parse(AuthService.getUserSession()).i_account_name}</span>
               </button>
 
               <DropdownMenu className="dropdown-menu-right">

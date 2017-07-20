@@ -18,7 +18,12 @@ class Login extends Component {
      this.handleChangeAccountName = this.handleChangeAccountName.bind(this);
      this.handleChangePwd = this.handleChangePwd.bind(this);
      this.handleSubmit = this.handleSubmit.bind(this);
+     this.handleChangeRedirect = this.handleChangeRedirect.bind(this);
      this.movetoregister = this.movetoregister.bind(this);
+  }
+
+  handleChangeRedirect(event){
+	  this.setState({redirect: event.target.value});
   }
 
   handleChangeAccountName(event) {
@@ -76,7 +81,7 @@ class Login extends Component {
 
   render() {
     if (this.state.redirect) {
-      return <Redirect push to="/" />;
+      return <Redirect push to="/dashboard" />;
     }
     else if(this.state.register) {
       return <Redirect push to="/register" />;
