@@ -171,7 +171,7 @@ var _ = require('underscore');
      *       - application/json
      *     parameters:
      *       - name: idaccount
-     *         in: query
+     *         in: path
      *         description: ID of Accoun
      *         type: string
      *         required: true
