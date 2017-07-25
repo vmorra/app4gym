@@ -1,4 +1,4 @@
-﻿@charset "UTF-8";
+@charset "UTF-8";
 /**
  * CoreUI - Open Source Bootstrap Admin Template
  * @version v1.0.0-alpha.5
@@ -8931,3 +8931,28 @@ hr.transparent {
    .full-width {
    		width: 100% !important;
    }
+   
+   .apfg-grid-item {
+    	background: #d2d2d2; 
+    	height: 200px;
+    	padding: 5px !important;
+   }
+   .apfg-grid-subitem {
+   		background: white;   		
+   		height : 100%;
+   }
+   
+   .heading-xs {
+   		font-size: 10px;
+   }
+   
+   .apfg-border-left {
+   		border-left: solid 8px;
+   }
+  
+   .scroll-area {
+   	overflow: auto;
+   	
+   }
+   
+   
