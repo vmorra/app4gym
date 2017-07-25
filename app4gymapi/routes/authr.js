@@ -5,33 +5,168 @@ var passport = require('passport');
 var userm = require('../model/users');
 var config = require('../config/passport');
 var mongoose = require('mongoose');
-  const uuidv4 = require('uuid/v4');
+const uuidv4 = require('uuid/v4');
 
 
 /**
  * @swagger
- * /login:
+ * definitions:
+ *   club:
+ *     type: object
+ *     required:
+ *       - label
+ *     properties:
+ *       label:
+ *         type: string
+ *       description:
+ *         type: string
+ */
+
+ /**
+  * @swagger
+  * definitions:
+  *   userlogin:
+  *     type: object
+  *     required:
+  *       - username
+  *       - password
+  *     properties:
+  *       username:
+  *         type: string
+  *       password:
+  *         type: string
+  */
+
+ /**
+  * @swagger
+  * definitions:
+  *   group:
+  *     type: object
+  *     required:
+  *       - label
+  *     properties:
+  *       label:
+  *         type: string
+  *       description:
+  *         type: string
+  */
+
+/**
+ * @swagger
+ * definitions:
+ *   role:
+ *     type: object
+ *     required:
+ *       - code
+ *       - label
+ *     properties:
+ *       code:
+ *         type: number
+ *         enum: [1,2,3,4]
+ *       label:
+ *         type: string
+ *         enum: ['User', 'Team','Organization','Admin']
+ *       description:
+ *         type: string
+ */
+
+/**
+ * @swagger
+ * definitions:
+ *   User:
+ *     type: object
+ *     required:
+ *       - i_account
+ *       - i_password
+ *       - a_email
+ *       - type
+ *       - status
+ *     properties:
+ *       i_account:
+ *         type: string
+ *       i_password:
+ *         type: string
+ *       a_email:
+ *         type: string
+ *         example:
+ *          - abc@domain.com
+ *       a_first_name:
+ *         type: string
+ *       a_last_name:
+ *         type: string
+ *       d_birth_date:
+ *         type: string
+ *         format: date
+ *       a_address:
+ *         type: string
+ *       a_city:
+ *         type: string
+ *       type:
+ *         type: string
+ *         enum: ['Tecnico', 'Ginnasta','Organizzazione']
+ *       roles:
+ *         type: array
+ *         minLength: 0
+ *         items:
+ *          $ref: "#/definitions/role
+ *       status:
+ *         type: string
+ *         enum: ['Pending', 'Active','Deleted']
+ *       groups:
+ *         type: array
+ *         minLength: 0
+ *         items:
+ *          $ref: "#/definitions/group"
+ *       clubs:
+ *         type: array
+ *         minLength: 0
+ *         items:
+ *          $ref: "#/definitions/club"
+ */
+
+/**
+ * @swagger
+ * /auth/login:
  *   post:
  *     description: Login to the application
+ *     consumes:
+ *       - application/json
  *     produces:
  *       - application/json
  *     parameters:
- *       - name: username
+ *       - name: userlogin
  *         description: Username to use for login.
  *         in: body
  *         required: true
- *         type: string
- *       - name: password
- *         description: User's password.
- *         in: body
- *         required: true
- *         type: string
+ *         schema:
+ *          $ref: "#/definitions/userlogin"
  *     responses:
  *       200:
  *         description: login
  *       400:
  *        description: Authentication failed
+ * /auth/signup:
+ *   post:
+ *     description: insert new User
+ *     consumes:
+ *       - application/json
+ *     produces:
+ *       - application/json
+ *     parameters:
+ *       - name: program
+ *         description: program.
+ *         in: body
+ *         required: true
+ *         schema:
+ *          $ref: "#/definitions/User"
+ *     responses:
+ *       202:
+ *         description: User Created
+ *       500:
+ *        description: Error User Program
  */
+
+
   router.post('/login', function(req, res) {
     userm.usermodel.findOne({
       i_account_name: req.body.username

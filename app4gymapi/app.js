@@ -94,6 +94,7 @@ nev.generateTempUserModel(userm.usermodel, function(err, tempUserModel) {
 //Init Swageer JSDoc
 // swagger definition
 var swaggerDefinition = {
+  swagger: '2.0',
   info: {
     title: 'App4Gym API',
     version: '1.0.0',
@@ -101,6 +102,13 @@ var swaggerDefinition = {
   },
   host: 'localhost:3001',
   basePath: confige.apiBasePath,
+  securityDefinitions: {
+    jwt: {
+      type: 'apiKey',
+      name: 'Authorization',
+      in: 'header'
+    }
+  }
 };
 
 // options for the swagger docs
