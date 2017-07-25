@@ -1,0 +1,34 @@
+<div class="animated fadeIn" ng-controller="allenamentiCtrl">
+    <div class="row justify-content-end mb-2">
+        <div class="col-sm-3">
+        	<div class="btn-group" role="group" aria-label="Basic example">
+				<button type="button" class="btn btn-secondary branch" data-toggle="tooltip" data-placement="bottom" data-original-title="{{branch.name}}" id="{{branch.tid}}" ng-click="selectElement($event, 'actualBranch')" ng-class="{'item-selected': $first}" ng-repeat="branch in branches"><i class="icon-user"></i></button>
+			</div>	
+        </div>
+    </div>
+    <div class="row no-gutters justify-content-center">
+    	<div class="col-sm-2" ng-repeat="appar in apparatus[actualBranch]">    		
+    		<button type="button" class="btn btn-primary full-width" id="{{appar.tid}}" ng-click="selectElement($event, 'actualApparatus')" ng-class="{'item-selected': $first}">{{appar.name}}</button>
+    	</div>
+    </div>
+    <div class="row no-gutters justify-content-center align-content-bottom my-3">
+    	<div class="col-sm-2" ng-repeat="group in groups">    		
+    		<button ng-style='{"background":colors[$index]}' type="button" class="btn btn-primary full-width" id="{{group.tid}}">{{group.name}}</button>
+    	</div>
+    </div>
+    <div class="container-fluid">	 
+    	<div class="row my-5" ng-repeat="group in groups">	    		
+    		<div class="col-xs-6 col-sm-4 col-md-3 col-lg-2 apfg-grid-item" ng-repeat="skill in skills[group.tid]">
+    			<div class="apfg-grid-subitem apfg-border-left" ng-style='{"border-color":colors[$parent.$index]}'>
+	    			<div class="heading-xs">
+	    				{{$index+". "}} &nbsp; {{skill.body}}
+	    			</div>
+	    			<figure class="figure">
+	  					<img src="http://app4gym2uzqn2rtlz8.devcloud.acquia-sites.com{{skill.image_url}}" class="figure-img img-fluid rounded" alt="No Image">
+	  					<figcaption class="figure-caption">{{skill.difficulty}}  {{skill.value}}</figcaption>
+					</figure>
+				</div>
+    		</div>   		
+    	</div>	   
+    </div>
+</div>
