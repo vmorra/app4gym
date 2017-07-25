@@ -28,6 +28,7 @@ var users = require('./routes/users');
 var authr = require('./routes/authr');
 var adocs = require('./routes/adocs');
 var programr = require('./routes/program');
+var branchr = require('./routes/branch');
 
 var corsOptions = confige.corsOptions;
 
@@ -156,6 +157,7 @@ app.use(confige.apiBasePath+'/users', users);
 app.use(confige.apiBasePath+'/auth', authr);
 app.use(confige.apiBasePath+'/doc', adocs);
 app.use(confige.apiBasePath+'/programs', programr);
+app.use(confige.apiBasePath+'/branches', branchr);
 
 
 

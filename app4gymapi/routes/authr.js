@@ -76,13 +76,13 @@ const uuidv4 = require('uuid/v4');
  *   User:
  *     type: object
  *     required:
- *       - i_account
+ *       - i_account_name
  *       - i_password
  *       - a_email
  *       - type
  *       - status
  *     properties:
- *       i_account:
+ *       i_account_name:
  *         type: string
  *       i_password:
  *         type: string
@@ -212,7 +212,7 @@ const uuidv4 = require('uuid/v4');
      var newUser = userm.usermodel(req.body);
      newUser.i_account=mongoose.Types.ObjectId();
 
-     var useremail=req.body.email;
+     var useremail=req.body.a_email;
 
       nev.createTempUser(newUser, function(err, existingPersistentUser, newTempUser) {
         console.log("create TempUSer");

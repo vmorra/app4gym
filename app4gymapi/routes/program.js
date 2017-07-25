@@ -328,7 +328,7 @@ router.put('/',passport.authenticate('jwt', { session: false}),function(req, res
       res.status(500).json({code: 2003, msg: 'Error Saving Program'});
     };
     if (!program) {
-      console.log('Program not Found '+req.boyd.i_code);
+      console.log('Program not Found '+req.body.code);
       res.status(404).end();
     } else {
       _.extend(program, req.body);
@@ -406,7 +406,7 @@ router.get('/',passport.authenticate('jwt', { session: false}),function(req, res
 
 router.get('/program/:programid',passport.authenticate('jwt', { session: false}),function(req, res) {
   programm.programmodel.findOne({
-    code: req.param.programid
+    code: req.params.programid
   }, function(err, program) {
     if (err) {
       console.log('ERR '+err);

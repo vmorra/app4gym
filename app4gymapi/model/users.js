@@ -87,25 +87,7 @@ var UserSchema = new Schema({
 
 UserSchema.pre('save', function (next) {
     var user = this;
-    if (this.isModified('i_password') || this.isNew) {
-        user.d_created_at= new Date();
-        user.d_updated_at= new Date();
-        console.log("encrypt pwd");
-        bcrypt.genSalt(10, function (err, salt) {
-            if (err) {
-                console.log("error SALT");
-                return next(err);
-            }
-            bcrypt.hash(user.i_password, salt, null, function (err, hash) {
-                if (err) {
-                    return next(err);
-                }
-                user.i_password = hash;
-                console.log("HASH Calculated "+JSON.stringify(user.i_password));
-                next();
-            });
-        });
-    }
+
     if(this.isNew){
       user.d_created_at= new Date();
       user.d_updated_at= new Date();
@@ -115,13 +97,43 @@ UserSchema.pre('save', function (next) {
           label: 'User'
         }
       }
-      next();
+      console.log("encrypt pwd");
+      bcrypt.genSalt(10, function (err, salt) {
+          if (err) {
+              console.log("error SALT");
+              return next(err);
+          }
+          bcrypt.hash(user.i_password, salt, null, function (err, hash) {
+              if (err) {
+                  return next(err);
+              }
+              user.i_password = hash;
+              console.log("HASH Calculated "+JSON.stringify(user.i_password));
+              next();
+          });
+      });
     }
     if(!this.isNew){
       user.d_updated_at= new Date();
-      next();
+      if (this.isModified('i_password')) {
+          user.d_updated_at= new Date();
+          console.log("encrypt pwd");
+          bcrypt.genSalt(10, function (err, salt) {
+              if (err) {
+                  console.log("error SALT");
+                  return next(err);
+              }
+              bcrypt.hash(user.i_password, salt, null, function (err, hash) {
+                  if (err) {
+                      return next(err);
+                  }
+                  user.i_password = hash;
+                  console.log("HASH Calculated "+JSON.stringify(user.i_password));
+                  next();
+              });
+          });
+      }
     }
-      return next();
 });
 
 UserSchema.methods.comparePassword = function (passw, cb) {
