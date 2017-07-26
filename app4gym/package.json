@@ -3,6 +3,7 @@
   "version": "1.0.0-alpha.5",
   "description": "",
   "main": "index.html",
+  "proxy": "http://localhost:3001/",
   "dependencies": {
     "del": "^2.2.2",
     "gulp": "^3.9.1"
