@@ -1,9 +1,9 @@
-<div class="app flex-row align-items-center">
+<div class="app flex-row align-items-center" ng-controller="loginCtrl">
     <div class="container">
         <div class="row justify-content-center">
             <div class="col-md-8">
                 <div class="card-group mb-0">
-                	<form id="login-form" data-parsley-validate>
+                	<form id="login-form">
 	                    <div class="card p-4">
 	                        <div class="card-block">
 	                            <h1>Login</h1>
@@ -11,12 +11,12 @@
 	                            <div class="input-group mb-3">
 	                                <span class="input-group-addon"><i class="icon-user"></i>
 	                                </span>
-	                                <input type="text" class="form-control data-parsley-validated" data-parsley-trigger="input" data-parsley-required="true" data-parsley-type="text" data-parsley-error-message="Questo campo &egrave obbligatorio" placeholder="Username">
+	                                <input type="text" class="form-control data-parsley-validated" data-parsley-trigger="input" data-parsley-required="true" data-parsley-error-message="Questo campo &egrave obbligatorio" placeholder="Username">
 	                            </div>
 	                            <div class="input-group mb-4">
 	                                <span class="input-group-addon"><i class="icon-lock"></i>
 	                                </span>
-	                                <input type="password" class="form-control" placeholder="Password">
+	                                <input type="password" class="form-control data-parsley-validated" data-parsley-trigger="input" data-parsley-required="true" data-parsley-error-message="Questo campo &egrave obbligatorio"" placeholder="Password">
 	                            </div>
 	                            <div class="row">
 	                                <div class="col-6">
@@ -34,7 +34,7 @@
                             <div>
                                 <h2>Sign up</h2>
                                 <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
-                                <button type="button" class="btn btn-primary active mt-3">Register Now!</button>
+                                 <button type="button" class="btn btn-primary active mt-3" ng-click="login()">Register Now!</button>                                
                             </div>
                         </div>
                     </div>
@@ -44,4 +44,11 @@
     </div>
 </div>
 
-
+<script>
+$("#login-form").parsley();
+function onSubmit(token) {
+	console.log("ci sono");
+	document.getElementById("login-form").submit();
+    //document.getElementById("demo-form").submit();
+  }
+</script>
