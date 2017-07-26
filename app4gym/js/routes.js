@@ -111,7 +111,20 @@ angular
   })
   .state('appSimple.register', {
     url: '/register',
-    templateUrl: 'views/pages/register.html'
+    templateUrl: 'views/pages/register.html',
+    resolve: {
+      loadPlugin: ['$ocLazyLoad', function ($ocLazyLoad) {
+        // you can lazy load files for an existing module
+        return $ocLazyLoad.load([{
+          serie: true,
+          name: 'register.js',
+          files: [
+            'https://www.google.com/recaptcha/api.js',
+            'js/controllers/register.js'
+          ]
+        }]);
+      }]
+    }
   })
   .state('appSimple.404', {
     url: '/404',

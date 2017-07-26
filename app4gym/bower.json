@@ -14,8 +14,7 @@
     "simple-line-icons": "latest",
     "chart.js": "^2.3.0",
     "angular-chart.js": "^1.0.3",
-    "parsleyjs": "^2.7.2",
-    "angular-no-captcha": "^0.6.0"
+    "parsleyjs": "^2.7.2"
   },
   "private": true
 }

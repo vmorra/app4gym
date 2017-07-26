@@ -3,7 +3,7 @@
         <div class="row justify-content-center">
             <div class="col-md-6">
                 <div class="card mx-4">
-                    <div class="card-block p-4">
+                    <div class="card-block p-4" ng-controller="Register">
                         <h1>Register</h1>
                         <p class="text-muted">Create your account</p>
                         <div class="input-group mb-3">
@@ -28,8 +28,9 @@
                             </span>
                             <input type="password" class="form-control" placeholder="Repeat password">
                         </div>
-
-                        <button type="button" class="btn btn-block btn-success">Create Account</button>
+                        <!-- <no-captcha g-recaptcha-response="gRecaptchaResponse" theme='light' control="noCaptchaControl" site-key="6LcDvCgUAAAAAOOFtq4_mp_Fq5yNBtuVQlyHp-kZ   "> -->
+                        <!-- </no-captcha> -->
+                        <button type="button" class="btn btn-block btn-success g-recaptcha" data-sitekey="6LcDvCgUAAAAAOOFtq4_mp_Fq5yNBtuVQlyHp-kZ" data-callback="register" data-size="invisible">Create Account</button>
                     </div>
                     <div class="card-footer p-4">
                         <div class="row">
