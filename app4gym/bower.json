@@ -1,5 +1,5 @@
 {
-  "name": "CoreUI",
+  "name": "coreui",
   "version": "1.0.0-alpha.5 (AngularJS)",
   "dependencies": {
     "bootstrap": "4.0.0-alpha.6",
