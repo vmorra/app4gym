@@ -135,7 +135,6 @@ angular
           serie: true,
           name: 'register.js',
           files: [
-            'https://www.google.com/recaptcha/api.js',
             'js/controllers/register.js'
           ]
         }]);

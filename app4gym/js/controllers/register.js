@@ -1,14 +1,13 @@
 //register.js
-angular
-.module('app')
-.controller('Register', Register)
+angular.
+module('app').
+controller('RegisterCtrl', RegisterCtrl)
 
-Register.$inject = ['$scope','$http','$window'];
-function Register($scope,$http, $window) {
-  $scope.register = function (token) {
-    // your login logic
-    alert(token);
-    console.log(token);
+RegisterCtrl.$inject = ['$scope', '$http'];
+function RegisterCtrl($scope, $http) {
+
+  $scope.submit = function(event){
+      event.preventDefault();
+      alert("sono uno che....");
   }
-  $window.login = $scope.login;
 }
