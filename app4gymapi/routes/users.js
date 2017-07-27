@@ -61,12 +61,15 @@ var _ = require('underscore');
     *     type: object
     *     required:
     *       - i_account
+    *       - i_account_account
     *       - i_password
     *       - a_email
     *       - type
     *       - status
     *     properties:
     *       i_account:
+    *         type: string
+    *       i_account_name:
     *         type: string
     *       i_password:
     *         type: string
