@@ -92,10 +92,10 @@ UserSchema.pre('save', function (next) {
       user.d_created_at= new Date();
       user.d_updated_at= new Date();
       if(typeof this.roles === 'undefined' || this.roles.length === 0){
-        user.roles[0]={
+        user.roles=new Array({
           code: 1,
           label: 'User'
-        }
+        });
       }
       console.log("encrypt pwd");
       bcrypt.genSalt(10, function (err, salt) {
