@@ -1,18 +1,36 @@
 angular
-.module('app')
+.module('app',['angular-uuid'])
 .controller('loginCtrl', loginCtrl)
 
-loginCtrl.$inject = ['$scope','$http','$window'];
-function loginCtrl($scope, $http, $window) {
-  $scope.user = {};
-  $scope.login = function(){
-//	  $http.get('https://cors-anywhere.herokuapp.com/http://app4gym2uzqn2rtlz8.devcloud.acquia-sites.com/api/branch/'+$scope.actualBranch+'/apparatus/'+$scope.actualApparatus+'/group')
-//		.then(function successCallBack(response) {			
-//			$scope.groups = response.data;
-//			console.log(JSON.stringify($scope.groups));
-//		}, function errorCallBack(response) {
-//			console.log("Failed to retrieve groups");
-//		});
-	  console.log("Ciao");
-  }
+loginCtrl.$inject = ['$scope','$http','$state','uuid'];
+
+function loginCtrl($scope, $http, $state, uuid) {
+	
+	  $scope.user = {
+			  username: "",
+			  password: ""
+	  };
+	  
+	  $scope.config = {
+			  headers: {
+				  "Content-Type":"application/json",
+				  "Authorization": uuid.v4()
+			  }
+	  }
+	  
+	  $scope.login = function(){
+		  $http({
+			  method: 'POST',
+			  url: 'http://localhost:3001/api/auth/login',
+			  data: $scope.user,
+			  config : $scope.headers
+			}).then(function successCallback(response) {
+			    console.log("response data:" +JSON.stringify(response.data))
+			    $state.transitionTo('app.main');
+			  }, function errorCallback(response) {
+				  
+				  console.log("response data:"+ JSON.stringify(response.data));
+				  console.log("response status:"+ JSON.stringify(response.status))
+			  });
+	  }
 }

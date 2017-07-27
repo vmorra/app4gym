@@ -5,7 +5,8 @@
   "main": "index.html",
   "dependencies": {
     "del": "^2.2.2",
-    "gulp": "^3.9.1"
+    "gulp": "^3.9.1",
+    "angular-uuids": "latest"
   },
   "devDependencies": {
     "browser-sync": "^2.16.0",

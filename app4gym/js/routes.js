@@ -109,7 +109,7 @@ angular
     url: '/login',
     templateUrl: 'views/pages/login.html',
     resolve: {
-        loadPlugin: ['$ocLazyLoad', function ($ocLazyLoad) {
+        loadCSS: ['$ocLazyLoad', function ($ocLazyLoad) {
           // you can lazy load files for an existing module
           return $ocLazyLoad.load([{
             serie: true,
@@ -117,6 +117,12 @@ angular
             files: ['css/parsley.css']
           }]);
         }],
+        loadPlugin: ['$ocLazyLoad', function ($ocLazyLoad) {
+            // you can lazy load files for an existing module
+            return $ocLazyLoad.load([{
+              files: ['bower_components/angular-uuids/angular-uuid.js']
+            }]);
+          }],
         loadMyCtrl: ['$ocLazyLoad', function($ocLazyLoad) {
             // you can lazy load controllers
             return $ocLazyLoad.load({
