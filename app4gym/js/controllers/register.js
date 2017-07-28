@@ -3,8 +3,8 @@ angular.
 module('app').
 controller('RegisterCtrl', RegisterCtrl)
 
-RegisterCtrl.$inject = ['$scope', '$http'];
-function RegisterCtrl($scope, $http) {
+RegisterCtrl.$inject = ['$scope', '$http', '$state'];
+function RegisterCtrl($scope, $http, $state) {
 
 	 $scope.user = {
 			 
@@ -41,7 +41,7 @@ function RegisterCtrl($scope, $http) {
 			    console.log("response data:" +JSON.stringify(response.data))
 			    $state.transitionTo('appSimple.login');
 			  }, function errorCallback(response) {
-				  
+				  $state.transitionTo('appSimple.login');
 				  console.log("response data:"+ JSON.stringify(response.data));
 				  console.log("response status:"+ JSON.stringify(response.status))
 			  });

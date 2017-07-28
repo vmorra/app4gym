@@ -135,7 +135,7 @@ angular
     url: '/register',
     templateUrl: 'views/pages/register.html',
     resolve: {
-      loadPlugin: ['$ocLazyLoad', function ($ocLazyLoad) {
+    	loadMyCtrl: ['$ocLazyLoad', function ($ocLazyLoad) {
         // you can lazy load files for an existing module
         return $ocLazyLoad.load([{
           serie: true,
@@ -145,6 +145,18 @@ angular
           ]
         }]);
       }]
+    }
+  })
+  .state('appSimple.verifyuser', {
+    url: '/verifyuser/:token',
+    templateUrl: 'views/pages/verifyuser.html',
+    resolve: {
+    	loadMyCtrl: ['$ocLazyLoad', function($ocLazyLoad) {
+            // you can lazy load controllers
+            return $ocLazyLoad.load({
+              files: ['js/controllers/verifyuser.js']
+            });
+          }]
     }
   })
   .state('appSimple.404', {
