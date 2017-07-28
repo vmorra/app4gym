@@ -6,7 +6,7 @@ verifyUserCtrl.$inject = ['$scope','$http','$state','$stateParams' ,'$location']
 
 function verifyUserCtrl($scope, $http, $state,$stateParams,$location) {	
 
-	$scope.responseSuccess="";
+	$scope.error=false;
     $scope.url ="http://localhost:3001/api/auth/email-verification/"+$stateParams.token;
 	$http.get($scope.url).then(function success(response){
 		console.log("response verification:" +JSON.stringify(response.data))
@@ -15,5 +15,6 @@ function verifyUserCtrl($scope, $http, $state,$stateParams,$location) {
 	},function error(response){
 		console.log("response verification error:" +JSON.stringify(response.data))
 		$scope.responseSuccess = false;
+		$scope.error = true;
 	})
 }

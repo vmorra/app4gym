@@ -39,9 +39,9 @@ function RegisterCtrl($scope, $http, $state) {
 			  config : $scope.headers
 			}).then(function successCallback(response) {
 			    console.log("response data:" +JSON.stringify(response.data))
-			    $state.transitionTo('appSimple.login');
+			    $state.transitionTo('appSimple.thankyou');
 			  }, function errorCallback(response) {
-				  $state.transitionTo('appSimple.login');
+				  $state.transitionTo('appSimple.thankyou');
 				  console.log("response data:"+ JSON.stringify(response.data));
 				  console.log("response status:"+ JSON.stringify(response.status))
 			  });

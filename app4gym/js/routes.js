@@ -186,6 +186,10 @@ angular
     url: '/404',
     templateUrl: 'views/pages/404.html'
   })
+  .state('appSimple.thankyou', {
+    url: '/thankyou',
+    templateUrl: 'views/pages/thankyou.html'
+  })
   .state('appSimple.500', {
     url: '/500',
     templateUrl: 'views/pages/500.html'

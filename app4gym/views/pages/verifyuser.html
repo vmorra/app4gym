@@ -20,7 +20,7 @@
 			</p>
 		</div>
 	</div>
-	<div ng-if="!responseSuccess">
+	<div ng-if="error">
 		<div class="alert alert-error" role="alert">
 			<h4 class="alert-heading">Errore !</h4>
 			<p>Non &egrave stato possibile verificare il tuo account
@@ -28,6 +28,13 @@
 		<hr>
 		<a class="btn btn-primary btn-lg" ui-sref-active="active"
 					ui-sref="appSimple.login" role="button">Ritorna alla login</a>
+	</div>
+
+	<div ng-if="responseSuccess==''">
+		<div class="alert alert-warning" role="alert">
+			<h4 class="alert-heading">Verifico la mail</h4>
+			<p>Attendi qualche istante ...
+		</div>
 	</div>
 
 </div>

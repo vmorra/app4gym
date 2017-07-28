@@ -5,7 +5,10 @@ angular
 loginCtrl.$inject = ['$scope','$http','$state','auth'];
 
 function loginCtrl($scope, $http, $state, auth) {
+	  
 	
+	  $scope.error = false;
+	  
 	  $scope.user = {
 			  username: "",
 			  password: ""
@@ -28,7 +31,7 @@ function loginCtrl($scope, $http, $state, auth) {
 			    auth.populateUserSession(response.data);
 			    $state.transitionTo('app.main');
 			  }, function errorCallback(response) {
-				  
+				  $scope.error="true";
 				  console.log("response data:"+ JSON.stringify(response.data));
 				  console.log("response status:"+ JSON.stringify(response.status))
 			  });
