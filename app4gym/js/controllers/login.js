@@ -1,10 +1,10 @@
 angular
-.module('app',['angular-uuid'])
+.module('app')
 .controller('loginCtrl', loginCtrl)
 
-loginCtrl.$inject = ['$scope','$http','$state','uuid'];
+loginCtrl.$inject = ['$scope','$http','$state','auth'];
 
-function loginCtrl($scope, $http, $state, uuid) {
+function loginCtrl($scope, $http, $state, auth) {
 	
 	  $scope.user = {
 			  username: "",
@@ -14,7 +14,6 @@ function loginCtrl($scope, $http, $state, uuid) {
 	  $scope.config = {
 			  headers: {
 				  "Content-Type":"application/json",
-				  "Authorization": uuid.v4()
 			  }
 	  }
 	  
@@ -25,7 +24,8 @@ function loginCtrl($scope, $http, $state, uuid) {
 			  data: $scope.user,
 			  config : $scope.headers
 			}).then(function successCallback(response) {
-			    console.log("response data:" +JSON.stringify(response.data))
+			    console.log("response data:" +JSON.stringify(response.data));
+			    auth.populateUserSession(response.data);
 			    $state.transitionTo('app.main');
 			  }, function errorCallback(response) {
 				  
