@@ -1,0 +1,82 @@
+[{
+  "group": "Admin",
+  "permissions": [{
+    "resource": "users",
+    "methods": "*",
+    "action": "allow"
+  },
+  {
+    "resource": "programs",
+    "methods": "*",
+    "action": "allow"
+  }]
+},
+{
+  "group": "User",
+  "permissions": [{
+    "resource": "users",
+    "methods": "*",
+    "action": "allow"
+  },
+  {
+    "resource": "programs",
+    "methods": "*",
+    "action": "allow"
+  },
+  {
+    "resource": "programs/program",
+    "methods": "*",
+    "action": "allow"
+  },
+  {
+    "resource": "branches",
+    "methods": "*",
+    "action": "allow"
+  }]
+},
+{
+  "group": "Team",
+  "permissions": [{
+    "resource": "users",
+    "methods": "*",
+    "action": "allow"
+  },
+  {
+    "resource": "programs",
+    "methods": "*",
+    "action": "allow"
+  },
+  {
+    "resource": "programs/program",
+    "methods": "*",
+    "action": "allow"
+  },
+  {
+    "resource": "branches",
+    "methods": "*",
+    "action": "allow"
+  }]
+},
+{
+  "group": "Organization",
+  "permissions": [{
+    "resource": "users",
+    "methods": "*",
+    "action": "allow"
+  },
+  {
+    "resource": "programs",
+    "methods": "*",
+    "action": "allow"
+  },
+  {
+    "resource": "programs/program",
+    "methods": "*",
+    "action": "allow"
+  },
+  {
+    "resource": "branches",
+    "methods": "*",
+    "action": "allow"
+  }]
+}]

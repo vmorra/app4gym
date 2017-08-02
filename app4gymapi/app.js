@@ -1,11 +1,12 @@
 var express = require('express');
+var acl = require('express-acl');
 var path = require('path');
 var favicon = require('serve-favicon');
 var logger = require('morgan');
 var mongoose = require('mongoose');
 var mongooseTypes = require("mongoose-types");
 mongooseTypes.loadTypes(mongoose);
-
+var pathToRegexp = require('path-to-regexp')
 var _ = require("lodash");
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
@@ -92,6 +93,13 @@ nev.generateTempUserModel(userm.usermodel, function(err, tempUserModel) {
    console.log('generated temp user model: ' + (typeof tempUserModel === 'function'));
  });
 
+//expressjs acl configuration
+ acl.config({
+     baseUrl: 'api',
+     defaultRole: 'anonymous'
+   });
+
+
 //Init Swageer JSDoc
 // swagger definition
 var swaggerDefinition = {
@@ -151,6 +159,20 @@ app.use(passport.initialize());
 app.use(passport.session());
 app.use(cors(corsOptions));
 
+app.use(function(req, res, next) {
+      var token = req.get(config.apiRoleHeader);
+      console.log("TOKEN JWT" + token);
+      if (token) {
+        var decoded = {"role": token};
+        req.decoded = decoded;
+        next();
+      }
+      else{
+        next();
+      }
+    });
+
+app.use(acl.authorize.unless({path:['/api/auth/login',pathToRegexp('/api/auth/*'),pathToRegexp('/api/auth/email-verification/*'),'/api/doc']}));
 
 //Routing
 app.use(confige.apiBasePath+'/users', users);

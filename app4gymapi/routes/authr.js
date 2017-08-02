@@ -189,15 +189,17 @@ const uuidv4 = require('uuid/v4');
               a_address: user.a_address,
               a_city: user.a_city,
               type: user.type,
+              role: user.role,
               roles: user.roles,
               status: user.status,
               groups: user.groups,
-              clubs: user.clubs
+              clubs: user.clubs,
+              lastn: 'casa'
             };
             // if user is found and password is right create a token
             var token = jwt.sign(idaccount, config.secret, { expiresIn: '1d' });
             // return the information including token as JSON
-            res.json({token: token,user: user});
+            res.json({token: token,user: idaccount});
           } else {
             res.status(400).json({code: 1001, msg: 'Authentication failed. Wrong password.'});
           }
@@ -211,7 +213,8 @@ const uuidv4 = require('uuid/v4');
      console.log("Signup User");
      var newUser = userm.usermodel(req.body);
      newUser.i_account=mongoose.Types.ObjectId();
-
+     newUser.role='User';
+     newUser.status='Pending';
      var useremail=req.body.a_email;
 
       nev.createTempUser(newUser, function(err, existingPersistentUser, newTempUser) {
@@ -257,13 +260,37 @@ const uuidv4 = require('uuid/v4');
     req.logout();
   });
 
-
+var findsaveUserafterVerification=function(userobj){
+  userm.usermodel.findOne({
+    i_account: userobj.i_account,
+  }, function(err, user) {
+    if (err) {
+      console.log('ERR '+err);
+      res.status(500).json({code: 2003, msg: 'Error Saving User'});
+    };
+    if (!user) {
+      console.log('User not Found '+userobj.i_account);
+      res.status(404).end();
+    } else {
+      user.role='User';
+      user.status='Active';
+      user.save(function(err) {
+        if (err) {
+          console.log('ERR '+err);
+          return res.status(500).json({code: 2003, msg: 'Error Saving User'});
+        }
+        console.log('User confirmed');
+      });
+        }
+      });
+}
   // user accesses the link that is sent
   router.get('/email-verification/:URL', function(req, res) {
     var url = req.params.URL;
 
     nev.confirmTempUser(url, function(err, user) {
       if (user) {
+        findsaveUserafterVerification(user);
         nev.sendConfirmationEmail(user.a_email, function(err, info) {
           if (err) {
             return res.status(500).json({code: 2002, msg: 'ERROR Sending Confirmation Mail'});
