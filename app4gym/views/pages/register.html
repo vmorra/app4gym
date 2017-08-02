@@ -10,18 +10,18 @@
                           <div class="input-group mb-3">
                               <span class="input-group-addon"><i class="icon-user"></i>
                               </span>
-                              <input id="username" type="text" class="form-control data-parsley-validated" data-parsley-trigger="input" data-parsley-required="true" data-parsley-error-message="Questo campo &egrave obbligatorio" placeholder="Username">
+                              <input id="username" type="text" ng-model="user.i_account_name" class="form-control data-parsley-validated" data-parsley-trigger="input" data-parsley-required="true" data-parsley-error-message="Questo campo &egrave obbligatorio" placeholder="Username">
                           </div>
 
                           <div class="input-group mb-3">
                               <span class="input-group-addon">@</span>
-                              <input type="text" class="form-control data-parsley-validated" data-parsley-type="email" data-parsley-trigger="input" data-parsley-required="true" data-parsley-error-message="Questo campo deve essere un email ed &egrave obbligatorio"  placeholder="Email">
+                              <input type="text" ng-model="user.a_email[0]" class="form-control data-parsley-validated" data-parsley-type="email" data-parsley-trigger="input" data-parsley-required="true" data-parsley-error-message="Questo campo deve essere un email ed &egrave obbligatorio"  placeholder="Email">
                           </div>
 
                           <div class="input-group mb-3">
                               <span class="input-group-addon"><i class="icon-lock"></i>
                               </span>
-                              <input type="password" id="password" class="form-control data-parsley-validated" data-parsley-trigger="input" data-parsley-required="true" data-parsley-error-message="Questo campo &egrave obbligatorio"  placeholder="Password">
+                              <input type="password" ng-model="user.i_password" id="password" class="form-control data-parsley-validated" data-parsley-trigger="input" data-parsley-required="true" data-parsley-error-message="Questo campo &egrave obbligatorio"  placeholder="Password">
                           </div>
 
                           <div class="input-group mb-4">
@@ -61,10 +61,10 @@ function validate(event) {
   event.preventDefault();
   if (instance.validate()) {
     grecaptcha.execute();
+    onSubmit();
   }
 }
-var onSubmit = function(token) {
-  console.log('success!'+token);
+var onSubmit = function() {
   $("#register").submit();
 };
 </script>

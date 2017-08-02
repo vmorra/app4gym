@@ -12,7 +12,7 @@ angular
 .controller('horizontalBarsCtrl', horizontalBarsCtrl)
 .controller('horizontalBarsType2Ctrl', horizontalBarsType2Ctrl)
 .controller('usersTableCtrl', usersTableCtrl)
-.controller('allenamentiCtrl', allenamentiCtrl);
+.controller('allenamentiCtrl', allenamentiCtrl)
 
 //convert Hex to RGBA
 function convertHex(hex,opacity){
