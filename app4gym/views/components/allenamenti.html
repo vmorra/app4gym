@@ -41,7 +41,7 @@
                   <div ng-repeat="attribute in included" ng-if="program.relationships.field_image.data.id == attribute.id">
                       <img class="card-img-top" src="http://dev-app4gym.pantheonsite.io{{attribute.attributes.url}}" alt="{{program.relationships.field_image.data.meta.alt}}" width="{{program.relationships.field_image.data.meta.width}}" height="{{program.relationships.field_image.data.meta.height}}">
                   </div>
-                <div class="card-block">
+                <div class="card-block" id="{{program.id}}" ng-click="selectProgram($event,program.id)"  style="cursor: pointer;">
                   <h4 class="card-title">{{program.attributes.title}}</h4>
                   <p class="card-text">{{program.attributes.body.value}}</p>
                   <h5 class="card-title">Data : {{program.attributes.changed | date:'dd/MM/yyyy hh:mm'}}</h5>

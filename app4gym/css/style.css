@@ -3977,6 +3977,21 @@ a.bg-inverse:focus, a.bg-inverse:hover {
 .rounded-circle {
   border-radius: 50%; }
 
+.img-holder {
+  margin-bottom: 30px;
+}
+.img-holder span{
+  position: relative;
+  right: 40px;
+  font-size: 30px;
+  top: 6px;}
+
+.img-holder.small span{
+  position: relative;
+  right: 28px;
+  font-size: 20px;
+  top: 4px;}
+
 .rounded-0 {
   border-radius: 0; }
 

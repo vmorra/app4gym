@@ -13,6 +13,7 @@ angular
 .controller('horizontalBarsType2Ctrl', horizontalBarsType2Ctrl)
 .controller('usersTableCtrl', usersTableCtrl)
 .controller('allenamentiCtrl', allenamentiCtrl)
+.controller('detailsProgramCtrl', detailsProgramCtrl,)
 
 //convert Hex to RGBA
 function convertHex(hex,opacity){
@@ -720,6 +721,13 @@ function allenamentiCtrl($scope, $http, $state, auth, $q) {
       		  });
 
       }
+      $scope.selectProgram = function (event,program){
+        event.preventDefault()
+        $state.go('app.details-program', {'idProgram': program});
+
+
+
+      }
 
 	$scope.selectElement = function (event,section){
     console.log("Eccolo"+$scope.actualBranch);
@@ -767,5 +775,85 @@ function allenamentiCtrl($scope, $http, $state, auth, $q) {
 			});
 		}
 	})
+}
 
+detailsProgramCtrl.$inject =  ['$scope','$http','$state','auth','$q'];
+function detailsProgramCtrl($scope, $http, $state, auth, $q) {
+  $scope.idProgram = $state.router.urlRouterProvider.$stateParams.idProgram;
+	$scope.apparatus = [];
+  $scope.difficulties = [];
+  $scope.included = [];
+	$scope.count = 0;
+	$scope.count2 = 0;
+	$scope.actualApparatus = "";
+	$scope.groups = [];
+	$scope.skills = [];
+	$scope.groupsInitialized = true;
+  $scope.groupsSelected = "";
+
+  $scope.config = {
+      headers: {
+        //"Authorization":"JWT "+auth.getJWTToken()
+        "Content-Type":"application/json"
+      }
+  }
+
+	$scope.colors = ["#ffccff","#4dbd74","#63c2de","#f8cb00","#f86c6b"];
+
+	$http({
+    method: 'GET',
+    url: 'http://dev-app4gym.pantheonsite.io/jsonapi/taxonomy_term/apparatus?filter[program][condition][path]=field_program.uuid&filter[program][condition][value]='+$scope.idProgram+'&fields[taxonomy_term--apparatus]=name,field_icon&include=field_icon&fields[file--file]=url',
+    config : $scope.config.headers
+		}).then(function successCallback(response) {
+      $scope.apparatus = response.data.data;
+
+      console.log($scope.apparatus);
+
+		  }, function errorCallback(response) {
+		    console.log("error in get all branches")
+		  });
+
+      $http({
+        method: 'GET',
+        url: 'http://dev-app4gym.pantheonsite.io/jsonapi/taxonomy_term/difficulty?filter[program][condition][path]=field_program.uuid&filter[program][condition][value]='+$scope.idProgram+'&fields[taxonomy_term--difficulty]=name',
+        config : $scope.config.headers
+        }).then(function successCallback(response) {
+          $scope.difficulties = response.data.data;
+
+          console.log($scope.difficulties);
+
+          }, function errorCallback(response) {
+            console.log("error in get all branches")
+          });
+
+          $http({
+            method: 'GET',
+            url: 'http://dev-app4gym.pantheonsite.io/jsonapi/taxonomy_term/element_group?filter[program][condition][path]=field_program.uuid&filter[program][condition][value]='+$scope.idProgram+'&fields[taxonomy_term--element_group]=name',
+            config : $scope.config.headers
+            }).then(function successCallback(response) {
+              $scope.groups = response.data.data;
+
+              console.log($scope.groups);
+
+              }, function errorCallback(response) {
+                console.log("error in get all branches")
+              });
+
+              $http({
+                method: 'GET',
+                url: 'http://dev-app4gym.pantheonsite.io/jsonapi/node/skill?filter[program][condition][path]=field_program.uuid&filter[program][condition][value]='+$scope.idProgram+'&include=field_image&fields[node--skill]=body,field_code,field_value,field_apparatus,field_element_group,field_difficulty,field_image&fields[file--file]=url',
+                config : $scope.config.headers
+                }).then(function successCallback(response) {
+                  $scope.skills = response.data.data;
+                  $scope.included = response.data.included;
+                  console.log($scope.skills);
+
+                  }, function errorCallback(response) {
+                    console.log("error in get all branches")
+                  });
+
+                  $scope.selectGroup = function (event,group){
+                    event.preventDefault()
+                    $scope.groupsSelected = group.id;
+                  }
 }

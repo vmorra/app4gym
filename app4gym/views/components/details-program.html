@@ -1,0 +1,86 @@
+<div class="flex-row align-items-center">
+  <div class="container">
+    <div class="row justify-content-center">
+      <div class="col-md-6">
+        <div class="clearfix">
+          <h4 class="pt-3">Dettaglio Program</h4>
+        </div>
+        <div class="input-prepend input-group" style="padding-bottom: 5%">
+          <span class="input-group-addon"><i class="fa fa-search"></i>
+                    </span>
+          <input id="prependedInput" class="form-control" size="16" type="text" placeholder="What are you looking for?">
+          <span class="input-group-btn">
+                        <button class="btn btn-info" type="button">Search</button>
+                    </span>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="animated fadeIn" ng-controller="detailsProgramCtrl">
+  <div class="row">
+    <div class="col-6 col-lg-4" ng-repeat="apparatu in apparatus">
+      <div class="card">
+        <div class="card-block p-1 clearfix">
+          <div class="h5 text-primary mb-0 mt-h">{{apparatu.attributes.name}}</div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="row">
+    <div class="img-holder"  ng-repeat="difficulty in difficulties">
+      <img src="img/background.png" class="rounded-circle" width="55px"/>
+      <span class="text-danger" >{{difficulty.attributes.name}}</span>
+    </div>
+  </div>
+
+<div class="row">
+</div>
+
+
+  <div id="accordion" role="tablist">
+    <div class="card" data-original-title="{{group.attributes.name}}" id="{{group.id}}" ng-click="selectGroup($event,group)" class="collapsed" ng-repeat="group in groups">
+      <div class="card-header" role="tab" id="heading{{group.id}}">
+        <h5 class="mb-0">
+          <a data-toggle="collapse" href="#collapse{{group.id}}" aria-expanded="false" aria-controls="collapse{{group.id}}" >
+          {{group.attributes.name}}
+          </a>
+        </h5>
+      </div>
+
+      <div id="collapse{{group.id}}" class="collapse" role="tabpanel" aria-labelledby="heading{{group.id}}" data-parent="#accordion">
+        <div class="row">
+          <div class="col-6 col-lg-4" ng-repeat="skill in skills"  ng-if="skill.relationships.field_element_group.data.id == groupsSelected">
+
+        <div class="card-block">
+            <div class="card col-xs-4"   style="width: 20rem;">
+              <div class="card-block" id="{{skill.id}}" >
+                <div class="row">
+                  <div class="col-6 col-lg-4" >
+                    <div class="img-holder small"  ng-repeat="difficulty in difficulties" ng-if="skill.relationships.field_difficulty.data.id == difficulty.id">
+                      <img src="img/background.png" class="rounded-circle" width="35px"/>
+                      <span class="text-danger" >{{difficulty.attributes.name}}</span>
+                    </div>
+                  </div>
+                  <div class="col-6 col-lg-4" style="padding-top: 10px;">
+                      <span><i>Value:<b>{{skill.attributes.field_value}}</b></i></span>
+                  </div>
+                  <div class="col-6 col-lg-4" style="padding-left: 60px; padding-top: 10px;">
+                      <i class="icon-settings"></i>
+                  </div>
+                </div>
+                <p class="card-text">{{skill.attributes.body.value}}</p>
+                <!-- <a href="#" class="btn btn-primary">Go somewhere</a> -->
+              </div>
+              <div ng-repeat="attribute in included" ng-if="skill.relationships.field_image.data.id == attribute.id">
+                <img class="card-img-top" src="http://dev-app4gym.pantheonsite.io{{attribute.attributes.url}}" alt="{{skill.relationships.field_image.data.meta.alt}}" width="{{skill.relationships.field_image.data.meta.width}}" height="{{skill.relationships.field_image.data.meta.height}}">
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+      </div>
+    </div>
+  </div>
+</div>
