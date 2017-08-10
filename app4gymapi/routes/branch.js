@@ -6,6 +6,7 @@ var branch = require('../model/branch');
 var config = require('../config/passport');
 var mongoose = require('mongoose');
 var _ = require('underscore');
+var roleMatch = require('../modules/auth/roleMatch');
 
 
 /**
@@ -394,8 +395,7 @@ var _ = require('underscore');
  *          description: Error Query
  */
 
-
-router.post('/', passport.authenticate('jwt', { session: false}),function(req, res) {
+var postBranches=function(req, res,next) {
   console.log('Save Request Branch '+req.body);
   var newBranch = branch.branchmodel(req.body);
   newBranch.created_account=req.user.i_account;
@@ -407,9 +407,9 @@ router.post('/', passport.authenticate('jwt', { session: false}),function(req, r
     console.log('Branch Created');
     res.status(202).end();
   });
-});
+};
 
-router.post('/:branchid/apparatus', passport.authenticate('jwt', { session: false}),function(req, res) {
+var postApparatus=function(req, res,next) {
   console.log('BRANCHID '+req.params.branchid);
   branch.branchmodel.findOne({
     'label': req.params.branchid
@@ -434,10 +434,9 @@ router.post('/:branchid/apparatus', passport.authenticate('jwt', { session: fals
           });
         }
       });
-});
+};
 
-
-router.post('/:branchid/apparatus/:apparatusid/elementgroup', passport.authenticate('jwt', { session: false}),function(req, res) {
+var postElementGroup=function(req, res,next) {
   branch.branchmodel.findOne({
     'label': req.params.branchid,
     'apparatus.label': req.params.apparatusid
@@ -467,9 +466,9 @@ router.post('/:branchid/apparatus/:apparatusid/elementgroup', passport.authentic
       });
         }
       });
-});
+};
 
-router.put('/',passport.authenticate('jwt', { session: false}),function(req, res) {
+var putBranches=function(req, res,next) {
   branch.branchmodel.findOne({
     'label': req.body.label,
   }, function(err, oldbranch) {
@@ -493,9 +492,9 @@ router.put('/',passport.authenticate('jwt', { session: false}),function(req, res
       });
         }
       });
-});
+};
 
-router.put('/:branchid/apparatus/:apparatusid', passport.authenticate('jwt', { session: false}),function(req, res) {
+var putApparatus=function(req, res,next) {
   branch.branchmodel.findOne({
     'label': req.params.branchid,
     'apparatus.label': req.params.apparatusid
@@ -525,10 +524,9 @@ router.put('/:branchid/apparatus/:apparatusid', passport.authenticate('jwt', { s
       });
         }
       });
-});
+};
 
-
-router.put('/:branchid/apparatus/:apparatusid/elementgroup/:elementgroupid', passport.authenticate('jwt', { session: false}),function(req, res) {
+var putElementGroup=function(req, res, next) {
   branch.branchmodel.findOne({
     'label': req.params.branchid,
     'apparatus.label': req.params.apparatusid,
@@ -566,9 +564,9 @@ router.put('/:branchid/apparatus/:apparatusid/elementgroup/:elementgroupid', pas
       });
         }
       });
-});
+};
 
-router.get('/',passport.authenticate('jwt', { session: false}),function(req, res) {
+var getBranches=function(req, res, next) {
 
   var query   = {};
   var options = {
@@ -614,9 +612,9 @@ router.get('/',passport.authenticate('jwt', { session: false}),function(req, res
       };
       res.json(response);
   });
-})
+};
 
-router.get('/:branchid',passport.authenticate('jwt', { session: false}),function(req, res) {
+var getBranchID=function(req, res, next) {
   branch.branchmodel.findOne({
     'label': req.params.branchid
   }, function(err, resbranch) {
@@ -631,10 +629,9 @@ router.get('/:branchid',passport.authenticate('jwt', { session: false}),function
           res.json(resbranch);
         }
       });
-})
+};
 
-
-router.get('/:branchid/apparatus/:apparatusid',passport.authenticate('jwt', { session: false}),function(req, res) {
+var getApparatusID=function(req, res, next) {
   branch.branchmodel.findOne({
     'label': req.params.branchid,
     'apparatus.label': req.params.apparatusid
@@ -650,9 +647,9 @@ router.get('/:branchid/apparatus/:apparatusid',passport.authenticate('jwt', { se
           res.json(resbranch);
         }
       });
-})
+};
 
-router.get('/:branchid/apparatus/:apparatusid/elementgroup/:elementgroupid',passport.authenticate('jwt', { session: false}),function(req, res) {
+var getElementGroupID=function(req, res, next) {
   branch.branchmodel.findOne({
     'label': req.params.branchid,
     'apparatus.label': req.params.apparatusid,
@@ -669,6 +666,26 @@ router.get('/:branchid/apparatus/:apparatusid/elementgroup/:elementgroupid',pass
           res.json(resbranch);
         }
       });
-})
+};
+
+router.post('/', passport.authenticate('jwt', { session: false}),[roleMatch.checkApiRoleHeader,postBranches]);
+
+router.post('/:branchid/apparatus', passport.authenticate('jwt', { session: false}),[roleMatch.checkApiRoleHeader,postApparatus]);
+
+router.post('/:branchid/apparatus/:apparatusid/elementgroup', passport.authenticate('jwt', { session: false}),[roleMatch.checkApiRoleHeader,postElementGroup]);
+
+router.put('/',passport.authenticate('jwt', { session: false}),[roleMatch.checkApiRoleHeader,putBranches]);
+
+router.put('/:branchid/apparatus/:apparatusid', passport.authenticate('jwt', { session: false}),[roleMatch.checkApiRoleHeader,putApparatus]);
+
+router.put('/:branchid/apparatus/:apparatusid/elementgroup/:elementgroupid', passport.authenticate('jwt', { session: false}),[roleMatch.checkApiRoleHeader,putElementGroup]);
+
+router.get('/',passport.authenticate('jwt', { session: false}),[roleMatch.checkApiRoleHeader,getBranches])
+
+router.get('/:branchid',passport.authenticate('jwt', { session: false}),[roleMatch.checkApiRoleHeader,getBranchID])
+
+router.get('/:branchid/apparatus/:apparatusid',passport.authenticate('jwt', { session: false}),[roleMatch.checkApiRoleHeader,getApparatusID])
+
+router.get('/:branchid/apparatus/:apparatusid/elementgroup/:elementgroupid',passport.authenticate('jwt', { session: false}),[roleMatch.checkApiRoleHeader,getElementGroupID])
 
 module.exports = router;
