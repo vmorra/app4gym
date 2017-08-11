@@ -1,1 +1,13 @@
 // Here you can add other styles
+.row.buttons{
+  margin-bottom: 1.5rem;
+  button{
+    cursor: pointer;
+    .btn-outline-danger{
+      box-shadow: none;
+    }
+  }
+}
+.no-button .btn-outline-danger{
+  box-shadow: none;
+}
