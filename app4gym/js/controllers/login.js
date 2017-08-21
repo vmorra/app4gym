@@ -10,8 +10,8 @@ function loginCtrl($scope, $http, $state, auth) {
 	  $scope.error = false;
 	  
 	  $scope.user = {
-			  username: "",
-			  password: ""
+			  name: "",
+			  pass: ""
 	  };
 	  
 	  $scope.config = {
@@ -23,9 +23,9 @@ function loginCtrl($scope, $http, $state, auth) {
 	  $scope.login = function(){
 		  $http({
 			  method: 'POST',
-			  url: 'http://localhost:3001/api/auth/login',
+			  url: 'https://cors-anywhere.herokuapp.com/http://dev-app4gym.pantheonsite.io/user/login?_format=json',
 			  data: $scope.user,
-			  config : $scope.headers
+			  config : $scope.config.headers
 			}).then(function successCallback(response) {
 			    console.log("response data:" +JSON.stringify(response.data));
 			    auth.populateUserSession(response.data);

@@ -6,23 +6,10 @@ controller('RegisterCtrl', RegisterCtrl)
 RegisterCtrl.$inject = ['$scope', '$http', '$state'];
 function RegisterCtrl($scope, $http, $state) {
 
-	 $scope.user = {
-			 
-			  "i_account_name": "",
-			  "i_password": "",
-			  "a_email": [
-			    ""
-			  ],
-			  "type": "Tecnico",
-			  "status":"Pending",
-			  "roles": [
-			    {
-			      "code": 1,
-			      "label": "User",
-			      "description": "string"
-			    }
-			    ]
-			  
+	 $scope.user = {			 
+		  "name": {"value" : ""},
+		  "mail": {"value": ""},
+		  "pass": {"value": ""} 			  
 	  };
 	  
 	  $scope.config = {
@@ -34,7 +21,7 @@ function RegisterCtrl($scope, $http, $state) {
 	  $scope.submit = function(){
 		  $http({
 			  method: 'POST',
-			  url: 'http://localhost:3001/api/auth/signup',
+			  url: 'https://cors-anywhere.herokuapp.com/http://dev-app4gym.pantheonsite.io/user/register?_format=json',
 			  data: $scope.user,
 			  config : $scope.headers
 			}).then(function successCallback(response) {

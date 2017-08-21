@@ -27,8 +27,8 @@ angular
     resolve: {
        entity: function($stateParams) {
     		//console.log("in entity function: "+JSON.parse(auth.getUserSession()).i_account_name);
-    		if(localStorage.getItem("uprofile")!=null)
-    			return JSON.parse(localStorage.getItem("uprofile")).i_account_name;
+    		if(localStorage.getItem("current_user")!=null)
+    			return JSON.parse(localStorage.getItem("current_user")).name;
     		else return "";
     		
       },

@@ -2,7 +2,7 @@ angular
 .module('app')
 .service('auth', function() {
     this.requireAuth = function () {
-    	if (!localStorage.getItem('jwttoken')){    	     
+    	if (!localStorage.getItem('logout_token')){    	     
     	   return true;
     	}
     	else{
@@ -11,25 +11,25 @@ angular
     }
     
     this.populateUserSession = function(data){
-        localStorage.setItem('jwttoken', data.token);
-        localStorage.setItem('uprofile', JSON.stringify(data.user));
+    	localStorage.setItem('current_user', JSON.stringify(data.current_user))
+        localStorage.setItem('logout_token', JSON.stringify(data.logout_token));
     }
     
     this.clearUserSession = function(){
-    	localStorage.removeItem('jwttoken');
-        localStorage.removeItem('uprofile');
+    	localStorage.removeItem('logout_token');
+    	localStorage.removeItem('current_user');
     }
     
     this.getUserSession = function(){
-	    if (localStorage.getItem('uprofile')!=null){
-	    	return localStorage.getItem('uprofile');
+	    if (localStorage.getItem('current_user')!=null){
+	    	return localStorage.getItem('current_user');
 	    }
 	    else return "{}";
 	}
     
-    this.getJWTToken = function(){
-	    if (localStorage.getItem('jwttoken')!=null){
-	    	return localStorage.getItem('jwttoken');
+    this.getLogoutToken = function(){
+	    if (localStorage.getItem('logout_token')!=null){
+	    	return localStorage.getItem('logout_token');
 	    }
 	    else return "{}";
 	}

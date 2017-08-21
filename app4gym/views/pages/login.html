@@ -15,13 +15,18 @@
 	                            <div class="input-group mb-3">
 	                                <span class="input-group-addon"><i class="icon-user"></i>
 	                                </span>
-	                                <input type="text" ng-change="error=false" class="form-control data-parsley-validated" data-parsley-trigger="input" data-parsley-required="true" data-parsley-error-message="Questo campo &egrave obbligatorio" placeholder="Username" ng-model="user.username">
+	                                <input type="text" id="username" ng-change="error=false" data-parsley-errors-container=".errorusername" class="form-control data-parsley-validated" data-parsley-trigger="input" data-parsley-required="true" data-parsley-error-message="Questo campo &egrave obbligatorio" placeholder="Username" ng-model="user.name">
 	                            </div>
+	                            <span class="errorusername"></span>
+	                            
+	                            
 	                            <div class="input-group mb-4">
 	                                <span class="input-group-addon"><i class="icon-lock"></i>
 	                                </span>
-	                                <input type="password" ng-change="error=false" class="form-control data-parsley-validated" data-parsley-trigger="input" data-parsley-required="true" data-parsley-error-message="Questo campo &egrave obbligatorio"" placeholder="Password" ng-model="user.password">
+	                                <input type="password" ng-change="error=false" data-parsley-errors-container=".errorpassword" class="form-control data-parsley-validated" data-parsley-trigger="input" data-parsley-required="true" data-parsley-error-message="Questo campo &egrave obbligatorio"" placeholder="Password" ng-model="user.pass">
 	                            </div>
+	                            <span class="errorpassword"></span>
+	                            
 	                            <div class="row">
 	                                <div class="col-6">
 	                                    <button type="button" ng-click="login()" class="btn btn-primary px-4" >Login</button>
