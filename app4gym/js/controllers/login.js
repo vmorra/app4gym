@@ -23,7 +23,7 @@ function loginCtrl($scope, $http, $state, uuid) {
 			  method: 'POST',
 			  url: 'http://localhost:3001/api/auth/login',
 			  data: $scope.user,
-			  config : $scope.headers
+			  config : $scope.config.headers
 			}).then(function successCallback(response) {
 			    console.log("response data:" +JSON.stringify(response.data))
 			    $state.transitionTo('app.main');
