@@ -6,6 +6,7 @@ var userm = require('../model/users');
 var config = require('../config/passport');
 var mongoose = require('mongoose');
 var _ = require('underscore');
+var roleMatch = require('../modules/auth/roleMatch');
 
 /**
  * @swagger
@@ -91,6 +92,9 @@ var _ = require('underscore');
     *       type:
     *         type: string
     *         enum: ['Tecnico', 'Ginnasta','Organizzazione']
+    *       role:
+    *         type: string
+    *         enum: ['User', 'Team','Organization','Admin']
     *       roles:
     *         type: array
     *         minLength: 0
@@ -232,9 +236,7 @@ var _ = require('underscore');
      *        description: Error Query
      */
 
-router.get('/:idaccount',passport.authenticate('jwt', { session: false}),
-  //require('connect-ensure-login').ensureLoggedIn(),
-  function(req, res){
+var getUserID= function(req, res,next){
     var user_id = req.param('idaccount');
     userm.usermodel.findOne({
       i_account_name: req.param.idaccount
@@ -247,35 +249,35 @@ router.get('/:idaccount',passport.authenticate('jwt', { session: false}),
             res.json(user);
           }
         });
-  });
+  }
 
-  router.put('/',passport.authenticate('jwt', { session: false}),function(req, res) {
-    userm.usermodel.findOne({
-      i_account: req.body.i_account,
-    }, function(err, user) {
-      if (err) {
-        console.log('ERR '+err);
-        res.status(500).json({code: 2003, msg: 'Error Saving User'});
-      };
-      if (!user) {
-        console.log('Program not Found '+req.boyd.i_code);
-        res.status(404).end();
-      } else {
-        _.extend(user, req.body);
-        user.updated_account=req.user.i_account;
-        user.save(function(err) {
-          if (err) {
-            console.log('ERR '+err);
-            return res.status(500).json({code: 2003, msg: 'Error Saving User'});
-          }
-          console.log('User Updated');
-          res.status(200).end();
-        });
-          }
-        });
-  });
+var putUser=function(req, res,next) {
+  userm.usermodel.findOne({
+    i_account: req.body.i_account,
+  }, function(err, user) {
+    if (err) {
+      console.log('ERR '+err);
+      res.status(500).json({code: 2003, msg: 'Error Saving User'});
+    };
+    if (!user) {
+      console.log('User not Found '+req.boyd.i_code);
+      res.status(404).end();
+    } else {
+      _.extend(user, req.body);
+      user.updated_account=req.user.i_account;
+      user.save(function(err) {
+        if (err) {
+          console.log('ERR '+err);
+          return res.status(500).json({code: 2003, msg: 'Error Saving User'});
+        }
+        console.log('User Updated');
+        res.status(200).end();
+      });
+        }
+      });
+};
 
-  router.get('/',passport.authenticate('jwt', { session: false}),function(req, res) {
+var getUsers=function(req, res,next) {
 
     var query   = {};
     var options = {
@@ -317,7 +319,12 @@ router.get('/:idaccount',passport.authenticate('jwt', { session: false}),
         };
         res.json(response);
     });
-  })
+  };
 
+router.get('/:idaccount',passport.authenticate('jwt', { session: false}),[roleMatch.checkApiRoleHeader,getUserID]);
+
+router.put('/',passport.authenticate('jwt', { session: false}),[roleMatch.checkApiRoleHeader,putUser]);
+
+router.get('/',passport.authenticate('jwt', { session: false}),[roleMatch.checkApiRoleHeader,getUsers])
 
 module.exports = router;

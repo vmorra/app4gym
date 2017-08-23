@@ -6,6 +6,7 @@ var programm = require('../model/program');
 var config = require('../config/passport');
 var mongoose = require('mongoose');
 var _ = require('underscore');
+var roleMatch = require('../modules/auth/roleMatch');
 
 /**
  * @swagger
@@ -306,7 +307,7 @@ var _ = require('underscore');
  */
 
 
-router.post('/', passport.authenticate('jwt', { session: false}),function(req, res) {
+var postPrograms=function(req, res,next) {
   var newProgram = programm.programmodel(req.body);
   newProgram.created_account=req.user.i_account;
   newProgram.save(function(err) {
@@ -317,9 +318,9 @@ router.post('/', passport.authenticate('jwt', { session: false}),function(req, r
     console.log('Program Created');
     res.status(202).end();
   });
-});
+};
 
-router.put('/',passport.authenticate('jwt', { session: false}),function(req, res) {
+var putPrograms=function(req, res,next) {
   programm.programmodel.findOne({
     code: req.body.code,
   }, function(err, program) {
@@ -343,10 +344,9 @@ router.put('/',passport.authenticate('jwt', { session: false}),function(req, res
       });
         }
       });
-});
+};
 
-router.get('/',passport.authenticate('jwt', { session: false}),function(req, res) {
-
+var getPrograms=function(req,res,next){
   var query   = {};
   var options = {
       sort:     { publishDate: -1 },
@@ -402,9 +402,9 @@ router.get('/',passport.authenticate('jwt', { session: false}),function(req, res
       };
       res.json(response);
   });
-})
+}
 
-router.get('/program/:programid',passport.authenticate('jwt', { session: false}),function(req, res) {
+var getProgramId=function(req, res,next) {
   programm.programmodel.findOne({
     code: req.params.programid
   }, function(err, program) {
@@ -418,6 +418,14 @@ router.get('/program/:programid',passport.authenticate('jwt', { session: false})
           res.json(program);
         }
       });
-})
+};
+
+router.post('/', passport.authenticate('jwt', { session: false}),[roleMatch.checkApiRoleHeader,postPrograms]);
+
+router.put('/',passport.authenticate('jwt', { session: false}),[roleMatch.checkApiRoleHeader,putPrograms]);
+
+router.get('/',passport.authenticate('jwt', { session: false}),[roleMatch.checkApiRoleHeader,getPrograms]);
+
+router.get('/program/:programid',passport.authenticate('jwt', { session: false}),[roleMatch.checkApiRoleHeader,getProgramId]);
 
 module.exports = router;

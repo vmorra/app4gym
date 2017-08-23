@@ -10,27 +10,31 @@
                           <div class="input-group mb-3">
                               <span class="input-group-addon"><i class="icon-user"></i>
                               </span>
-                              <input id="username" type="text" ng-model="user.i_account_name" class="form-control data-parsley-validated" data-parsley-trigger="input" data-parsley-required="true" data-parsley-error-message="Questo campo &egrave obbligatorio" placeholder="Username">
+                              <input id="username" type="text" ng-model="user.name.value" class="form-control data-parsley-validated" data-parsley-trigger="input" data-parsley-required="true" data-parsley-errors-container=".errorusername" data-parsley-error-message="Questo campo &egrave obbligatorio" placeholder="Username">
                           </div>
-
+                          <span class="errorusername"></span>
+                          
                           <div class="input-group mb-3">
                               <span class="input-group-addon">@</span>
-                              <input type="text" ng-model="user.a_email[0]" class="form-control data-parsley-validated" data-parsley-type="email" data-parsley-trigger="input" data-parsley-required="true" data-parsley-error-message="Questo campo deve essere un email ed &egrave obbligatorio"  placeholder="Email">
+                              <input type="text" ng-model="user.mail.value" class="form-control data-parsley-validated" data-parsley-type="email" data-parsley-trigger="input" data-parsley-required data-parsley-errors-container=".errormail" data-parsley-type-message="Formato email non valido"  data-parsley-required-message="Campo Email obbligatorio" placeholder="Email">
                           </div>
+                          <span class="errormail"></span>
 
                           <div class="input-group mb-3">
                               <span class="input-group-addon"><i class="icon-lock"></i>
                               </span>
-                              <input type="password" ng-model="user.i_password" id="password" class="form-control data-parsley-validated" data-parsley-trigger="input" data-parsley-required="true" data-parsley-error-message="Questo campo &egrave obbligatorio"  placeholder="Password">
+                              <input type="password" ng-model="user.pass.value" id="password" class="form-control data-parsley-validated" data-parsley-minlength="8" data-parsley-errors-container=".errorpassword" data-parsley-trigger="input" data-parsley-required data-parsley-required-message="La password &egrave obbligatoria" data-parsley-pattern="(?=.*[a-z])(?=.*[A-Z]).*" data-parsley-pattern-message="La Password deve contenere almeno una lettera Maiuscola" data-parsley-minlength-message="La password deve contenere almeno 8 caratteri" placeholder="Password">
                           </div>
+                          <span class="errorpassword"></span>
 
                           <div class="input-group mb-4">
                               <span class="input-group-addon"><i class="icon-lock"></i>
                               </span>
-                              <input type="password" class="form-control data-parsley-validated" data-parsley-trigger="input" data-parsley-required="true" data-parsley-equalto="#password" data-parsley-error-message="Questo campo &egrave obbligatorio e deve essere uguale al campo Password" placeholder="Repeat password">
+                              <input type="password" class="form-control data-parsley-validated" data-parsley-trigger="input" data-parsley-required="true" data-parsley-equalto="#password" data-parsley-errors-container=".errorconfirmpassword" data-parsley-error-message="Questo campo &egrave obbligatorio e deve essere uguale al campo Password" placeholder="Repeat password">
                           </div>
-
-                          <div id='recaptcha' class="g-recaptcha" data-sitekey="6LcDvCgUAAAAAOOFtq4_mp_Fq5yNBtuVQlyHp-kZ" data-callback="onSubmit" data-size="invisible"></div>
+                          <span class="errorconfirmpassword"></span>
+                          
+                          <div id='recaptcha' class="g-recaptcha" data-sitekey="6LcDvCgUAAAAAOOFtq4_mp_Fq5yNBtuVQlyHp-kZ" data-callback="" data-size="invisible"></div>
 
                           <button type="button" class="btn btn-block btn-success" onclick="validate(event)">Create Account</button>
                         </form>
@@ -64,8 +68,7 @@ function validate(event) {
     onSubmit();
   }
 }
-var onSubmit = function(token) {
-  console.log('success!'+token);
+var onSubmit = function() {
   $("#register").submit();
 };
 </script>

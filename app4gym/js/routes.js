@@ -25,6 +25,13 @@ angular
       skip: true
     },
     resolve: {
+       entity: function($stateParams) {
+    		//console.log("in entity function: "+JSON.parse(auth.getUserSession()).i_account_name);
+    		if(localStorage.getItem("current_user")!=null)
+    			return JSON.parse(localStorage.getItem("current_user")).name;
+    		else return "";
+    		
+      },
       loadCSS: ['$ocLazyLoad', function($ocLazyLoad) {
         // you can lazy load CSS files
         return $ocLazyLoad.load([{
@@ -48,10 +55,24 @@ angular
           name: 'chart.js',
           files: [
             'bower_components/chart.js/dist/Chart.min.js',
-            'bower_components/angular-chart.js/dist/angular-chart.min.js'
+            'bower_components/angular-chart.js/dist/angular-chart.min.js',
+            'js/auth.js'
           ]
         }]);
       }],
+     loadMyCtrl: ['$ocLazyLoad', function ($ocLazyLoad) {
+          // you can lazy load files for an existing module
+          return $ocLazyLoad.load([{            
+            files: ['js/controllers/header.js']
+          }]);
+        }],
+        onEnter: function($state, entity) {
+        	console.log("entrato");
+            if (entity == '') {            
+               $state.transitionTo('appSimple.login');
+            }
+        } 
+      
     }
   })
   .state('app.main', {
@@ -72,7 +93,8 @@ angular
             name: 'chart.js',
             files: [
               'bower_components/chart.js/dist/Chart.min.js',
-              'bower_components/angular-chart.js/dist/angular-chart.min.js'
+              'bower_components/angular-chart.js/dist/angular-chart.min.js',
+              'js/auth.js'
             ]
           },
         ]);
@@ -80,7 +102,8 @@ angular
       loadMyCtrl: ['$ocLazyLoad', function($ocLazyLoad) {
         // you can lazy load controllers
         return $ocLazyLoad.load({
-          files: ['js/controllers/main.js']
+          files: ['js/controllers/main.js',
+                  'js/controllers/header.js']
         });
       }]
     }
@@ -120,7 +143,7 @@ angular
         loadPlugin: ['$ocLazyLoad', function ($ocLazyLoad) {
             // you can lazy load files for an existing module
             return $ocLazyLoad.load([{
-              files: ['bower_components/angular-uuids/angular-uuid.js']
+              files: ['js/auth.js']
             }]);
           }],
         loadMyCtrl: ['$ocLazyLoad', function($ocLazyLoad) {
@@ -150,7 +173,7 @@ angular
   .state('appSimple.verifyuser', {
     url: '/verifyuser/:token',
     templateUrl: 'views/pages/verifyuser.html',
-    resolve: {
+    resolve: {    	
     	loadMyCtrl: ['$ocLazyLoad', function($ocLazyLoad) {
             // you can lazy load controllers
             return $ocLazyLoad.load({
@@ -163,8 +186,14 @@ angular
     url: '/404',
     templateUrl: 'views/pages/404.html'
   })
+  .state('appSimple.thankyou', {
+    url: '/thankyou',
+    templateUrl: 'views/pages/thankyou.html'
+  })
   .state('appSimple.500', {
     url: '/500',
     templateUrl: 'views/pages/500.html'
   })
+  
+
 }]);

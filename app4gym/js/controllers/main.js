@@ -12,7 +12,8 @@ angular
 .controller('horizontalBarsCtrl', horizontalBarsCtrl)
 .controller('horizontalBarsType2Ctrl', horizontalBarsType2Ctrl)
 .controller('usersTableCtrl', usersTableCtrl)
-.controller('allenamentiCtrl', allenamentiCtrl);
+.controller('allenamentiCtrl', allenamentiCtrl)
+.controller('detailsProgramCtrl', detailsProgramCtrl,)
 
 //convert Hex to RGBA
 function convertHex(hex,opacity){
@@ -666,10 +667,12 @@ function barChartCtrl($scope) {
   }];
 }
 
-allenamentiCtrl.$inject = ['$scope','$http','$q'];
-function allenamentiCtrl($scope, $http, $q) {
+allenamentiCtrl.$inject =  ['$scope','$http','$state','auth','$q'];
+function allenamentiCtrl($scope, $http, $state, auth, $q) {
 	$scope.branches = [];
 	$scope.apparatus = [];
+  $scope.programms = [];
+  $scope.included = [];
 	$scope.count = 0;
 	$scope.count2 = 0;
 	$scope.actualBranch = "";
@@ -677,59 +680,59 @@ function allenamentiCtrl($scope, $http, $q) {
 	$scope.groups = {};
 	$scope.skills = {};
 	$scope.groupsInitialized = true;
-	
-//	$scope.groupColors = [
-//	    {
-//	    	"background" : "#ffccff"
-//	    },
-//	    {
-//	    	"background" : "#4dbd74"
-//	    },
-//	    {
-//	    	"background" : "#63c2de"
-//	    },
-//	    {
-//	    	"background" : "#f8cb00"
-//	    },
-//	    {
-//	    	"background" : "#f86c6b"
-//	    }
-//	];
-	
+
+
+  $scope.config = {
+      headers: {
+        //"Authorization":"JWT "+auth.getJWTToken()
+        "Content-Type":"application/json"
+      }
+  }
+
 	$scope.colors = ["#ffccff","#4dbd74","#63c2de","#f8cb00","#f86c6b"];
-	
-			
-			
-	
+
 	$http({
-		  method: 'GET',
-		  url: 'https://cors-anywhere.herokuapp.com/http://app4gym2uzqn2rtlz8.devcloud.acquia-sites.com/api/branch'
+    method: 'GET',
+    url: 'http://dev-app4gym.pantheonsite.io/jsonapi/taxonomy_term/branch?fields[taxonomy_term--branch]=name,uuid,tid',
+    config : $scope.config.headers
 		}).then(function successCallback(response) {
-		    $scope.branches = response.data;
-		    
-		    for (branch in $scope.branches){
-		    	if ($scope.count==0)
-		    		$scope.actualBranch=$scope.branches[$scope.count].tid;
-		    	$http.get('https://cors-anywhere.herokuapp.com/http://app4gym2uzqn2rtlz8.devcloud.acquia-sites.com/api/branch/'+$scope.branches[branch].tid+'/apparatus')
-				.then(function successCallback(response) {				
-					 $scope.apparatus[$scope.branches[$scope.count].tid]=response.data;
-					 if ($scope.apparatus[$scope.actualBranch] && $scope.groupsInitialized){
-						 $scope.groupsInitialized = false;
-						 $scope.actualApparatus = response.data[0].tid;
-						 $scope.getGroups();
-					 }
-					 $scope.count++;					 
-				}, function errorCallback(response) {
-					console.log("Failed to retrieve apparatus");
-				});    		    	
-		    }
+		    $scope.branches = response.data.data;
+        for (id in $scope.branches.data){
+          branch = $scope.branches.data[id];
+          console.log(branch);
+        }
+
 		  }, function errorCallback(response) {
 		    console.log("error in get all branches")
 		  });
-	
-	
+
+      $scope.selectBranch = function (event,branch){
+        event.preventDefault();
+        $http({
+          method: 'GET',
+          url: 'http://dev-app4gym.pantheonsite.io/jsonapi/node/program?fields[node--program]=title,body,changed,field_image&include=field_image&fields[file--file]=url&filter[program][condition][path]=field_branch.uuid&filter[program][condition][value]='+branch,
+          config : $scope.config.headers
+      		}).then(function successCallback(response) {
+      		    $scope.programms = response.data.data;
+              $scope.included = response.data.included;
+              console.log($scope.programms);
+
+      		  }, function errorCallback(response) {
+      		    console.log("error in get all branches")
+      		  });
+
+      }
+      $scope.selectProgram = function (event,program){
+        event.preventDefault()
+        $state.go('app.details-program', {'idProgram': program});
+
+
+
+      }
+
 	$scope.selectElement = function (event,section){
-		$scope.groups = [];
+    console.log("Eccolo"+$scope.actualBranch);
+    $scope.groups = [];
 		var elem = angular.element(event.currentTarget);
 		elem.closest(".row").find('.item-selected').removeClass('item-selected');
 		elem.addClass('item-selected');
@@ -739,23 +742,23 @@ function allenamentiCtrl($scope, $http, $q) {
 		}
 		$scope.getGroups();
 	}
-	
-	$scope.getGroups = function (){	     
+
+	$scope.getGroups = function (){
 		 $http.get('https://cors-anywhere.herokuapp.com/http://app4gym2uzqn2rtlz8.devcloud.acquia-sites.com/api/branch/'+$scope.actualBranch+'/apparatus/'+$scope.actualApparatus+'/group')
-		.then(function successCallBack(response) {			
+		.then(function successCallBack(response) {
 			$scope.groups = response.data;
 			console.log(JSON.stringify($scope.groups));
 		}, function errorCallBack(response) {
 			console.log("Failed to retrieve groups");
 		});
 	}
-	
-	$scope.$watch('groups', function (newVal, oldVal){		
+
+	$scope.$watch('groups', function (newVal, oldVal){
 		for (group in $scope.groups){
 			//$scope.skills[$scope.groups[group].tid] = {};
 			$http.get('https://cors-anywhere.herokuapp.com/http://app4gym2uzqn2rtlz8.devcloud.acquia-sites.com/api/branch/'+$scope.actualBranch+'/skill?apparatus='+$scope.actualApparatus+'&group='+$scope.groups[group].tid)
 			.then(function successCallBack(response) {
-				
+
 				 if (response.data.length != 0){
 					var skillsIndexed = {};
 					for (i=0;i<24;i++){
@@ -766,12 +769,140 @@ function allenamentiCtrl($scope, $http, $q) {
 					}
 					$scope.skills[(response.data)[0].group_id] = skillsIndexed;
 					console.log('skills: '+JSON.stringify($scope.skills));
-				 }				 
-				
+				 }
+
 			}, function errorCallBack(response) {
 				console.log("Failed to retrieve skills");
 			});
 		}
 	})
-	
+}
+
+detailsProgramCtrl.$inject = ['$scope', '$http', '$state', 'auth', '$q'];
+function detailsProgramCtrl($scope, $http, $state, auth, $q) {
+  $scope.idProgram = $state.router.urlRouterProvider.$stateParams.idProgram;
+  $scope.apparatus = [];
+  $scope.difficulties = [];
+  $scope.included = [];
+  $scope.count = 0;
+  $scope.count2 = 0;
+  $scope.actualApparatus = "";
+  $scope.groups = [];
+  $scope.skills = [];
+  $scope.groupsInitialized = true;
+  $scope.groupsSelected = "";
+  $scope.apparatusSelected = [];
+  $scope.difficultiesSelected = [];
+  $scope.paramApparatuFilterDef = "filter[apparatus][condition][path]=field_apparatus.uuid";
+  $scope.paramApparatuFilterVal = "filter[apparatus][condition][value]=";
+  $scope.paramDifficultyFilterDef = "filter[difficulty][condition][path]=field_difficulty.uuid";
+  $scope.paramDifficultyFilterVal = "filter[difficulty][condition][value]=";
+  $scope.url = "";
+
+  $scope.config = {
+    headers: {
+      //"Authorization":"JWT "+auth.getJWTToken()
+      "Content-Type": "application/json"
+    }
+  }
+
+  $scope.colors = ["#ffccff", "#4dbd74", "#63c2de", "#f8cb00", "#f86c6b"];
+
+  $http({
+    method: 'GET',
+    url: 'http://dev-app4gym.pantheonsite.io/jsonapi/taxonomy_term/apparatus?filter[program][condition][path]=field_program.uuid&filter[program][condition][value]=' + $scope.idProgram + '&fields[taxonomy_term--apparatus]=name,field_icon&include=field_icon&fields[file--file]=url',
+    config: $scope.config.headers
+  }).then(function successCallback(response) {
+    $scope.apparatus = response.data.data;
+
+    console.log($scope.apparatus);
+
+  }, function errorCallback(response) {
+    console.log("error in get all branches")
+  });
+
+  $http({
+    method: 'GET',
+    url: 'http://dev-app4gym.pantheonsite.io/jsonapi/taxonomy_term/difficulty?filter[program][condition][path]=field_program.uuid&filter[program][condition][value]=' + $scope.idProgram + '&fields[taxonomy_term--difficulty]=name',
+    config: $scope.config.headers
+  }).then(function successCallback(response) {
+    $scope.difficulties = response.data.data;
+
+    console.log($scope.difficulties);
+
+  }, function errorCallback(response) {
+    console.log("error in get all branches")
+  });
+
+  $http({
+    method: 'GET',
+    url: 'http://dev-app4gym.pantheonsite.io/jsonapi/taxonomy_term/element_group?filter[program][condition][path]=field_program.uuid&filter[program][condition][value]=' + $scope.idProgram + '&fields[taxonomy_term--element_group]=name',
+    config: $scope.config.headers
+  }).then(function successCallback(response) {
+    $scope.groups = response.data.data;
+
+    console.log($scope.groups);
+
+  }, function errorCallback(response) {
+    console.log("error in get all branches")
+  });
+
+
+
+  $scope.selectGroup = function(event, group) {
+    event.preventDefault()
+    $scope.groupsSelected = group.id;
+    $scope.url = 'http://dev-app4gym.pantheonsite.io/jsonapi/node/skill?filter[program][condition][path]=field_program.uuid&filter[program][condition][value]=' + $scope.idProgram + '&filter[group][condition][path]=field_element_group.uuid&filter[group][condition][value]='+group.id;
+    if ($scope.difficultiesSelected.length>0) {
+        $scope.url =   $scope.url + '&'+$scope.paramDifficultyFilterDef;
+    }
+    angular.forEach($scope.difficultiesSelected, function(value){
+      $scope.url = $scope.url + '&' + $scope.paramDifficultyFilterVal + value;
+    })
+    if ($scope.apparatusSelected.length>0) {
+        $scope.url =   $scope.url + '&'+$scope.paramApparatuFilterDef;
+    }
+    angular.forEach($scope.apparatusSelected, function(value){
+      $scope.url = $scope.url + '&' + $scope.paramApparatuFilterVal + value;
+    })
+    $scope.url = $scope.url + '&include=field_image&fields[node--skill]=body,field_code,field_value,field_apparatus,field_element_group,field_difficulty,field_image&fields[file--file]=url';
+    console.log('URL: '+$scope.url);
+    $http({
+      method: 'GET',
+      url: $scope.url,
+      config: $scope.config.headers
+    }).then(function successCallback(response) {
+      $scope.skills = response.data.data;
+      $scope.included = response.data.included;
+      console.log($scope.skills);
+
+    }, function errorCallback(response) {
+      console.log("error in get all branches")
+    });
+  }
+
+  $scope.difficultyClick = function(difficultyId) {
+    var elem = angular.element(event.currentTarget);
+    if (elem.hasClass('active')) {
+      elem.removeClass('active');
+      var index = $scope.difficultiesSelected.indexOf(difficultyId);
+      $scope.difficultiesSelected.splice(index, 1);
+    } else {
+      elem.addClass('active');
+      $scope.difficultiesSelected.push(difficultyId);
+    }
+    console.log($scope.difficultiesSelected);
+  }
+  $scope.apparatusClick = function(apparatusId) {
+    var elem = angular.element(event.currentTarget);
+    if (elem.hasClass('active')) {
+      elem.removeClass('active');
+      var index = $scope.difficultiesSelected.indexOf(apparatusId);
+      $scope.apparatusSelected.splice(index, 1);
+    } else {
+      elem.addClass('active');
+      $scope.apparatusSelected.push(apparatusId);
+    }
+    console.log($scope.apparatusSelected);
+  }
 }

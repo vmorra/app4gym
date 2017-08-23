@@ -35,6 +35,11 @@ var UserSchema = new Schema({
       required: true,
       enum: ['Tecnico', 'Ginnasta','Organizzazione']
     },
+    role: {
+      type: String,
+      required: true,
+      enum: ['User', 'Team','Organization','Admin']
+    },
     roles: [{
           code: {
             type: Number,

@@ -161,4 +161,19 @@ angular
         }]
       }
   })
+  .state('app.details-program', {
+    url: '/details-program/:idProgram',
+    templateUrl: 'views/components/details-program.html',
+    ncyBreadcrumb: {
+    label: "Dettaglio Programma"
+    },
+    resolve: {
+        loadMyCtrl: ['$ocLazyLoad', function($ocLazyLoad) {
+          // you can lazy load controllers
+          return $ocLazyLoad.load({
+            files: ['js/controllers/main.js']
+          });
+        }]
+      }
+  })
 }]);

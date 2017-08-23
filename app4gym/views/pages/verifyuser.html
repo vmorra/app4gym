@@ -1,14 +1,40 @@
-<div class="alert alert-success" role="alert" ng-controller="verifyUserCtrl">
-  <h4 class="alert-heading">Ben fatto!</h4>
-  <p>Il tuo account &egrave stato verificato
-</div>
+<div ng-controller="verifyUserCtrl">
 
-<div class="jumbotron">
-  <h1 class="display-3">Benvenuto in App4Gym</h1>
-  <p class="lead">Nella sezione Dashboard potrai scegliere i programmi tecnici che pi&ugrave ti aggradano e creare i tuoi esercizi personalizzati</p>
-  <hr class="my-4">
-  <p>Nel calendario potrai pianificare le tue sessioni di allenamento ecc ........</p>
-  <p class="lead">
-    <a class="btn btn-primary btn-lg" ui-sref-active="active" ui-sref="appSimple.login" role="button">Vai al tuo profilo</a>
-  </p>
+	<div ng-if="responseSuccess">
+		<div class="alert alert-success" role="alert">
+			<h4 class="alert-heading">Ben fatto!</h4>
+			<p>Il tuo account &egrave stato verificato
+		</div>
+	
+		<div class="jumbotron">
+			<h1 class="display-3">Benvenuto in App4Gym</h1>
+			<p class="lead">Nella sezione Dashboard potrai scegliere i
+				programmi tecnici che pi&ugrave ti aggradano e creare i tuoi esercizi
+				personalizzati</p>
+			<hr class="my-4">
+			<p>Nel calendario potrai pianificare le tue sessioni di
+				allenamento ecc ........</p>
+			<p class="lead">
+				<a class="btn btn-primary btn-lg" ui-sref-active="active"
+					ui-sref="appSimple.login" role="button">Vai alla Login</a>
+			</p>
+		</div>
+	</div>
+	<div ng-if="error">
+		<div class="alert alert-error" role="alert">
+			<h4 class="alert-heading">Errore !</h4>
+			<p>Non &egrave stato possibile verificare il tuo account
+		</div>
+		<hr>
+		<a class="btn btn-primary btn-lg" ui-sref-active="active"
+					ui-sref="appSimple.login" role="button">Ritorna alla login</a>
+	</div>
+
+	<div ng-if="responseSuccess==''">
+		<div class="alert alert-warning" role="alert">
+			<h4 class="alert-heading">Verifico la mail</h4>
+			<p>Attendi qualche istante ...
+		</div>
+	</div>
+
 </div>
