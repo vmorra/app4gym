@@ -19,7 +19,6 @@ function loginCtrl($scope, $http, $state, auth) {
 				  "Content-Type":"application/json",
 			  }
 	  }
-	  
 	  $scope.login = function(){
 		  $http({
 			  method: 'POST',
