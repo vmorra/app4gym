@@ -1,0 +1,219 @@
+// lista dei branches:
+
+{  
+   "data":[  
+      {  
+         "type":"taxonomy_term--branch",
+         "id":"5f2c636c-b9b0-4cfe-8cf2-0e5cd33ab3aa",
+         "attributes":{  
+            "uuid":"5f2c636c-b9b0-4cfe-8cf2-0e5cd33ab3aa",
+            "name":"Men's Artistic Gymnastics"
+         },
+         "links":{  
+            "self":"http://dev-app4gym.pantheonsite.io/jsonapi/taxonomy_term/branch/5f2c636c-b9b0-4cfe-8cf2-0e5cd33ab3aa"
+         }
+      },
+      {  
+         "type":"taxonomy_term--branch",
+         "id":"e68b1311-c76a-4628-9fb2-3a9c7d26bad0",
+         "attributes":{  
+            "uuid":"e68b1311-c76a-4628-9fb2-3a9c7d26bad0",
+            "name":"Women's Artistic Gymnastics"
+         },
+         "links":{  
+            "self":"http://dev-app4gym.pantheonsite.io/jsonapi/taxonomy_term/branch/e68b1311-c76a-4628-9fb2-3a9c7d26bad0"
+         }
+      }
+   ],
+   "links":{  
+      "self":"http://dev-app4gym.pantheonsite.io/jsonapi/taxonomy_term/branch?fields%5Btaxonomy_term--branch%5D=name%2Cuuid"
+   },
+   "meta":{  
+      "count":"2"
+   }
+}
+
+// lista dei programs
+
+{  
+   "5f2c636c-b9b0-4cfe-8cf2-0e5cd33ab3aa":[  
+      {  
+         "type":"node--program",
+         "id":"f1e46f48-7e50-4011-b3df-bc4e3c5a3856",
+         "attributes":{  
+            "title":"2017-2020 CODE OF POINTS - MAG",
+            "changed":1501767233,
+            "body":{  
+               "value":"For men’s artistic gymnastics competitions at World Championships Olympic Games Regional and Intercontinental Competitions Events with international participants\r\n",
+               "format":"basic_html",
+               "summary":""
+            }
+         },
+         "relationships":{  
+            "field_branch":{  
+               "data":{  
+                  "type":"taxonomy_term--branch",
+                  "id":"5f2c636c-b9b0-4cfe-8cf2-0e5cd33ab3aa"
+               },
+               "links":{  
+                  "self":"http://dev-app4gym.pantheonsite.io/jsonapi/node/program/f1e46f48-7e50-4011-b3df-bc4e3c5a3856/relationships/field_branch",
+                  "related":"http://dev-app4gym.pantheonsite.io/jsonapi/node/program/f1e46f48-7e50-4011-b3df-bc4e3c5a3856/field_branch"
+               }
+            },
+            "field_image":{  
+               "data":{  
+                  "type":"file--file",
+                  "id":"ead192cf-2b84-4dac-a413-2a5b1bf9ce07",
+                  "meta":{  
+                     "alt":"2017-2020 Code of Point - MAG",
+                     "title":"",
+                     "width":"140",
+                     "height":"166"
+                  }
+               },
+               "links":{  
+                  "self":"http://dev-app4gym.pantheonsite.io/jsonapi/node/program/f1e46f48-7e50-4011-b3df-bc4e3c5a3856/relationships/field_image",
+                  "related":"http://dev-app4gym.pantheonsite.io/jsonapi/node/program/f1e46f48-7e50-4011-b3df-bc4e3c5a3856/field_image"
+               }
+            }
+         },
+         "links":{  
+            "self":"http://dev-app4gym.pantheonsite.io/jsonapi/node/program/f1e46f48-7e50-4011-b3df-bc4e3c5a3856"
+         }
+      },
+      {  
+         "type":"node--program",
+         "id":"444fd667-07b3-4249-953c-809c634d2e7c",
+         "attributes":{  
+            "title":"Program 2",
+            "changed":1503504367,
+            "body":{  
+               "value":"blabla&nbsp;blabla&nbsp;blabla&nbsp;blabla&nbsp;blabla\r\n",
+               "format":"basic_html",
+               "summary":""
+            }
+         },
+         "relationships":{  
+            "field_branch":{  
+               "data":{  
+                  "type":"taxonomy_term--branch",
+                  "id":"5f2c636c-b9b0-4cfe-8cf2-0e5cd33ab3aa"
+               },
+               "links":{  
+                  "self":"http://dev-app4gym.pantheonsite.io/jsonapi/node/program/444fd667-07b3-4249-953c-809c634d2e7c/relationships/field_branch",
+                  "related":"http://dev-app4gym.pantheonsite.io/jsonapi/node/program/444fd667-07b3-4249-953c-809c634d2e7c/field_branch"
+               }
+            },
+            "field_image":{  
+               "data":{  
+                  "type":"file--file",
+                  "id":"f53128b3-364b-4d39-a5db-544bf3b68b13",
+                  "meta":{  
+                     "alt":"icon",
+                     "title":"",
+                     "width":"140",
+                     "height":"166"
+                  }
+               },
+               "links":{  
+                  "self":"http://dev-app4gym.pantheonsite.io/jsonapi/node/program/444fd667-07b3-4249-953c-809c634d2e7c/relationships/field_image",
+                  "related":"http://dev-app4gym.pantheonsite.io/jsonapi/node/program/444fd667-07b3-4249-953c-809c634d2e7c/field_image"
+               }
+            }
+         },
+         "links":{  
+            "self":"http://dev-app4gym.pantheonsite.io/jsonapi/node/program/444fd667-07b3-4249-953c-809c634d2e7c"
+         }
+      },
+      {  
+         "type":"node--program",
+         "id":"beb74c5e-e637-419a-8808-0513bcdef47e",
+         "attributes":{  
+            "title":"program 3",
+            "changed":1503504420,
+            "body":{  
+               "value":"<p>òroipi pni4 wfion wi4 nwin woin po nilain i3 n</p>\r\n",
+               "format":"basic_html",
+               "summary":""
+            }
+         },
+         "relationships":{  
+            "field_branch":{  
+               "data":{  
+                  "type":"taxonomy_term--branch",
+                  "id":"5f2c636c-b9b0-4cfe-8cf2-0e5cd33ab3aa"
+               },
+               "links":{  
+                  "self":"http://dev-app4gym.pantheonsite.io/jsonapi/node/program/beb74c5e-e637-419a-8808-0513bcdef47e/relationships/field_branch",
+                  "related":"http://dev-app4gym.pantheonsite.io/jsonapi/node/program/beb74c5e-e637-419a-8808-0513bcdef47e/field_branch"
+               }
+            },
+            "field_image":{  
+               "data":{  
+                  "type":"file--file",
+                  "id":"92ce8c02-c26e-4c20-b1ed-278eefffc923",
+                  "meta":{  
+                     "alt":"icon 2",
+                     "title":"",
+                     "width":"140",
+                     "height":"166"
+                  }
+               },
+               "links":{  
+                  "self":"http://dev-app4gym.pantheonsite.io/jsonapi/node/program/beb74c5e-e637-419a-8808-0513bcdef47e/relationships/field_image",
+                  "related":"http://dev-app4gym.pantheonsite.io/jsonapi/node/program/beb74c5e-e637-419a-8808-0513bcdef47e/field_image"
+               }
+            }
+         },
+         "links":{  
+            "self":"http://dev-app4gym.pantheonsite.io/jsonapi/node/program/beb74c5e-e637-419a-8808-0513bcdef47e"
+         }
+      }
+   ],
+   "e68b1311-c76a-4628-9fb2-3a9c7d26bad0":[  
+      {  
+         "type":"node--program",
+         "id":"1254a2b4-dfb6-4102-9c70-2e2eab10d522",
+         "attributes":{  
+            "title":"2017–2020 CODE OF POINTS - WAG",
+            "changed":1501707698,
+            "body":{  
+               "value":"<p>For Women’s Artistic Gymnastics competitions at Olympic Games Youth Olympic Games World Championships Regional and Intercontinental Competitions Events with international participants</p>\r\n",
+               "format":"basic_html",
+               "summary":""
+            }
+         },
+         "relationships":{  
+            "field_branch":{  
+               "data":{  
+                  "type":"taxonomy_term--branch",
+                  "id":"e68b1311-c76a-4628-9fb2-3a9c7d26bad0"
+               },
+               "links":{  
+                  "self":"http://dev-app4gym.pantheonsite.io/jsonapi/node/program/1254a2b4-dfb6-4102-9c70-2e2eab10d522/relationships/field_branch",
+                  "related":"http://dev-app4gym.pantheonsite.io/jsonapi/node/program/1254a2b4-dfb6-4102-9c70-2e2eab10d522/field_branch"
+               }
+            },
+            "field_image":{  
+               "data":{  
+                  "type":"file--file",
+                  "id":"0fffb10b-d577-4deb-9a3e-c5951453dd9c",
+                  "meta":{  
+                     "alt":"2017-2020 Code of Points - WAG",
+                     "title":"",
+                     "width":"222",
+                     "height":"303"
+                  }
+               },
+               "links":{  
+                  "self":"http://dev-app4gym.pantheonsite.io/jsonapi/node/program/1254a2b4-dfb6-4102-9c70-2e2eab10d522/relationships/field_image",
+                  "related":"http://dev-app4gym.pantheonsite.io/jsonapi/node/program/1254a2b4-dfb6-4102-9c70-2e2eab10d522/field_image"
+               }
+            }
+         },
+         "links":{  
+            "self":"http://dev-app4gym.pantheonsite.io/jsonapi/node/program/1254a2b4-dfb6-4102-9c70-2e2eab10d522"
+         }
+      }
+   ]
+}}

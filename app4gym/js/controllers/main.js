@@ -670,112 +670,58 @@ function barChartCtrl($scope) {
 allenamentiCtrl.$inject =  ['$scope','$http','$state','auth','$q'];
 function allenamentiCtrl($scope, $http, $state, auth, $q) {
 	$scope.branches = [];
-	$scope.apparatus = [];
-  $scope.programms = [];
-  $scope.included = [];
-	$scope.count = 0;
-	$scope.count2 = 0;
-	$scope.actualBranch = "";
-	$scope.actualApparatus = "";
-	$scope.groups = {};
-	$scope.skills = {};
-	$scope.groupsInitialized = true;
-
+	$scope.programs = {};
+	$scope.promises = [];
+	$scope.programs_inclusions = [];
+	
+	$scope.colors = ["#ffccff","#4dbd74","#63c2de","#f8cb00","#f86c6b"];
 
   $scope.config = {
-      headers: {
-        //"Authorization":"JWT "+auth.getJWTToken()
+      headers: {        
         "Content-Type":"application/json"
       }
   }
-
-	$scope.colors = ["#ffccff","#4dbd74","#63c2de","#f8cb00","#f86c6b"];
-
-	$http({
-    method: 'GET',
-    url: 'http://dev-app4gym.pantheonsite.io/jsonapi/taxonomy_term/branch?fields[taxonomy_term--branch]=name,uuid,tid',
-    config : $scope.config.headers
-		}).then(function successCallback(response) {
-		    $scope.branches = response.data.data;
-        for (id in $scope.branches.data){
-          branch = $scope.branches.data[id];
-          console.log(branch);
-        }
-
-		  }, function errorCallback(response) {
-		    console.log("error in get all branches")
-		  });
-
-      $scope.selectBranch = function (event,branch){
-        event.preventDefault();
-        $http({
-          method: 'GET',
-          url: 'http://dev-app4gym.pantheonsite.io/jsonapi/node/program?fields[node--program]=title,body,changed,field_image&include=field_image&fields[file--file]=url&filter[program][condition][path]=field_branch.uuid&filter[program][condition][value]='+branch,
-          config : $scope.config.headers
-      		}).then(function successCallback(response) {
-      		    $scope.programms = response.data.data;
-              $scope.included = response.data.included;
-              console.log($scope.programms);
-
-      		  }, function errorCallback(response) {
-      		    console.log("error in get all branches")
-      		  });
-
-      }
-      $scope.selectProgram = function (event,program){
-        event.preventDefault()
-        $state.go('app.details-program', {'idProgram': program});
-
-
-
-      }
-
-	$scope.selectElement = function (event,section){
-    console.log("Eccolo"+$scope.actualBranch);
-    $scope.groups = [];
-		var elem = angular.element(event.currentTarget);
-		elem.closest(".row").find('.item-selected').removeClass('item-selected');
-		elem.addClass('item-selected');
-		$scope[section] = elem.attr('id');
-		if (elem.hasClass("branch")){
-			$scope.actualApparatus = $scope.apparatus[$scope.actualBranch][0].tid;
-		}
-		$scope.getGroups();
-	}
-
-	$scope.getGroups = function (){
-		 $http.get('https://cors-anywhere.herokuapp.com/http://app4gym2uzqn2rtlz8.devcloud.acquia-sites.com/api/branch/'+$scope.actualBranch+'/apparatus/'+$scope.actualApparatus+'/group')
-		.then(function successCallBack(response) {
-			$scope.groups = response.data;
-			console.log(JSON.stringify($scope.groups));
-		}, function errorCallBack(response) {
-			console.log("Failed to retrieve groups");
-		});
-	}
-
-	$scope.$watch('groups', function (newVal, oldVal){
-		for (group in $scope.groups){
-			//$scope.skills[$scope.groups[group].tid] = {};
-			$http.get('https://cors-anywhere.herokuapp.com/http://app4gym2uzqn2rtlz8.devcloud.acquia-sites.com/api/branch/'+$scope.actualBranch+'/skill?apparatus='+$scope.actualApparatus+'&group='+$scope.groups[group].tid)
-			.then(function successCallBack(response) {
-
-				 if (response.data.length != 0){
-					var skillsIndexed = {};
-					for (i=0;i<24;i++){
-						skillsIndexed[i] = {};
-					}
-					for (el in response.data){
-						skillsIndexed[response.data[el].grid_index] = response.data[el];
-					}
-					$scope.skills[(response.data)[0].group_id] = skillsIndexed;
-					console.log('skills: '+JSON.stringify($scope.skills));
-				 }
-
-			}, function errorCallBack(response) {
-				console.log("Failed to retrieve skills");
-			});
-		}
-	})
+  
+  // Lista dei branches
+  $http({
+	  method: 'GET',
+	  url: 'https://cors-anywhere.herokuapp.com/http://dev-app4gym.pantheonsite.io/jsonapi/taxonomy_term/branch?fields[taxonomy_term--branch]=name,uuid'
+  }).then(function successCallback(response) {
+	  console.log("Lista dei branches:" +JSON.stringify(response.data.data));
+	  $scope.branches = response.data.data;
+	  
+	  // Per ogni branch ne prelevo i programs e costruisco un array di promises relative alle get.
+	  for (branch in $scope.branches){
+		   uuid = $scope.branches[branch].attributes.uuid;
+		  
+		   p = $http({
+					  method: 'GET',
+					  url: 'https://cors-anywhere.herokuapp.com/http://dev-app4gym.pantheonsite.io/jsonapi/node/program?fields[node--program]=title,body,changed,field_image,field_branch&include=field_image&fields[file--file]=url&filter[program][condition][path]=field_branch.uuid&filter[program][condition][value]='+uuid
+				  });
+		  $scope.promises.push(p);
+	  }
+	  // Processo l'array di promises attendendo che tutte siano risolte e costruisco l'array dei programs raggruppati per branch
+	  $q.all($scope.promises)
+	  		.then(function(values){
+	  			for (value in values){
+	  				console.log("Value è "+JSON.stringify(values[value]));
+	  				lista_programs = values[value].data.data;
+	  				branch_id = lista_programs[0].relationships.field_branch.data.id;
+	  				console.log("Branch id: "+branch_id);
+	  				$scope.programs[branch_id] = lista_programs;
+	  				
+	  				// Aggiungo le info aggiuntive sui programs in questo array
+	  				$scope.programs_inclusions[branch_id] = values[value].data.included;
+	  			}
+	  			
+	  			console.log("Ecco la lista di tutti i programs: "+JSON.stringify($scope.programs));
+	  		})
+	  
+  }, function errorCallback(response) {
+	  console.log("Errore nel recupero dei branches"+ JSON.stringify(response.data));
+  });
+  
+  
 }
 
 detailsProgramCtrl.$inject = ['$scope', '$http', '$state', 'auth', '$q'];
@@ -801,7 +747,6 @@ function detailsProgramCtrl($scope, $http, $state, auth, $q) {
 
   $scope.config = {
     headers: {
-      //"Authorization":"JWT "+auth.getJWTToken()
       "Content-Type": "application/json"
     }
   }

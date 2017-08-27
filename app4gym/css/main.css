@@ -1,0 +1,12 @@
+.gym-program-img {
+	border: solid 1px green;
+	height: 80px;
+	width: 80px;   
+}
+.gym-img-container {
+	border-bottom: solid 2px green
+}
+
+.gym-program {
+	border: solid 1px;
+}
