@@ -10,7 +10,7 @@
                     </span>
                     <input id="prependedInput" class="form-control" size="16" type="text" placeholder="What are you looking for?">
                     <span class="input-group-btn">
-                        <button class="btn btn-info" type="button">Search</button>
+                        <button class="btn btn-info gym-btn-search" type="button">Search</button>
                     </span>
                 </div>
             </div>
@@ -19,7 +19,7 @@
 </div>
 <div class="animated fadeIn" ng-controller="allenamentiCtrl">
 	<div id="accordion" role="tablist" aria-multiselectable="true">
-	  <div ng-repeat="branch in branches" class="card">
+	  <div ng-repeat="branch in branches" class="card  gym-branch-card">
 	    <div class="card-header gym-card-header" role="tab" id="{{'heading-'+$index}}">
 	      <h6 class="mb-0">
 	        <a data-toggle="collapse" class="gym-branch-title" data-parent="#accordion" data-target="{{'#collapse-'+$index}}" aria-expanded="true" aria-controls="{{'collapse-'+$index}}">
@@ -29,18 +29,26 @@
 	    </div>
 	
 	    <div id="{{'collapse-'+$index}}" ng-class="{'collapse': true, 'show': $first, 'container':true}" role="tabpanel" aria-labelledby="{{'heading-'+$index}}">
-	      <div class="card-block row gym-program-container">		
-	        <div class="col col-xs-12 col-sm-6 col-md-4 gym-program" ng-repeat="program in programs[branch.attributes.uuid]">
+	      <div class="card-block row justify-content-between gym-program-container">		
+	        <div class="col-xs-12 col-sm-12 col-md-4 col-lg-3 gym-program" ng-repeat="program in programs[branch.attributes.uuid]">
 	        	<div class="pull-right"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></div>
 	        	<div class="gym-img-container text-center">
 	        		<img class="rounded-circle gym-program-img img-responsive center-block" src="{{'http://dev-app4gym.pantheonsite.io'+programs_inclusions[branch.attributes.uuid][$index].attributes.url}}" />
-	        		<footer class="blockquote-footer text-right">Last update</footer>
+	        		<footer class="blockquote-footer gym-footer-image text-right">Last update {{program.attributes.changed | date}}</footer>
 	        	</div>
-	        	<div class="gym-program-description text-center">
-	        			<b>{{program.attributes.title}}</b>
-	        			<p>{{program.attributes.body.value}}</p>
+	        	<div class="gym-program-description-wrapper">
+		        	<div class="gym-program-description text-center">
+		        			<b class="gym-program-title">{{program.attributes.title}}</b>
+		        			<p class="gym-program-description-value">{{program.attributes.body.value}}</p>
+		        	</div>
+		        	<td class="align-bottom">
+		        	<div class="gym-program-feeds text-center row">
+			        	 <div class="col-4 text-center"><i class="fa fa-folder-o" aria-hidden="true"></i> 300</div>
+			        	 <div class="col-4 text-center" ><i class="fa fa-thumbs-up" aria-hidden="true"></i> 25</div>
+			        	 <div class="col-4 text-center"><i class="fa fa-share-alt" aria-hidden="true"></i></div>	
+		        	</div>
+		        	
 	        	</div>
-	        	
 	        </div>
 	      </div>
 	    </div>
