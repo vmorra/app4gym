@@ -21,7 +21,7 @@ function RegisterCtrl($scope, $http, $state) {
 	  $scope.submit = function(){
 		  $http({
 			  method: 'POST',
-			  url: 'https://cors-anywhere.herokuapp.com/http://dev-app4gym.pantheonsite.io/user/register?_format=json',
+			  url: config.proxyURL+'/'+config.portalURL+'/user/register?_format=json',
 			  data: $scope.user,
 			  config : $scope.headers
 			}).then(function successCallback(response) {

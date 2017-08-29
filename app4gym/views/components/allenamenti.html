@@ -33,12 +33,12 @@
 	        <div class="col-xs-12 col-sm-12 col-md-4 col-lg-3 gym-program" ng-repeat="program in programs[branch.attributes.uuid]">
 	        	<div class="pull-right"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></div>
 	        	<div class="gym-img-container text-center">
-	        		<img class="rounded-circle gym-program-img img-responsive center-block" src="{{'http://dev-app4gym.pantheonsite.io'+programs_inclusions[branch.attributes.uuid][$index].attributes.url}}" />
+	        		<img class="rounded-circle gym-program-img img-responsive center-block" ng-click="goToDetails(program.id)" src="{{portalURL+'/'+programs_inclusions[branch.attributes.uuid][$index].attributes.url}}" />
 	        		<footer class="blockquote-footer gym-footer-image text-right">Last update {{program.attributes.changed | date}}</footer>
 	        	</div>
 	        	<div class="gym-program-description-wrapper">
 		        	<div class="gym-program-description text-center">
-		        			<b class="gym-program-title">{{program.attributes.title}}</b>
+		        			<b class="gym-program-title" ng-click="goToDetails(program.id)">{{program.attributes.title}}</b>
 		        			<p class="gym-program-description-value">{{program.attributes.body.value}}</p>
 		        	</div>
 		        	<td class="align-bottom">

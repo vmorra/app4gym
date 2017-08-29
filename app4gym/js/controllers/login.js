@@ -22,7 +22,7 @@ function loginCtrl($scope, $http, $state, auth) {
 	  $scope.login = function(){
 		  $http({
 			  method: 'POST',
-			  url: 'https://cors-anywhere.herokuapp.com/http://dev-app4gym.pantheonsite.io/user/login?_format=json',
+			  url: config.proxyURL+'/'+config.portalURL+'/user/login?_format=json',
 			  data: $scope.user,
 			  config : $scope.config.headers
 			}).then(function successCallback(response) {
