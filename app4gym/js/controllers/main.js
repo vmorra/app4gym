@@ -732,8 +732,14 @@ function allenamentiCtrl($scope, $http, $state, auth, $q, $location) {
 detailsProgramCtrl.$inject = ['$scope', '$http', '$state', '$stateParams', 'auth', '$q'];
 function detailsProgramCtrl($scope, $http, $state, $stateParams,auth, $q) {
   programID = $scope.idProgram = $stateParams.idProgram;
+  $scope.config = config;
   $scope.apparatus = [];
-
+  $scope.difficulties = [];
+  $scope.groups = []
+  $scope.skills = {};
+  $scope.promises = [];
+  $scope.skills_inclusions = {};
+  
   callApparatus = $http({
 	  	method: 'GET',
 	  	url: config.proxyURL+'/'+config.portalURL+'/'+config.apiURL+'/taxonomy_term/apparatus?filter[program][condition][path]=field_program.uuid&filter[program][condition][value]='+programID+'&fields[taxonomy_term--apparatus]=name,field_icon&include=field_icon&fields[file--file]=url'
@@ -746,12 +752,48 @@ function detailsProgramCtrl($scope, $http, $state, $stateParams,auth, $q) {
   
   $scope.getGroupAndSkills = function(apparatusID){
 	  console.log("Costruisco la lista di groups and skill per l'apparato "+apparatusID);
+	  getGroups = $http({
+		  	method: 'GET',
+		  	url: config.proxyURL+'/'+config.portalURL+'/'+config.apiURL+'/taxonomy_term/element_group?filter[program][condition][path]=field_program.uuid&filter[program][condition][value]='+programID+'&fields[taxonomy_term--element_group]=name&filter[apparatus][condition][path]=field_apparatus.uuid&filter[apparatus][condition][value]='+apparatusID
+	  }).then(function success(response){
+		  $scope.groups = response.data.data;
+		  for (group in $scope.groups){
+			  groupID = $scope.groups[group].id;
+			  p = $http({
+				  method: 'GET',
+				  url: config.proxyURL+'/'+config.portalURL+'/'+config.apiURL+'/node/skill?filter[program][condition][path]=field_program.uuid&filter[program][condition][value]='+programID+'&include=field_image&fields[node--skill]=body,field_code,field_value,field_difficulty,field_image,field_element_group&fields[file--file]=url&field[apparatus][condition][path]=field_apparatus.uuid&field[apparatus][condition][value]='+apparatusID+'&field[group][condition][path]=field_element_group.uuid&field[group][condition][value]='+groupID
+			  });
+			  $scope.promises.push(p);
+		  }
+		  $q.all($scope.promises)
+		  		.then (function success(responses){
+		  			for (response in responses){
+		  				//console.log(JSON.stringify(responses[response].data.data));
+		  				lista_skills = responses[response].data.data;
+		  				group_id = lista_skills[0].relationships.field_element_group.data.id;
+		  				$scope.skills[group_id] = lista_skills;
+		  				
+		  				// Aggiungo le info aggiuntive sui skills in questo array
+		  				$scope.skills_inclusions[group_id] = responses[response].data.included;
+		  				
+		  			}
+		  			
+		  			console.log("Ecco la lista di tutti gli skills: "+JSON.stringify($scope.skills));
+		  			console.log("Ecco le inclusioni: "+ JSON.stringify($scope.skills_inclusions));
+		  		},function error(response){
+		  			console.log("Errore nel recupero degli skills");
+		  		})
+	  },function error(){
+		  console.log("Errore nel recupero di tutti i gruppi");
+	  })
   }
   
-//  callApparatus.then(function success(response){
-//	  response.data.data.id;
-//	  $scope.getGroupAndSkills()
-//  },function error(response){
-//	  
-//  })
+  callApparatus.then(function success(response){
+	  list_apparatus = response.data.data;
+	  $scope.apparatus = list_apparatus;
+	  $scope.getGroupAndSkills(list_apparatus[0].id)
+  },function error(response){
+	  console.log("Impossibile reperire la lista di apparatus per il program "+programID);
+    console.log("Error - "+response.data);
+  })
 }
