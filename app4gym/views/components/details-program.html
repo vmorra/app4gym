@@ -29,17 +29,21 @@
 	    </div>
 	
 	    <div id="{{'collapse-'+$index}}" ng-class="{'collapse': true, 'show': $first, 'container':true}" role="tabpanel" aria-labelledby="{{'heading-'+$index}}">
-	      <div class="card-block row gym-program-container">		
-	        <div class="col-xs-12 col-sm-12 col-md-4 col-lg-3" ng-repeat="skill in skills[group.id]">
-	          <div class="row justify-content-between">
-	          	<div class="col-xs-4"></div>
-	          	<div class="col-xs-4 text-center">Value {{skill.attributes.field_value}}</div>
-	          	<div class="col-xs-4 pull-right">
-	          		<div class="pull-right"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></div>
-	          	</div>
-	          </div>
-	       		
-	        	<img class="img-program center-block" ng-click="alert('funzione eseguita')" src="{{config.portalURL+'/'+skills_inclusions[group.id][$index].attributes.url}}" />	
+	      <div class="card-block row">		
+	        <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3 container" ng-repeat="skill in skills[group.id]">
+		         <div class="skill-container">
+			          <div class="row">
+			          	<div class="col-4"></div>
+			          	<div class="col-4 text-center skill-value">Value {{skill.attributes.field_value}}</div>
+			          	<div class="col-4">
+			          		<div class="pull-right"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></div>
+			          	</div>
+			          </div>
+			          <p class="gym-program-description-value">{{skill.attributes.body.value}}</p>
+			       	  <div class="text-center">
+			        	 <img class="img-skill img-responsive center-block" ng-click="alert('funzione eseguita')" src="{{config.portalURL+'/'+skills_inclusions[group.id][$index].attributes.url}}" />
+			          </div>
+		         </div>	
 	        </div>
 	      </div>
 	    </div>

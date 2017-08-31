@@ -698,6 +698,7 @@ function allenamentiCtrl($scope, $http, $state, auth, $q, $location) {
 		  
 		   p = $http({
 					  method: 'GET',
+					  ignoreLoadingBar: true,
 					  url: config.proxyURL+'/'+config.portalURL+'/'+config.apiURL+'/node/program?fields[node--program]=title,body,changed,field_image,field_branch&include=field_image&fields[file--file]=url&filter[program][condition][path]=field_branch.uuid&filter[program][condition][value]='+uuid
 				  });
 		  $scope.promises.push(p);
@@ -747,6 +748,7 @@ function detailsProgramCtrl($scope, $http, $state, $stateParams,auth, $q) {
   
   callDifficulties = $http({
 	  	method: 'GET',
+	  	ignoreLoadingBar: true,
 	  	url: config.proxyURL+'/'+config.portalURL+'/'+config.apiURL+'/taxonomy_term/difficulty?filter[program][condition][path]=field_program.uuid&filter[program][condition][value]='+programID+'&fields[taxonomy_term--difficulty]=name'
   })
   
@@ -754,6 +756,7 @@ function detailsProgramCtrl($scope, $http, $state, $stateParams,auth, $q) {
 	  console.log("Costruisco la lista di groups and skill per l'apparato "+apparatusID);
 	  getGroups = $http({
 		  	method: 'GET',
+		  	ignoreLoadingBar: true,
 		  	url: config.proxyURL+'/'+config.portalURL+'/'+config.apiURL+'/taxonomy_term/element_group?filter[program][condition][path]=field_program.uuid&filter[program][condition][value]='+programID+'&fields[taxonomy_term--element_group]=name&filter[apparatus][condition][path]=field_apparatus.uuid&filter[apparatus][condition][value]='+apparatusID
 	  }).then(function success(response){
 		  $scope.groups = response.data.data;
@@ -761,7 +764,8 @@ function detailsProgramCtrl($scope, $http, $state, $stateParams,auth, $q) {
 			  groupID = $scope.groups[group].id;
 			  p = $http({
 				  method: 'GET',
-				  url: config.proxyURL+'/'+config.portalURL+'/'+config.apiURL+'/node/skill?filter[program][condition][path]=field_program.uuid&filter[program][condition][value]='+programID+'&include=field_image&fields[node--skill]=body,field_code,field_value,field_difficulty,field_image,field_element_group&fields[file--file]=url&field[apparatus][condition][path]=field_apparatus.uuid&field[apparatus][condition][value]='+apparatusID+'&field[group][condition][path]=field_element_group.uuid&field[group][condition][value]='+groupID
+				  ignoreLoadingBar: true,
+				  url: config.proxyURL+'/'+config.portalURL+'/'+config.apiURL+'/node/skill?filter[program][condition][path]=field_program.uuid&filter[program][condition][value]='+programID+'&include=field_image,field_difficulty&fields[node--skill]=body,field_code,field_value,field_difficulty,field_image&fields[file--file]=url&field[apparatus][condition][path]=field_apparatus.uuid&field[apparatus][condition][value]='+apparatusID+'&field[group][condition][path]=field_element_group.uuid&field[group][condition][value]='+groupID+'&fields[taxonomy_term--difficulty]=name'
 			  });
 			  $scope.promises.push(p);
 		  }
@@ -774,7 +778,13 @@ function detailsProgramCtrl($scope, $http, $state, $stateParams,auth, $q) {
 		  				$scope.skills[group_id] = lista_skills;
 		  				
 		  				// Aggiungo le info aggiuntive sui skills in questo array
-		  				$scope.skills_inclusions[group_id] = responses[response].data.included;
+		  				skills_inclusions_with_index = {};
+		  				included = responses[response].data.included;
+		  				for (inclusion in included){
+		  					skills_inclusions_with_index[included[inclusion].id] = included[inclusion];
+		  				}
+		  					
+		  				$scope.skills_inclusions[group_id] = skills_inclusions_with_index;
 		  				
 		  			}
 		  			
@@ -794,6 +804,6 @@ function detailsProgramCtrl($scope, $http, $state, $stateParams,auth, $q) {
 	  $scope.getGroupAndSkills(list_apparatus[0].id)
   },function error(response){
 	  console.log("Impossibile reperire la lista di apparatus per il program "+programID);
-    console.log("Error - "+response.data);
+      console.log("Error - "+response.data);
   })
 }
