@@ -735,6 +735,7 @@ function detailsProgramCtrl($scope, $http, $state, $stateParams,auth, $q) {
   programID = $scope.idProgram = $stateParams.idProgram;
   $scope.config = config;
   $scope.apparatus = [];
+  $scope.apparatus_inclusions = {};
   $scope.difficulties = [];
   $scope.groups = []
   $scope.skills = {};
@@ -765,7 +766,7 @@ function detailsProgramCtrl($scope, $http, $state, $stateParams,auth, $q) {
 			  p = $http({
 				  method: 'GET',
 				  ignoreLoadingBar: true,
-				  url: config.proxyURL+'/'+config.portalURL+'/'+config.apiURL+'/node/skill?filter[program][condition][path]=field_program.uuid&filter[program][condition][value]='+programID+'&include=field_image,field_difficulty&fields[node--skill]=body,field_code,field_value,field_difficulty,field_image&fields[file--file]=url&field[apparatus][condition][path]=field_apparatus.uuid&field[apparatus][condition][value]='+apparatusID+'&field[group][condition][path]=field_element_group.uuid&field[group][condition][value]='+groupID+'&fields[taxonomy_term--difficulty]=name'
+				  url: config.proxyURL+'/'+config.portalURL+'/'+config.apiURL+'/node/skill?filter[program][condition][path]=field_program.uuid&filter[program][condition][value]='+programID+'&include=field_image,field_difficulty&fields[node--skill]=body,field_code,field_value,field_difficulty,field_element_group,field_image&fields[file--file]=url&field[apparatus][condition][path]=field_apparatus.uuid&field[apparatus][condition][value]='+apparatusID+'&field[group][condition][path]=field_element_group.uuid&field[group][condition][value]='+groupID+'&fields[taxonomy_term--difficulty]=name'
 			  });
 			  $scope.promises.push(p);
 		  }
@@ -801,6 +802,15 @@ function detailsProgramCtrl($scope, $http, $state, $stateParams,auth, $q) {
   callApparatus.then(function success(response){
 	  list_apparatus = response.data.data;
 	  $scope.apparatus = list_apparatus;
+	  $scope.apparatus_inclusions = response.data.included;
+	
+		apparatus_inclusions_with_index = {};
+		included = response.data.included;
+		for (inclusion in included){
+			apparatus_inclusions_with_index[included[inclusion].id] = included[inclusion];
+		}
+			
+		$scope.apparatus_inclusions = apparatus_inclusions_with_index;
 	  $scope.getGroupAndSkills(list_apparatus[0].id)
   },function error(response){
 	  console.log("Impossibile reperire la lista di apparatus per il program "+programID);
