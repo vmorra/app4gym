@@ -288,7 +288,7 @@ function dateRangeCtrl($scope) {
 
   //Watch for date changes
   $scope.$watch('date', function(newDate) {
-    //console.log('New date set: ', newDate);
+    ////console.log('New date set: ', newDate);
   }, false);
 
   function gd(year, month, day) {
@@ -669,7 +669,7 @@ function barChartCtrl($scope) {
 
 allenamentiCtrl.$inject =  ['$scope','$http','$state','auth','$q','$location'];
 function allenamentiCtrl($scope, $http, $state, auth, $q, $location) {
-	console.log("portalURL: "+config.portalURL);
+	//console.log("portalURL: "+config.portalURL);
 	$scope.portalURL = config.portalURL;
 	$scope.branches = [];
 	$scope.programs = {};
@@ -689,7 +689,7 @@ function allenamentiCtrl($scope, $http, $state, auth, $q, $location) {
 	  method: 'GET',
 	  url: config.proxyURL+'/'+config.portalURL+'/'+config.apiURL+'/taxonomy_term/branch?fields[taxonomy_term--branch]=name,uuid'
   }).then(function successCallback(response) {
-	  console.log("Lista dei branches:" +JSON.stringify(response.data.data));
+	  //console.log("Lista dei branches:" +JSON.stringify(response.data.data));
 	  $scope.branches = response.data.data;
 	  
 	  // Per ogni branch ne prelevo i programs e costruisco un array di promises relative alle get.
@@ -707,21 +707,21 @@ function allenamentiCtrl($scope, $http, $state, auth, $q, $location) {
 	  $q.all($scope.promises)
 	  		.then(function(values){
 	  			for (value in values){
-	  				console.log("Value è "+JSON.stringify(values[value]));
+	  				//console.log("Value è "+JSON.stringify(values[value]));
 	  				lista_programs = values[value].data.data;
 	  				branch_id = lista_programs[0].relationships.field_branch.data.id;
-	  				console.log("Branch id: "+branch_id);
+	  				//console.log("Branch id: "+branch_id);
 	  				$scope.programs[branch_id] = lista_programs;
 	  				
 	  				// Aggiungo le info aggiuntive sui programs in questo array
 	  				$scope.programs_inclusions[branch_id] = values[value].data.included;
 	  			}
 	  			
-	  			console.log("Ecco la lista di tutti i programs: "+JSON.stringify($scope.programs));
+	  			//console.log("Ecco la lista di tutti i programs: "+JSON.stringify($scope.programs));
 	  		})
 	  
   }, function errorCallback(response) {
-	  console.log("Errore nel recupero dei branches"+ JSON.stringify(response.data));
+	  //console.log("Errore nel recupero dei branches"+ JSON.stringify(response.data));
   });
   
   $scope.goToDetails = function (programID){
@@ -754,7 +754,7 @@ function detailsProgramCtrl($scope, $http, $state, $stateParams,auth, $q) {
   })
   
   $scope.getGroupAndSkills = function(apparatusID){
-	  console.log("Costruisco la lista di groups and skill per l'apparato "+apparatusID);
+	  //console.log("Costruisco la lista di groups and skill per l'apparato "+apparatusID);
 	  getGroups = $http({
 		  	method: 'GET',
 		  	ignoreLoadingBar: true,
@@ -773,7 +773,7 @@ function detailsProgramCtrl($scope, $http, $state, $stateParams,auth, $q) {
 		  $q.all($scope.promises)
 		  		.then (function success(responses){
 		  			for (response in responses){
-		  				//console.log(JSON.stringify(responses[response].data.data));
+		  				////console.log(JSON.stringify(responses[response].data.data));
 		  				lista_skills = responses[response].data.data;
 		  				group_id = lista_skills[0].relationships.field_element_group.data.id;
 		  				$scope.skills[group_id] = lista_skills;
@@ -789,13 +789,13 @@ function detailsProgramCtrl($scope, $http, $state, $stateParams,auth, $q) {
 		  				
 		  			}
 		  			
-		  			console.log("Ecco la lista di tutti gli skills: "+JSON.stringify($scope.skills));
-		  			console.log("Ecco le inclusioni: "+ JSON.stringify($scope.skills_inclusions));
+		  			//console.log("Ecco la lista di tutti gli skills: "+JSON.stringify($scope.skills));
+		  			//console.log("Ecco le inclusioni: "+ JSON.stringify($scope.skills_inclusions));
 		  		},function error(response){
-		  			console.log("Errore nel recupero degli skills");
+		  			//console.log("Errore nel recupero degli skills");
 		  		})
 	  },function error(){
-		  console.log("Errore nel recupero di tutti i gruppi");
+		  //console.log("Errore nel recupero di tutti i gruppi");
 	  })
   }
   
@@ -813,7 +813,7 @@ function detailsProgramCtrl($scope, $http, $state, $stateParams,auth, $q) {
 		$scope.apparatus_inclusions = apparatus_inclusions_with_index;
 	  $scope.getGroupAndSkills(list_apparatus[0].id)
   },function error(response){
-	  console.log("Impossibile reperire la lista di apparatus per il program "+programID);
-      console.log("Error - "+response.data);
+	  //console.log("Impossibile reperire la lista di apparatus per il program "+programID);
+      //console.log("Error - "+response.data);
   })
 }
