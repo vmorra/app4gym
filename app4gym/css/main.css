@@ -187,3 +187,9 @@
 	margin-bottom: 30px;
 	height: 100px;
 }
+
+.pagination-button {
+	color: white;
+	margin-left: 5px;
+	font-size: 0.9rem;
+}

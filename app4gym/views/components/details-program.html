@@ -6,7 +6,7 @@
 		</div>
 		<div class="row justify-content-center apparatus-container">
 		
-			<div class="col-2 text-center" ng-repeat="ap in apparatus"><img class="apparatus-img" src="{{config.portalURL+'/'+apparatus_inclusions[ap.relationships.field_icon.data.id].attributes.url}}"><br>{{ap.attributes.name}}</div>
+			<div class="col-2 text-center" ng-repeat="ap in apparatus"><img ng-click="getGroupsAndSkills(ap.id)" class="apparatus-img" src="{{config.portalURL+'/'+apparatus_inclusions[ap.relationships.field_icon.data.id].attributes.url}}"><br>{{ap.attributes.name}}</div>
 			
 		</div>
 		<div class="row justify-content-center">
@@ -32,7 +32,10 @@
 	        <a data-toggle="collapse" class="gym-branch-title" data-parent="#accordion" data-target="{{'#collapse-'+$index}}" aria-expanded="true" aria-controls="{{'collapse-'+$index}}">
 	         {{group.attributes.name}}
 	        </a>
+	        <div class="pull-right"><span class="pagination-button" ng-show="navigation[group.id].prev!=0 && navigation[group.id].prev!=null" ng-click="navigate(group.id,'prev')"><i class="fa fa-angle-double-left" aria-hidden="true"></i> Prev</span><span class="pagination-button" ng-show="navigation[group.id].next!=0 && navigation[group.id].next!=null" ng-click="navigate(group.id,'next')">Next <i class="fa fa-angle-double-right" aria-hidden="true"></i></span></div>
+	        
 	      </h6>
+	      
 	    </div>
 	
 	    <div id="{{'collapse-'+$index}}" ng-class="{'collapse': true, 'show': $first, 'container':true}" role="tabpanel" aria-labelledby="{{'heading-'+$index}}">

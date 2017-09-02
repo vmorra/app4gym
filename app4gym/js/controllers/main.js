@@ -740,6 +740,7 @@ function detailsProgramCtrl($scope, $http, $state, $stateParams,auth, $q) {
   $scope.groups = []
   $scope.skills = {};
   $scope.promises = [];
+  $scope.navigation = {};
   $scope.skills_inclusions = {};
   
   callApparatus = $http({
@@ -753,7 +754,7 @@ function detailsProgramCtrl($scope, $http, $state, $stateParams,auth, $q) {
 	  	url: config.proxyURL+'/'+config.portalURL+'/'+config.apiURL+'/taxonomy_term/difficulty?filter[program][condition][path]=field_program.uuid&filter[program][condition][value]='+programID+'&fields[taxonomy_term--difficulty]=name'
   })
   
-  $scope.getGroupAndSkills = function(apparatusID){
+  $scope.getGroupsAndSkills = function(apparatusID){
 	  //console.log("Costruisco la lista di groups and skill per l'apparato "+apparatusID);
 	  getGroups = $http({
 		  	method: 'GET',
@@ -766,7 +767,7 @@ function detailsProgramCtrl($scope, $http, $state, $stateParams,auth, $q) {
 			  p = $http({
 				  method: 'GET',
 				  ignoreLoadingBar: true,
-				  url: config.proxyURL+'/'+config.portalURL+'/'+config.apiURL+'/node/skill?filter[program][condition][path]=field_program.uuid&filter[program][condition][value]='+programID+'&include=field_image,field_difficulty&fields[node--skill]=body,field_code,field_value,field_difficulty,field_element_group,field_image&fields[file--file]=url&field[apparatus][condition][path]=field_apparatus.uuid&field[apparatus][condition][value]='+apparatusID+'&field[group][condition][path]=field_element_group.uuid&field[group][condition][value]='+groupID+'&fields[taxonomy_term--difficulty]=name'
+				  url: config.proxyURL+'/'+config.portalURL+'/'+config.apiURL+'/node/skill?filter[program][condition][path]=field_program.uuid&filter[program][condition][value]='+programID+'&include=field_image,field_difficulty&fields[node--skill]=body,field_code,field_value,field_difficulty,field_element_group,field_image&fields[file--file]=url&field[apparatus][condition][path]=field_apparatus.uuid&field[apparatus][condition][value]='+apparatusID+'&field[group][condition][path]=field_element_group.uuid&field[group][condition][value]='+groupID+'&fields[taxonomy_term--difficulty]=name&page[limit]=8&page[offset]=0'
 			  });
 			  $scope.promises.push(p);
 		  }
@@ -777,7 +778,11 @@ function detailsProgramCtrl($scope, $http, $state, $stateParams,auth, $q) {
 		  				lista_skills = responses[response].data.data;
 		  				group_id = lista_skills[0].relationships.field_element_group.data.id;
 		  				$scope.skills[group_id] = lista_skills;
-		  				
+		  				$scope.navigation[group_id] = {};
+		  				if (responses[response].data.links.next !=null)
+		  					$scope.navigation[group_id]["next"] = responses[response].data.links.next;
+		  				else $scope.navigation[group_id]["next"] = 0;
+		  				$scope.navigation[group_id]["prev"] = 0;
 		  				// Aggiungo le info aggiuntive sui skills in questo array
 		  				skills_inclusions_with_index = {};
 		  				included = responses[response].data.included;
@@ -812,9 +817,35 @@ function detailsProgramCtrl($scope, $http, $state, $stateParams,auth, $q) {
 		}
 			
 		$scope.apparatus_inclusions = apparatus_inclusions_with_index;
-	    $scope.getGroupAndSkills(list_apparatus[0].id)
+	    $scope.getGroupsAndSkills(list_apparatus[0].id)
   },function error(response){
 	  //console.log("Impossibile reperire la lista di apparatus per il program "+programID);
       //console.log("Error - "+response.data);
-  })
+  });
+  
+  $scope.navigate = function(group, direction) {	  
+	  navigateNextOrPrev = $http({
+		  	method: 'GET',
+		  	url: config.proxyURL+'/'+$scope.navigation[group][direction]
+	  }).then (function success(response){
+		    lista_skills = response.data.data;
+			group_id = group;
+			$scope.skills[group_id] = lista_skills;
+			if (response.data.links.next !=null)
+				$scope.navigation[group_id]["next"] = response.data.links.next;
+			else $scope.navigation[group_id]["next"] = 0;
+			if (response.data.links.prev !=null)
+				$scope.navigation[group_id]["prev"] = response.data.links.prev;
+			else $scope.navigation[group_id]["prev"] = 0;
+			// Aggiungo le info aggiuntive sui skills in questo array
+			included = response.data.included;
+			for (inclusion in included){
+				$scope.skills_inclusions[group_id][included[inclusion].id] = included[inclusion];
+			}
+				
+	  },function error(){
+		  
+	  })
+  }
+  
 }
