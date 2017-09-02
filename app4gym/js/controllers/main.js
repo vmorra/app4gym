@@ -742,6 +742,7 @@ function detailsProgramCtrl($scope, $http, $state, $stateParams,auth, $q) {
   $scope.promises = [];
   $scope.navigation = {};
   $scope.skills_inclusions = {};
+  $scope.skill_difficulties = ['F'];
   
   callApparatus = $http({
 	  	method: 'GET',
@@ -846,6 +847,14 @@ function detailsProgramCtrl($scope, $http, $state, $stateParams,auth, $q) {
 	  },function error(){
 		  
 	  })
+  }
+  
+  $scope.select = function(index){
+	  console.log("index is "+index);
+	  for (app in $scope.apparatus){
+		  $scope.apparatus[app]['selected'] = false;
+	  }
+	  $scope.apparatus[index]['selected']=true;
   }
   
 }
