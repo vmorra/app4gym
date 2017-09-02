@@ -1,12 +1,12 @@
 <div ng-controller="detailsProgramCtrl">
 <div class="flex-row align-items-center">
 	<div class="container">
-		<div class="clearfix text-center">
+		<div class="clearfix text-center program-details-title">
 				<h5 class="pt-3 text-center">Codice Punteggi Internazionale</h5>
 		</div>
-		<div class="row justify-content-center">
+		<div class="row justify-content-center apparatus-container">
 		
-			<div class="col-2" ng-repeat="ap in apparatus"><img class="apparatus-img" src="{{config.portalURL+'/'+apparatus_inclusions[ap.relationships.field_icon.data.id].attributes.url}}"><br>{{ap.attributes.name}}</div>
+			<div class="col-2 text-center" ng-repeat="ap in apparatus"><img class="apparatus-img" src="{{config.portalURL+'/'+apparatus_inclusions[ap.relationships.field_icon.data.id].attributes.url}}"><br>{{ap.attributes.name}}</div>
 			
 		</div>
 		<div class="row justify-content-center">

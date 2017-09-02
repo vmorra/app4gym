@@ -801,6 +801,7 @@ function detailsProgramCtrl($scope, $http, $state, $stateParams,auth, $q) {
   
   callApparatus.then(function success(response){
 	  list_apparatus = response.data.data;
+	  console.log("Lista degli apparatus: "+JSON.stringify(list_apparatus));
 	  $scope.apparatus = list_apparatus;
 	  $scope.apparatus_inclusions = response.data.included;
 	
@@ -811,7 +812,7 @@ function detailsProgramCtrl($scope, $http, $state, $stateParams,auth, $q) {
 		}
 			
 		$scope.apparatus_inclusions = apparatus_inclusions_with_index;
-	  $scope.getGroupAndSkills(list_apparatus[0].id)
+	    $scope.getGroupAndSkills(list_apparatus[0].id)
   },function error(response){
 	  //console.log("Impossibile reperire la lista di apparatus per il program "+programID);
       //console.log("Error - "+response.data);
