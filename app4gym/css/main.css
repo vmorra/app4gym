@@ -248,6 +248,11 @@
 	height: 35px;
 }
 
-.selector-container{
+.selector-container {
 	margin-bottom: 50px;
+}
+
+.view-mode {
+	color: #263238;
+	margin-left: 15px;
 }

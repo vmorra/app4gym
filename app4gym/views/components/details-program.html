@@ -10,30 +10,30 @@
 			
 		</div>
 		<div class="row justify-content-center selector-container">
-			<div class="col-8">
-				<select class="apparatus-selection">
-					  <option ng-select="getGroupsAndSkills(ap.id);select($index)" ng-repeat="ap in apparatus">{{ap.attributes.name}}</option>
-				</select>
-			</div>			
+			<div class="col-12">
+				<div class="dropdown apparatus-selection">
+	  				<button class="btn btn-secondary dropdown-toggle apparatus-selection" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+	    				Select an Apparatus
+	  				</button>
+	  				<div class="dropdown-menu apparatus-selection" aria-labelledby="dropdownMenuButton">
+					    <a class="dropdown-item" ng-repeat="ap in apparatus" ng-click="getGroupsAndSkills(ap.id);select($index)" href="#">{{ap.attributes.name}}</a>
+	  				</div>
+				</div>	
+			</div>
+			
+					
 		</div>
 		<div class="row">
-			<div class="col-md-6">			     
+			<div class="col-md-6 text-center">			     
 					<div class="difficulty" ng-repeat="difficulty in difficulties">
 						<img ng-click="toggleDifficulty(difficulty.attributes.name)" ng-class="{'difficulty-img':true, 'difficulty-selected':skill_difficulties.indexOf(difficulty.attributes.name)!=-1}" src="{{'/img/difficulties_icons/'+difficulty.attributes.name+'.png'}}">
 					</div>
 			</div>
-			<div class="col-md-4">
-				<div class="input-prepend input-group" style="padding-bottom: 5%">
-					<span class="input-group-addon"><i class="fa fa-search"></i>
-					</span> <input id="prependedInput" class="form-control" size="16"
-						type="text" placeholder="What are you looking for?"> <span
-						class="input-group-btn">
-						<button class="btn btn-info gym-btn-search" type="button">Search</button>
-					</span>
-				</div>
-			</div>
-			<div class="col-md-2">
-					<span class="pull-right">view mode</span>
+			<div class="col-md-6">
+					<div class="pull-right">
+						<span class="view-mode"><i class="fa fa-columns fa-2x" aria-hidden="true"></i></span>
+						<span class="view-mode"><i class="fa fa-th-list fa-2x" aria-hidden="true"></i></span>
+					</div>
 			</div>
 		</div>
 	</div>
