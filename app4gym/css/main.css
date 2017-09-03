@@ -159,7 +159,7 @@
 
 @media (max-width: 576px) {
 	.img-skill {		 
-		 width: 200px;
+		 width: 70%;
 		 height: 110px;
 	}
 	
@@ -211,4 +211,27 @@
   -ms-filter: blur(4px);
   filter: blur(4px);
   background: #b0bec5
+}
+
+.difficulty {
+	width: 50px;
+	height: 50px;
+	display: inline-block;	
+}
+
+.difficulty-img {
+	width: 30px;
+	height: 30px;
+}
+
+.difficulty-img:hover {
+	border: solid 5px;
+	border-radius: 30%;
+}
+
+.difficulty-selected{
+	border: solid 5px;
+	border-radius: 50%;
+	width: 35px;
+	height: 35px;
 }

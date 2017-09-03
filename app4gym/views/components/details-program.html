@@ -9,9 +9,13 @@
 			<div class="col-2 text-center" ng-repeat="ap in apparatus" ng-class="{'apparatus-selected':ap.selected}"><img ng-class="{'apparatus-selected':ap.selected}" ng-click="getGroupsAndSkills(ap.id);select($index)" class="apparatus-img" src="{{config.portalURL+'/'+apparatus_inclusions[ap.relationships.field_icon.data.id].attributes.url}}"><br>{{ap.attributes.name}}</div>
 			
 		</div>
-		<div class="row justify-content-center">
-			<div class="col-md-6">
-
+		<div class="row">
+			<div class="col-md-6">			     
+					<div class="difficulty" ng-repeat="difficulty in difficulties">
+						<img ng-click="toggleDifficulty(difficulty.attributes.name)" ng-class="{'difficulty-img':true, 'difficulty-selected':skill_difficulties.indexOf(difficulty.attributes.name)!=-1}" src="{{'/img/difficulties_icons/'+difficulty.attributes.name+'.png'}}">
+					</div>
+			</div>
+			<div class="col-md-4">
 				<div class="input-prepend input-group" style="padding-bottom: 5%">
 					<span class="input-group-addon"><i class="fa fa-search"></i>
 					</span> <input id="prependedInput" class="form-control" size="16"
@@ -20,6 +24,9 @@
 						<button class="btn btn-info gym-btn-search" type="button">Search</button>
 					</span>
 				</div>
+			</div>
+			<div class="col-md-2">
+					<span class="pull-right">view mode</span>
 			</div>
 		</div>
 	</div>
@@ -41,7 +48,7 @@
 	    <div id="{{'collapse-'+$index}}" ng-class="{'collapse': true, 'show': $first, 'container':true}" role="tabpanel" aria-labelledby="{{'heading-'+$index}}">
 	      <div class="card-block row">		
 	        <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3 container" ng-repeat="skill in skills[group.id]">
-		         <div class="skill-container" ng-class="{'obscure':skill_difficulties.indexOf(skills_inclusions[group.id][skill.relationships.field_difficulty.data.id].attributes.name)==-1}">
+		         <div class="skill-container" ng-class="{'obscure':skill_difficulties.indexOf(skills_inclusions[group.id][skill.relationships.field_difficulty.data.id].attributes.name)==-1&&skill_difficulties.length>0}">
 			          <div class="row">
 			          	<div class="col-4"><div class="rounded-circle text-center gym-difficulty-indication"><span class="align-middle">{{skills_inclusions[group.id][skill.relationships.field_difficulty.data.id].attributes.name}}</span></div></div>
 			          	<div class="col-4 text-center skill-value">Value {{skill.attributes.field_value}}</div>

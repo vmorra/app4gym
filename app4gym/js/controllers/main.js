@@ -742,7 +742,7 @@ function detailsProgramCtrl($scope, $http, $state, $stateParams,auth, $q) {
   $scope.promises = [];
   $scope.navigation = {};
   $scope.skills_inclusions = {};
-  $scope.skill_difficulties = ['F'];
+  $scope.skill_difficulties = [];
   
   callApparatus = $http({
 	  	method: 'GET',
@@ -753,6 +753,10 @@ function detailsProgramCtrl($scope, $http, $state, $stateParams,auth, $q) {
 	  	method: 'GET',
 	  	ignoreLoadingBar: true,
 	  	url: config.proxyURL+'/'+config.portalURL+'/'+config.apiURL+'/taxonomy_term/difficulty?filter[program][condition][path]=field_program.uuid&filter[program][condition][value]='+programID+'&fields[taxonomy_term--difficulty]=name'
+  }).then(function success(response){
+	  $scope.difficulties = response.data.data;
+  },function error(response){
+	  
   })
   
   $scope.getGroupsAndSkills = function(apparatusID){
@@ -855,6 +859,13 @@ function detailsProgramCtrl($scope, $http, $state, $stateParams,auth, $q) {
 		  $scope.apparatus[app]['selected'] = false;
 	  }
 	  $scope.apparatus[index]['selected']=true;
+  }
+  
+  $scope.toggleDifficulty = function (name){
+	  i = $scope.skill_difficulties.indexOf(name);
+	  if(i==-1)
+		  $scope.skill_difficulties.push(name)
+	  else $scope.skill_difficulties.splice(i, 1);
   }
   
 }
