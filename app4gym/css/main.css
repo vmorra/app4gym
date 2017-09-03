@@ -156,8 +156,15 @@
 	}
 	
 }
-
+@media (min-width: 576px) {
+.selector-container {
+	display:none;
+}
+}
 @media (max-width: 576px) {
+	.apparatus-container {
+	  display:none;
+	}
 	.img-skill {		 
 		 width: 70%;
 		 height: 110px;
@@ -179,6 +186,11 @@
 	width: 80px;
 	height: 80px;
 }
+
+.apparatus-selection {
+	width: 100%;
+}
+
 .program-details-title{
 	margin-bottom: 40px;
 }
@@ -234,4 +246,8 @@
 	border-radius: 50%;
 	width: 35px;
 	height: 35px;
+}
+
+.selector-container{
+	margin-bottom: 50px;
 }

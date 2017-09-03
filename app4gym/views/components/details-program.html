@@ -6,8 +6,15 @@
 		</div>
 		<div class="row justify-content-center apparatus-container">
 		
-			<div class="col-2 text-center" ng-repeat="ap in apparatus" ng-class="{'apparatus-selected':ap.selected}"><img ng-class="{'apparatus-selected':ap.selected}" ng-click="getGroupsAndSkills(ap.id);select($index)" class="apparatus-img" src="{{config.portalURL+'/'+apparatus_inclusions[ap.relationships.field_icon.data.id].attributes.url}}"><br>{{ap.attributes.name}}</div>
+			<div class="col col-2 hidden-sm-down visible-sm-up text-center" ng-repeat="ap in apparatus" ng-class="{'apparatus-selected':ap.selected}"><img ng-class="{'apparatus-selected':ap.selected}" ng-click="getGroupsAndSkills(ap.id);select($index)" class="apparatus-img" src="{{config.portalURL+'/'+apparatus_inclusions[ap.relationships.field_icon.data.id].attributes.url}}"><br>{{ap.attributes.name}}</div>
 			
+		</div>
+		<div class="row justify-content-center selector-container">
+			<div class="col-8">
+				<select class="apparatus-selection">
+					  <option ng-select="getGroupsAndSkills(ap.id);select($index)" ng-repeat="ap in apparatus">{{ap.attributes.name}}</option>
+				</select>
+			</div>			
 		</div>
 		<div class="row">
 			<div class="col-md-6">			     
