@@ -3,7 +3,7 @@
 	top: 15px;
 	border: solid 1px #63c2de;
 	height: 80px;
-	width: 80px;   
+	width: 80px;
 }
 .gym-img-container {
 	border-bottom: solid 2px #63c2de;
@@ -18,7 +18,7 @@
 
 .gym-card-header {
 	padding: 0.25rem 1rem;
-	
+
 	background-color: #263238;
 }
 
@@ -33,14 +33,14 @@
 .gym-btn-search:hover {
 	background-color: #263238;
     border-color: #f2eeea;
-    
+
 }
 
 
 .gym-btn-search {
 	background-color: rgba(38, 50, 56, 0.36);
     border-color: #f2eeea;
-    
+
 }
 
 .ico-allenamenti {
@@ -65,9 +65,13 @@
 .gym-program-description-wrapper {
 	height: 200px;
 	margin-top: 15px;
-	
-}
 
+}
+.gym-drill-description-wrapper {
+	height: 125px;
+	margin-top: 15px;
+
+}
 .gym-program-description-value {
   overflow: hidden;
   position: relative;
@@ -76,7 +80,7 @@
   text-align: center;
   margin-right: -1em;
   padding-right: 1em;
-  margin-top: 15px; 	
+  margin-top: 15px;
 }
 
 .gym-program-description-value:before {
@@ -107,6 +111,15 @@
 	margin-bottom:10px;
 }
 
+.gym-drill-preview-container {
+	padding-right: 10px;
+	padding-left: 10px;
+	margin-top: 1px;
+	margin-bottom:10px;
+}
+iframe{
+	width: 100%;
+}
 .gym-footer-image {
 	margin-top: 20px;
 }
@@ -143,7 +156,7 @@
 	height: 25px;
 	width: 25px;
 	color: white;
-	
+
 }
 
 .description-skill-container{
@@ -154,7 +167,7 @@
 	.description-skill-container{
 		height: 75px;
 	}
-	
+
 }
 @media (min-width: 576px) {
 .selector-container {
@@ -165,11 +178,11 @@
 	.apparatus-container {
 	  display:none;
 	}
-	.img-skill {		 
+	.img-skill {
 		 width: 70%;
 		 height: 110px;
 	}
-	
+
 	.description-skill-container{
 		height: 75px;
 	}
@@ -228,7 +241,7 @@
 .difficulty {
 	width: 50px;
 	height: 50px;
-	display: inline-block;	
+	display: inline-block;
 }
 
 .difficulty-img {

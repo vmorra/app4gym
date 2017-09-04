@@ -13,7 +13,8 @@ angular
 .controller('horizontalBarsType2Ctrl', horizontalBarsType2Ctrl)
 .controller('usersTableCtrl', usersTableCtrl)
 .controller('allenamentiCtrl', allenamentiCtrl)
-.controller('detailsProgramCtrl', detailsProgramCtrl,)
+.controller('detailsProgramCtrl', detailsProgramCtrl)
+.controller('drillCtrl', drillCtrl)
 
 //convert Hex to RGBA
 function convertHex(hex,opacity){
@@ -675,15 +676,15 @@ function allenamentiCtrl($scope, $http, $state, auth, $q, $location) {
 	$scope.programs = {};
 	$scope.promises = [];
 	$scope.programs_inclusions = [];
-	
+
 	$scope.colors = ["#ffccff","#4dbd74","#63c2de","#f8cb00","#f86c6b"];
 
   $scope.config = {
-      headers: {        
+      headers: {
         "Content-Type":"application/json"
       }
   }
-  
+
   // Lista dei branches
   $http({
 	  method: 'GET',
@@ -691,11 +692,11 @@ function allenamentiCtrl($scope, $http, $state, auth, $q, $location) {
   }).then(function successCallback(response) {
 	  //console.log("Lista dei branches:" +JSON.stringify(response.data.data));
 	  $scope.branches = response.data.data;
-	  
+
 	  // Per ogni branch ne prelevo i programs e costruisco un array di promises relative alle get.
 	  for (branch in $scope.branches){
 		   uuid = $scope.branches[branch].attributes.uuid;
-		  
+
 		   p = $http({
 					  method: 'GET',
 					  ignoreLoadingBar: true,
@@ -712,22 +713,22 @@ function allenamentiCtrl($scope, $http, $state, auth, $q, $location) {
 	  				branch_id = lista_programs[0].relationships.field_branch.data.id;
 	  				//console.log("Branch id: "+branch_id);
 	  				$scope.programs[branch_id] = lista_programs;
-	  				
+
 	  				// Aggiungo le info aggiuntive sui programs in questo array
 	  				$scope.programs_inclusions[branch_id] = values[value].data.included;
 	  			}
-	  			
+
 	  			//console.log("Ecco la lista di tutti i programs: "+JSON.stringify($scope.programs));
 	  		})
-	  
+
   }, function errorCallback(response) {
 	  //console.log("Errore nel recupero dei branches"+ JSON.stringify(response.data));
   });
-  
+
   $scope.goToDetails = function (programID){
 	  $location.url("/details-program/"+programID);
   }
-  
+
 }
 
 detailsProgramCtrl.$inject = ['$scope', '$http', '$state', '$stateParams', 'auth', '$q'];
@@ -743,12 +744,12 @@ function detailsProgramCtrl($scope, $http, $state, $stateParams,auth, $q) {
   $scope.navigation = {};
   $scope.skills_inclusions = {};
   $scope.skill_difficulties = [];
-  
+
   callApparatus = $http({
 	  	method: 'GET',
 	  	url: config.proxyURL+'/'+config.portalURL+'/'+config.apiURL+'/taxonomy_term/apparatus?filter[program][condition][path]=field_program.uuid&filter[program][condition][value]='+programID+'&fields[taxonomy_term--apparatus]=name,field_icon&include=field_icon&fields[file--file]=url'
   })
-  
+
   callDifficulties = $http({
 	  	method: 'GET',
 	  	ignoreLoadingBar: true,
@@ -756,9 +757,9 @@ function detailsProgramCtrl($scope, $http, $state, $stateParams,auth, $q) {
   }).then(function success(response){
 	  $scope.difficulties = response.data.data;
   },function error(response){
-	  
+
   })
-  
+
   $scope.getGroupsAndSkills = function(apparatusID){
 	  //console.log("Costruisco la lista di groups and skill per l'apparato "+apparatusID);
 	  getGroups = $http({
@@ -794,11 +795,11 @@ function detailsProgramCtrl($scope, $http, $state, $stateParams,auth, $q) {
 		  				for (inclusion in included){
 		  					skills_inclusions_with_index[included[inclusion].id] = included[inclusion];
 		  				}
-		  					
+
 		  				$scope.skills_inclusions[group_id] = skills_inclusions_with_index;
-		  				
+
 		  			}
-		  			
+
 		  			//console.log("Ecco la lista di tutti gli skills: "+JSON.stringify($scope.skills));
 		  			//console.log("Ecco le inclusioni: "+ JSON.stringify($scope.skills_inclusions));
 		  		},function error(response){
@@ -808,27 +809,27 @@ function detailsProgramCtrl($scope, $http, $state, $stateParams,auth, $q) {
 		  //console.log("Errore nel recupero di tutti i gruppi");
 	  })
   }
-  
+
   callApparatus.then(function success(response){
 	  list_apparatus = response.data.data;
 	  console.log("Lista degli apparatus: "+JSON.stringify(list_apparatus));
 	  $scope.apparatus = list_apparatus;
 	  $scope.apparatus_inclusions = response.data.included;
-	
+
 		apparatus_inclusions_with_index = {};
 		included = response.data.included;
 		for (inclusion in included){
 			apparatus_inclusions_with_index[included[inclusion].id] = included[inclusion];
 		}
-			
+
 		$scope.apparatus_inclusions = apparatus_inclusions_with_index;
 	    $scope.getGroupsAndSkills(list_apparatus[0].id)
   },function error(response){
 	  //console.log("Impossibile reperire la lista di apparatus per il program "+programID);
       //console.log("Error - "+response.data);
   });
-  
-  $scope.navigate = function(group, direction) {	  
+
+  $scope.navigate = function(group, direction) {
 	  navigateNextOrPrev = $http({
 		  	method: 'GET',
 		  	url: config.proxyURL+'/'+$scope.navigation[group][direction]
@@ -847,12 +848,12 @@ function detailsProgramCtrl($scope, $http, $state, $stateParams,auth, $q) {
 			for (inclusion in included){
 				$scope.skills_inclusions[group_id][included[inclusion].id] = included[inclusion];
 			}
-				
+
 	  },function error(){
-		  
+
 	  })
   }
-  
+
   $scope.select = function(index){
 	  console.log("index is "+index);
 	  for (app in $scope.apparatus){
@@ -860,12 +861,73 @@ function detailsProgramCtrl($scope, $http, $state, $stateParams,auth, $q) {
 	  }
 	  $scope.apparatus[index]['selected']=true;
   }
-  
+
   $scope.toggleDifficulty = function (name){
 	  i = $scope.skill_difficulties.indexOf(name);
 	  if(i==-1)
 		  $scope.skill_difficulties.push(name)
 	  else $scope.skill_difficulties.splice(i, 1);
   }
-  
+
+}
+
+
+drillCtrl.$inject = ['$scope', '$http', '$state', '$stateParams', 'auth', '$q', '$window'];
+function drillCtrl($scope, $http, $state, $stateParams,auth, $q, $window) {
+  programID = $scope.idProgram = $stateParams.idProgram;
+  $scope.config = config;
+  $scope.drills = [];
+  $scope.drills_next = {};
+  $scope.apparatus_inclusions = {};
+  $scope.difficulties = [];
+  $scope.groups = [];
+  $scope.skills = {};
+  $scope.promises = [];
+  $scope.navigation = {};
+  $scope.skills_inclusions = {};
+  $scope.skill_difficulties = [];
+
+  callDrills = $http({
+	  	method: 'GET',
+	  	url: config.proxyURL+'/'+config.portalURL+'/'+config.apiURL+'/node/drill?fields[node--drill]=title,created,field_branch,field_apparatus,field_drill_type,field_video_id,field_video_source,field_vide_url&page[limit]=32'
+  })
+
+
+  $scope.getIframeSrc = function(id, source) {
+    console.log(config[source] + id);
+      return config[source] + id+'?rel=0&amp;showinfo=0';
+    };
+
+  callDrills.then(function success(response){
+	  list_drills = response.data.data;
+	  console.log("Lista degli apparatus: "+JSON.stringify(list_drills));
+	  $scope.drills = list_drills;
+    if(response.data.links.next){
+      $scope.drills_next = response.data.links.next;
+    } else {
+      $scope.drills_next = null;
+    }
+  },function error(response){
+	  //console.log("Impossibile reperire la lista di apparatus per il program "+programID);
+      //console.log("Error - "+response.data);
+  });
+  angular.element($window).bind("scroll", function() {
+               if ($(window).scrollTop() + $(window).height() == $(document).height() && $scope.drills_next ) {
+                 callDrillsNext = $http({
+               	  	method: 'GET',
+               	  	url: config.proxyURL+'/'+  $scope.drills_next
+                 }).then(function success(response){
+               	  $scope.drills =  $scope.drills.concat(response.data.data);
+                  if(response.data.links.next){
+                    $scope.drills_next = response.data.links.next;
+                  } else {
+                    $scope.drills_next = null;
+                    angular.element($window).unbind("scroll");
+                  }
+               },function error(response){
+             	  //console.log("Impossibile reperire la lista di apparatus per il program "+programID);
+                   //console.log("Error - "+response.data);
+               });
+             }
+            });
 }

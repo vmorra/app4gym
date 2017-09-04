@@ -20,10 +20,16 @@ angular
   'ncy-angular-breadcrumb',
   'angular-loading-bar'
 ])
-.config(['cfpLoadingBarProvider', function(cfpLoadingBarProvider) {
+.config(['cfpLoadingBarProvider', '$sceDelegateProvider', function(cfpLoadingBarProvider,$sceDelegateProvider) {
   cfpLoadingBarProvider.includeSpinner = false;
   cfpLoadingBarProvider.latencyThreshold = 1;
+  $sceDelegateProvider.resourceUrlWhitelist([
+    'self',
+    'https://www.youtube.com/**'
+  ]);
 }])
+
+
 .run(['$rootScope', '$state', '$stateParams', function($rootScope, $state, $stateParams) {
   $rootScope.$on('$stateChangeSuccess',function(){
     document.body.scrollTop = document.documentElement.scrollTop = 0;

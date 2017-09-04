@@ -176,4 +176,19 @@ angular
         }]
       }
   })
+  .state('app.drill', {
+    url: '/drill/:idSkill',
+    templateUrl: 'views/components/drill.html',
+    ncyBreadcrumb: {
+    label: "Drill"
+    },
+    resolve: {
+        loadMyCtrl: ['$ocLazyLoad', function($ocLazyLoad) {
+          // you can lazy load controllers
+          return $ocLazyLoad.load({
+            files: ['js/controllers/main.js']
+          });
+        }]
+      }
+  })
 }]);
