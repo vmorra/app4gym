@@ -737,7 +737,7 @@ function detailsProgramCtrl($scope, $http, $state, $stateParams,auth, $q) {
   $scope.apparatus = [];
   $scope.apparatus_inclusions = {};
   $scope.difficulties = [];
-  $scope.groups = []
+  $scope.groups = [];
   $scope.skills = {};
   $scope.promises = [];
   $scope.navigation = {};
