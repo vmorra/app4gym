@@ -1,9 +1,32 @@
+body {
+	background : rgba(242, 242, 242, 0.61);
+}
+
+.breadcrumb-menu {
+	position:relative;
+}
+
+.breadcrumb-item.active {
+    color: #000000;
+    font-weight: 600;
+}
+
+.upper-menu-voice {
+	margin-right: 15px;
+	margin-left: 15px;
+}
+
+.card {
+	border: 0;
+}
+
 .gym-program-img {
 	position: relative;
 	top: 15px;
 	border: solid 1px #63c2de;
 	height: 80px;
 	width: 80px;
+	cursor: pointer;
 }
 .gym-img-container {
 	border-bottom: solid 2px #63c2de;
@@ -12,6 +35,7 @@
 
 .gym-program {
 	border: solid 1px;
+	border-color: #cfd8dc;
 	margin-bottom:5px;
 	margin-top: 5px;
 }
@@ -24,10 +48,14 @@
 
 .gym-branch-title {
 	color: #fefaf5 !important;
+	
 }
 
 .gym-branch-card {
 	margin-bottom: 0.25rem;
+}
+.gym-program-title {
+	cursor: pointer;
 }
 
 .gym-btn-search:hover {

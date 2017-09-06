@@ -146,11 +146,11 @@ angular
       }]
     }
   })
-  .state('app.allenamenti', {
-	  url: '/allenamenti',
-	  templateUrl: 'views/components/allenamenti.html',
+  .state('app.programs', {
+	  url: '/programs',
+	  templateUrl: 'views/components/programs.html',
 	  ncyBreadcrumb: {
-		label: "Allenamenti"
+		label: "Technical Programs"
 	  },
     resolve: {
         loadMyCtrl: ['$ocLazyLoad', function($ocLazyLoad) {

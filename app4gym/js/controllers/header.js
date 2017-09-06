@@ -2,9 +2,9 @@ angular
 .module('app')
 .controller("headerCtrl", headerCtrl)
 
-headerCtrl.$inject = ['$scope','$http','$state','auth'];
+headerCtrl.$inject = ['$scope','$http','$state','auth','$rootScope'];
 
-function headerCtrl($scope, $http, $state, auth) {
+function headerCtrl($scope, $http, $state, auth, $rootScope) {
 	
 	$scope.user = {
 		name : ""
@@ -18,6 +18,8 @@ function headerCtrl($scope, $http, $state, auth) {
 	  }
 	
 	$scope.user.name = JSON.parse(auth.getUserSession()).name;	
+	
+			
 	
 	//LOGOUT PROCEDURE
 	$scope.logout = function(){	

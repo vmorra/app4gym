@@ -668,8 +668,8 @@ function barChartCtrl($scope) {
   }];
 }
 
-allenamentiCtrl.$inject =  ['$scope','$http','$state','auth','$q','$location'];
-function allenamentiCtrl($scope, $http, $state, auth, $q, $location) {
+allenamentiCtrl.$inject =  ['$scope','$http','$state','auth','$q','$location', '$rootScope'];
+function allenamentiCtrl($scope, $http, $state, auth, $q, $location, $rootScope) {
 	//console.log("portalURL: "+config.portalURL);
 	$scope.portalURL = config.portalURL;
 	$scope.branches = [];
@@ -688,7 +688,7 @@ function allenamentiCtrl($scope, $http, $state, auth, $q, $location) {
   // Lista dei branches
   $http({
 	  method: 'GET',
-	  url: config.proxyURL+'/'+config.portalURL+'/'+config.apiURL+'/taxonomy_term/branch?fields[taxonomy_term--branch]=name,uuid'
+	  url: config.proxyURL+'/'+config.portalURL+'/'+config.apiURL+'/taxonomy_term/branch?fields[taxonomy_term--branch]=name,uuid,field_label'
   }).then(function successCallback(response) {
 	  //console.log("Lista dei branches:" +JSON.stringify(response.data.data));
 	  $scope.branches = response.data.data;
@@ -696,7 +696,12 @@ function allenamentiCtrl($scope, $http, $state, auth, $q, $location) {
 	  // Per ogni branch ne prelevo i programs e costruisco un array di promises relative alle get.
 	  for (branch in $scope.branches){
 		   uuid = $scope.branches[branch].attributes.uuid;
-
+		   menuVoice = {
+				   'name': $scope.branches[branch].attributes.field_label,
+				   'callBack' :  $scope.selectBranch,
+				   'elementID' : 'collapse-'+branch
+		   }
+		   $rootScope.menuList.push(menuVoice);
 		   p = $http({
 					  method: 'GET',
 					  ignoreLoadingBar: true,
@@ -728,6 +733,13 @@ function allenamentiCtrl($scope, $http, $state, auth, $q, $location) {
   $scope.goToDetails = function (programID){
 	  $location.url("/details-program/"+programID);
   }
+  
+  $scope.selectBranch = function(elementId){
+	  console.log("selecting branch ...")
+	  angular.element('.collapse').hide();
+	  angular.element('#'+elementId).show();
+  }
+  $rootScope.selectBranch = $scope.selectBranch;
 
 }
 

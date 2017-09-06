@@ -35,5 +35,6 @@ angular
     document.body.scrollTop = document.documentElement.scrollTop = 0;
   });
   $rootScope.$state = $state;
+  $rootScope.menuList = [{}]
   return $rootScope.$stateParams = $stateParams;
 }]);

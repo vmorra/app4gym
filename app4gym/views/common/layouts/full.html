@@ -10,16 +10,28 @@
 
         <!-- Breadcrumb -->
         <ol class="breadcrumb" breadcrumb>
-            <ncy-breadcrumb></ncy-breadcrumb>
-
+           <div class="row">
+           <div class="col-3"><ncy-breadcrumb></ncy-breadcrumb></div>
+            
+			<div class="col-6">
+				<li class="upper-menu center-block text-center">
+	                <div class="btn-group" role="group" aria-label="Button group with nested dropdown">
+	                    <a ui-sref="" ng-repeat="voice in menuList" ng-click="voice.callBack(voice.elementID)" class="upper-menu-voice" href="#">{{voice.name}}</a>
+	                </div>
+	            </li>
+			</div>
+			
+            
             <!-- Breadcrumb Menu-->
-            <li class="breadcrumb-menu">
-                <div class="btn-group" role="group" aria-label="Button group with nested dropdown">
-                    <a class="btn btn-secondary" href="#"><i class="icon-speech"></i></a>
-                    <a class="btn btn-secondary" ui-sref="app.main"><i class="icon-graph"></i> &nbsp;Dashboard</a>
-                    <a class="btn btn-secondary" ui-sref="app.main"><i class="icon-settings"></i> &nbsp;Settings</a>
-                </div>
-            </li>
+            <div class="col-3">
+            	<li class="breadcrumb-menu pull-right">
+	                <div class="btn-group" role="group" aria-label="Button group with nested dropdown">	   
+	                    <a class="btn btn-secondary" ui-sref="app.main"><i class="icon-settings"></i> &nbsp;Settings</a>
+	                </div>
+           		 </li>
+            </div>
+            
+           </div>
 
         </ol>
 

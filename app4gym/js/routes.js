@@ -81,6 +81,7 @@ angular
     //page title goes here
     ncyBreadcrumb: {
       label: 'Home',
+      skip: true
     },
     //page subtitle goes here
     params: { subtitle: 'Welcome to ROOT powerfull Bootstrap & AngularJS UI Kit' },
