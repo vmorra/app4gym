@@ -2,6 +2,10 @@ body {
 	background : rgba(242, 242, 242, 0.61);
 }
 
+.gym-grey {
+   color: #bbbbbb;
+}
+
 .breadcrumb-menu {
 	position:relative;
 }
@@ -14,6 +18,26 @@ body {
 .upper-menu-voice {
 	margin-right: 15px;
 	margin-left: 15px;
+	color: #bbbbbb;
+}
+
+.voice-highlighted {
+	color: #737070;
+	font-weight: 600;
+	text-decoration: underline;
+}
+
+.no-result {
+	margin-top: 100px;	
+}
+
+.upper-menu-voice:hover {
+	color: #737070;
+	text-decoration: none;	
+}
+
+.col-custom {
+	width: 110px;	
 }
 
 .card {
@@ -104,7 +128,7 @@ body {
   overflow: hidden;
   position: relative;
   line-height: 1.2em;
-  max-height: 6em;
+  max-height: 5.8em;
   text-align: center;
   margin-right: -1em;
   padding-right: 1em;
@@ -195,7 +219,10 @@ iframe{
 	.description-skill-container{
 		height: 75px;
 	}
-
+	
+	.col-custom {
+		width: 70px;
+	}
 }
 @media (min-width: 576px) {
 .selector-container {
@@ -243,14 +270,18 @@ iframe{
 }
 
 .pagination-button {
-	color: white;
+	color: #0080c0;
 	margin-left: 15px;
-	font-size: 0.9rem;
+	font-size:1.5rem;
+}
+
+.pagination-button:hover {
+	cursor: pointer;
 }
 
 .apparatus-selected img{
-	width: 80px;
-	height: 80px;
+	width: 65px;
+	height: 65px;
 }
 
 .apparatus-selected {

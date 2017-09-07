@@ -11,22 +11,22 @@
         <!-- Breadcrumb -->
         <ol class="breadcrumb" breadcrumb>
            <div class="row">
-           <div class="col-3"><ncy-breadcrumb></ncy-breadcrumb></div>
+           <div class="col-xs-12 col-md-4 hidden-sm-down"><ncy-breadcrumb></ncy-breadcrumb></div>
             
-			<div class="col-6">
+			<div class="col-xs-12 col-md-4">
 				<li class="upper-menu center-block text-center">
 	                <div class="btn-group" role="group" aria-label="Button group with nested dropdown">
-	                    <a ng-repeat="voice in menuList" ng-click="voice.callBack(voice.elementID)" class="upper-menu-voice" href="#">{{voice.name}}</a>
+	                    <a ng-repeat="voice in menuList" ng-click="voice.callBack(voice.elementID, $event)" class="upper-menu-voice" href="#">{{voice.name}}</a>
 	                </div>
 	            </li>
 			</div>
 			
             
             <!-- Breadcrumb Menu-->
-            <div class="col-3">
+            <div class="col-xs-12 col-md-4">
             	<li class="breadcrumb-menu pull-right">
 	                <div class="btn-group" role="group" aria-label="Button group with nested dropdown">	   
-	                    <a class="btn btn-secondary" ui-sref="app.main"><i class="icon-settings"></i> &nbsp;Settings</a>
+	                    <a class="upper-menu-voice" ui-sref="app.main"><i class="fa fa-question" aria-hidden="true"></i>&nbsp;Help</a>
 	                </div>
            		 </li>
             </div>

@@ -675,6 +675,7 @@ function allenamentiCtrl($scope, $http, $state, auth, $q, $location, $rootScope)
 	$scope.branches = [];
 	$scope.programs = {};
 	$scope.promises = [];
+	$rootScope.menuList = [];
 	$scope.programs_inclusions = [];
 
 	$scope.colors = ["#ffccff","#4dbd74","#63c2de","#f8cb00","#f86c6b"];
@@ -734,18 +735,24 @@ function allenamentiCtrl($scope, $http, $state, auth, $q, $location, $rootScope)
 	  $location.url("/details-program/"+programID);
   }
   
-  $scope.selectBranch = function(elementId){
-	  console.log("selecting branch ...")
-	  angular.element('.collapse').hide();
+  $scope.selectBranch = function(elementId, event){
+	  current = angular.element(event.target);
+	  current.parent().find('.upper-menu-voice').removeClass("voice-highlighted");
+	  current.addClass('voice-highlighted');
+	  console.log("selecting branch ...");
+	  angular.element('.gym-branch-card').hide();
+	  angular.element('#'+elementId).parent().show();
 	  angular.element('#'+elementId).show();
   }
+  
   $rootScope.selectBranch = $scope.selectBranch;
 
 }
 
-detailsProgramCtrl.$inject = ['$scope', '$http', '$state', '$stateParams', 'auth', '$q'];
-function detailsProgramCtrl($scope, $http, $state, $stateParams,auth, $q) {
+detailsProgramCtrl.$inject = ['$scope', '$http', '$state', '$stateParams', 'auth', '$q', '$rootScope'];
+function detailsProgramCtrl($scope, $http, $state, $stateParams,auth, $q, $rootScope) {
   programID = $scope.idProgram = $stateParams.idProgram;
+  $scope.callExecuted = false;
   $scope.config = config;
   $scope.apparatus = [];
   $scope.apparatus_inclusions = {};
@@ -754,6 +761,7 @@ function detailsProgramCtrl($scope, $http, $state, $stateParams,auth, $q) {
   $scope.skills = {};
   $scope.promises = [];
   $scope.navigation = {};
+  $rootScope.menuList = [];
   $scope.skills_inclusions = {};
   $scope.skill_difficulties = [];
 
@@ -773,6 +781,7 @@ function detailsProgramCtrl($scope, $http, $state, $stateParams,auth, $q) {
   })
 
   $scope.getGroupsAndSkills = function(apparatusID){
+	  $scope.callExecuted = false;
 	  //console.log("Costruisco la lista di groups and skill per l'apparato "+apparatusID);
 	  getGroups = $http({
 		  	method: 'GET',
@@ -780,6 +789,7 @@ function detailsProgramCtrl($scope, $http, $state, $stateParams,auth, $q) {
 		  	url: config.proxyURL+'/'+config.portalURL+'/'+config.apiURL+'/taxonomy_term/element_group?filter[program][condition][path]=field_program.uuid&filter[program][condition][value]='+programID+'&fields[taxonomy_term--element_group]=name&filter[apparatus][condition][path]=field_apparatus.uuid&filter[apparatus][condition][value]='+apparatusID
 	  }).then(function success(response){
 		  $scope.groups = response.data.data;
+		  $scope.callExecuted = true;
 		  for (group in $scope.groups){
 			  groupID = $scope.groups[group].id;
 			  p = $http({
