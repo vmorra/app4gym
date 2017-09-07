@@ -1,9 +1,6 @@
 <div ng-controller="detailsProgramCtrl">
 <div class="flex-row align-items-center">
 	<div class="container">
-		<div class="clearfix text-center program-details-title">
-				<h5 class="pt-3 text-center">Codice Punteggi Internazionale</h5>
-		</div>
 		<div class="row justify-content-center apparatus-container">
 		
 			<div class="col col-2 hidden-sm-down visible-sm-up text-center" ng-repeat="ap in apparatus" ng-class="{'apparatus-selected':ap.selected}"><img ng-class="{'apparatus-selected':ap.selected}" ng-click="getGroupsAndSkills(ap.id);select($index)" class="apparatus-img" src="{{config.portalURL+'/'+apparatus_inclusions[ap.relationships.field_icon.data.id].attributes.url}}"><br>{{ap.attributes.name}}</div>
@@ -23,8 +20,12 @@
 			
 					
 		</div>
-		<div class="row">
-			<div class="col-md-6 text-center">			     
+		
+	</div>
+</div>
+<div class="animated fadeIn">
+<div class="row">
+			<div class="col-md-6">			     
 					<div class="difficulty" ng-repeat="difficulty in difficulties">
 						<img ng-click="toggleDifficulty(difficulty.attributes.name)" ng-class="{'difficulty-img':true, 'difficulty-selected':skill_difficulties.indexOf(difficulty.attributes.name)!=-1}" src="{{'/img/difficulties_icons/'+difficulty.attributes.name+'.png'}}">
 					</div>
@@ -36,14 +37,11 @@
 					</div>
 			</div>
 		</div>
-	</div>
-</div>
-<div class="animated fadeIn">
 	<div id="accordion" role="tablist" aria-multiselectable="true">
 	  <div ng-repeat="group in groups" class="card  gym-branch-card">
 	    <div class="card-header gym-card-header" role="tab" id="{{'heading-'+$index}}">
 	      <h6 class="mb-0">
-	        <a data-toggle="collapse" class="gym-branch-title" data-parent="#accordion" data-target="{{'#collapse-'+$index}}" aria-expanded="true" aria-controls="{{'collapse-'+$index}}">
+	        <a data-toggle="collapse" href="#" class="gym-branch-title" data-parent="#accordion" data-target="{{'#collapse-'+$index}}" aria-expanded="true" aria-controls="{{'collapse-'+$index}}">
 	         {{group.attributes.name}}
 	        </a>
 	        <div class="pull-right"><span class="pagination-button" ng-show="navigation[group.id].prev!=0 && navigation[group.id].prev!=null" ng-click="navigate(group.id,'prev')"><i class="fa fa-angle-double-left" aria-hidden="true"></i> Prev</span><span class="pagination-button" ng-show="navigation[group.id].next!=0 && navigation[group.id].next!=null" ng-click="navigate(group.id,'next')">Next <i class="fa fa-angle-double-right" aria-hidden="true"></i></span></div>

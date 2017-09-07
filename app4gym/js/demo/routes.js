@@ -165,7 +165,8 @@ angular
     url: '/details-program/:idProgram',
     templateUrl: 'views/components/details-program.html',
     ncyBreadcrumb: {
-    label: "Dettaglio Programma"
+    	parent: 'app.programs',
+    label: "Program Details"
     },
     resolve: {
         loadMyCtrl: ['$ocLazyLoad', function($ocLazyLoad) {

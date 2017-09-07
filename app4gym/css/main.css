@@ -43,11 +43,11 @@ body {
 .gym-card-header {
 	padding: 0.25rem 1rem;
 
-	background-color: #263238;
+	background-color: rgba(178, 178, 178, 0.21);
 }
 
 .gym-branch-title {
-	color: #fefaf5 !important;
+	color: #808080 !important;
 	
 }
 
@@ -217,15 +217,16 @@ iframe{
 }
 
 .apparatus-img {
-	width: 70px;
-	height: 70px;
+	width: 55px;
+	height: 55px;
 	transition: width .15s ease-in-out, height .15s ease-in-out;;
     -webkit-transition: width .15s ease-in-out, height .15s ease-in-out;; /* Safari 3.1 to 6.0 */
 }
 
 .apparatus-img:hover {
-	width: 80px;
-	height: 80px;
+    cursor: pointer;
+	width: 65px;
+	height: 65px;
 }
 
 .apparatus-selection {
@@ -280,11 +281,14 @@ iframe{
 .difficulty-img:hover {
 	border: solid 5px;
 	border-radius: 30%;
+	border-color: #1d90b9;
+	cursor: pointer;
 }
 
 .difficulty-selected{
 	border: solid 5px;
 	border-radius: 50%;
+	border-color: #1d90b9;
 	width: 35px;
 	height: 35px;
 }
@@ -294,6 +298,6 @@ iframe{
 }
 
 .view-mode {
-	color: #263238;
+	color: #b2b2b2;
 	margin-left: 15px;
 }
