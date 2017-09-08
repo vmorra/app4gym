@@ -1,35 +1,15 @@
 <div ng-controller="drillCtrl">
-	<div class="flex-row align-items-center">
-		<div class="container">
-			<div class="clearfix text-center program-details-title">
-					<h5 class="pt-3 text-center">DRILLS</h5>
-			</div>
-		</div>
-	</div>
-	<div class="drills">
-		<div class="card-block row">
-			<div class="col-xs-12 col-sm-6 col-md-4 col-lg-3 container" ng-repeat="drill in drills">
-				 <div class="drill-container" >
+	<div class="drills d-flex flex-row flex-wrap justify-content-center">
+		
+			<div class="p-2 drill-container-wrapper" ng-repeat="drill in drills">
+				 <div class="drill-container text-justify">
 					 <div class="gym-drill-preview-container text-center">
-						 <img width="210" src="{{'http://img.youtube.com/vi/'+drill.attributes.field_video_id+'/default.jpg'}}"/>
+						 <img width="210" class="drill-video-preview" height="118" src="{{'http://img.youtube.com/vi/'+drill.attributes.field_video_id+'/default.jpg'}}"/>
 						 <!-- <iframe src="{{getIframeSrc(drill.attributes.field_video_id,drill.attributes.field_video_source)}}" frameborder="0" allowfullscreen></iframe> -->
-					 </div>
-					 <div class="gym-drill-description-wrapper">
-						 <div class="gym-program-description text-center">
-								<b class="gym-program-title">{{drill.attributes.title}}</b>
-								<b class="gym-program-title">By Autore</b>
-								<p>Viste</p>
-						 </div>
-						 <td class="align-bottom">
-						 <div class="gym-program-feeds text-center row">
-								<div class="col-4 text-center"><i class="fa fa-folder-o" aria-hidden="true"></i> 300</div>
-								<div class="col-4 text-center" ><i class="fa fa-thumbs-up" aria-hidden="true"></i> 25</div>
-								<div class="col-4 text-center"><i class="fa fa-share-alt" aria-hidden="true"></i></div>
-						 </div>
-
-					 </div>
-				 </div>
+					 </div>		
+					 <div class="gym-program-title drill-description text-justify">{{drill.attributes.title}}</div>							
+				</div>
 			</div>
-		</div>
+		
 	</div>
 </div>

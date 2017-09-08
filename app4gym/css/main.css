@@ -156,6 +156,7 @@ body {
 	margin-top: 10px;
 }
 
+
 .gym-img-container {
 	padding-right: 10px;
 	padding-left: 10px;
@@ -164,9 +165,7 @@ body {
 }
 
 .gym-drill-preview-container {
-	padding-right: 10px;
-	padding-left: 10px;
-	margin-top: 1px;
+
 	margin-bottom:10px;
 }
 iframe{
@@ -331,4 +330,36 @@ iframe{
 .view-mode {
 	color: #b2b2b2;
 	margin-left: 15px;
+}
+
+.drill-video-preview:hover {
+	cursor: pointer;
+}
+
+.drill-description {
+	max-width:  210px;
+	font-weight: 600;
+}
+
+.drill-container-wrapper {
+	margin-bottom: 15px;
+}
+
+@media (max-width: 544px) {
+	.drill-video-preview {
+		height: 236px;
+		width: 430px;
+	}
+	
+	.drill-container-wrapper {
+		margin-bottom: 40px;
+	}
+	
+	.drill-description {
+		max-width: 430px;
+		text-align: center !important;
+		font-size:larger;
+		color: #737070;
+		font-weight: 700;
+	}
 }

@@ -9,7 +9,7 @@ function headerCtrl($scope, $http, $state, auth, $rootScope) {
 	$scope.user = {
 		name : ""
 	};
-	$rootScope.menuList = [];
+	//$rootScope.menuList = [];
 	$scope.config = {
 			  headers: {
 				  "Content-Type":"application/json",

@@ -908,11 +908,27 @@ function drillCtrl($scope, $http, $state, $stateParams,auth, $q, $window, $rootS
   $scope.navigation = {};
   $scope.skills_inclusions = {};
   $scope.skill_difficulties = [];
-  $rootScope.menuList = [];
-
+  $rootScope.menuList = [
+   {
+	  'name' : 'Search',
+		  'callBack' :  $rootScope.selectBranch,
+		   'elementID' : 'id'
+   },
+   {
+		  'name' : 'My Favourite',
+			  'callBack' :  $rootScope.selectBranch,
+			   'elementID' : 'id'
+   },
+   {
+		  'name' : 'Collections',
+		  'callBack' :  $rootScope.selectBranch,
+		   'elementID' : 'id'
+   }
+  ];
+  
   callDrills = $http({
 	  	method: 'GET',
-	  	url: config.proxyURL+'/'+config.portalURL+'/'+config.apiURL+'/node/drill?fields[node--drill]=title,created,field_branch,field_apparatus,field_drill_type,field_video_id,field_video_source,field_vide_url&page[limit]=32'
+	  	url: config.proxyURL+'/'+config.portalURL+'/'+config.apiURL+'/node/drill?fields[node--drill]=title,created,field_branch,field_apparatus,field_drill_type,field_video_id,field_video_source,field_vide_url&page[limit]=30'
   })
 
 
