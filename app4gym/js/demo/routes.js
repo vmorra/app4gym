@@ -178,7 +178,7 @@ angular
       }
   })
   .state('app.drill', {
-    url: '/drill/:idSkill',
+    url: '/drill',
     templateUrl: 'views/components/drill.html',
     ncyBreadcrumb: {
     label: "Drill"

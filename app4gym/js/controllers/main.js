@@ -894,8 +894,8 @@ function detailsProgramCtrl($scope, $http, $state, $stateParams,auth, $q, $rootS
 }
 
 
-drillCtrl.$inject = ['$scope', '$http', '$state', '$stateParams', 'auth', '$q', '$window'];
-function drillCtrl($scope, $http, $state, $stateParams,auth, $q, $window) {
+drillCtrl.$inject = ['$scope', '$http', '$state', '$stateParams', 'auth', '$q', '$window', '$rootScope'];
+function drillCtrl($scope, $http, $state, $stateParams,auth, $q, $window, $rootScope) {
   programID = $scope.idProgram = $stateParams.idProgram;
   $scope.config = config;
   $scope.drills = [];
@@ -908,6 +908,7 @@ function drillCtrl($scope, $http, $state, $stateParams,auth, $q, $window) {
   $scope.navigation = {};
   $scope.skills_inclusions = {};
   $scope.skill_difficulties = [];
+  $rootScope.menuList = [];
 
   callDrills = $http({
 	  	method: 'GET',
