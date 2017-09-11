@@ -15,6 +15,7 @@ angular
 .controller('allenamentiCtrl', allenamentiCtrl)
 .controller('detailsProgramCtrl', detailsProgramCtrl)
 .controller('drillCtrl', drillCtrl)
+.controller('drillDetailsCtrl', drillDetailsCtrl)
 
 //convert Hex to RGBA
 function convertHex(hex,opacity){
@@ -734,7 +735,7 @@ function allenamentiCtrl($scope, $http, $state, auth, $q, $location, $rootScope)
   $scope.goToDetails = function (programID){
 	  $location.url("/details-program/"+programID);
   }
-  
+
   $scope.selectBranch = function(elementId, event){
 	  current = angular.element(event.target);
 	  current.parent().find('.upper-menu-voice').removeClass("voice-highlighted");
@@ -744,7 +745,7 @@ function allenamentiCtrl($scope, $http, $state, auth, $q, $location, $rootScope)
 	  angular.element('#'+elementId).parent().show();
 	  angular.element('#'+elementId).show();
   }
-  
+
   $rootScope.selectBranch = $scope.selectBranch;
 
 }
@@ -925,7 +926,7 @@ function drillCtrl($scope, $http, $state, $stateParams,auth, $q, $window, $rootS
 		   'elementID' : 'id'
    }
   ];
-  
+
   callDrills = $http({
 	  	method: 'GET',
 	  	url: config.proxyURL+'/'+config.portalURL+'/'+config.apiURL+'/node/drill?fields[node--drill]=title,created,field_branch,field_apparatus,field_drill_type,field_video_id,field_video_source,field_vide_url&page[limit]=30'
@@ -948,6 +949,96 @@ function drillCtrl($scope, $http, $state, $stateParams,auth, $q, $window, $rootS
     }
   },function error(response){
 	  //console.log("Impossibile reperire la lista di apparatus per il program "+programID);
+      //console.log("Error - "+response.data);
+  });
+  angular.element($window).bind("scroll", function() {
+               if ($(window).scrollTop() + $(window).height() == $(document).height() && $scope.drills_next ) {
+                 callDrillsNext = $http({
+               	  	method: 'GET',
+               	  	url: config.proxyURL+'/'+  $scope.drills_next
+                 }).then(function success(response){
+               	  $scope.drills =  $scope.drills.concat(response.data.data);
+                  if(response.data.links.next){
+                    $scope.drills_next = response.data.links.next;
+                  } else {
+                    $scope.drills_next = null;
+                    angular.element($window).unbind("scroll");
+                  }
+               },function error(response){
+             	  //console.log("Impossibile reperire la lista di apparatus per il program "+programID);
+                   //console.log("Error - "+response.data);
+               });
+             }
+            });
+}
+
+
+drillDetailsCtrl.$inject = ['$scope', '$http', '$state', '$stateParams', 'auth', '$q', '$window', '$rootScope'];
+function drillDetailsCtrl($scope, $http, $state, $stateParams,auth, $q, $window, $rootScope) {
+  drillID = $scope.idProgram = $stateParams.idDrill;
+  $scope.config = config;
+  $scope.drill = {};
+  $scope.drills = [];
+  $scope.drills_next = {};
+  $scope.apparatus_inclusions = {};
+  $scope.difficulties = [];
+  $scope.groups = [];
+  $scope.skills = {};
+  $scope.promises = [];
+  $scope.navigation = {};
+  $scope.skills_inclusions = {};
+  $scope.skill_difficulties = [];
+  $rootScope.menuList = [
+   {
+	  'name' : 'Search',
+		  'callBack' :  $rootScope.selectBranch,
+		   'elementID' : 'id'
+   },
+   {
+		  'name' : 'My Favourite',
+			  'callBack' :  $rootScope.selectBranch,
+			   'elementID' : 'id'
+   },
+   {
+		  'name' : 'Collections',
+		  'callBack' :  $rootScope.selectBranch,
+		   'elementID' : 'id'
+   }
+  ];
+
+  callDrill = $http({
+	  	method: 'GET',
+	  	url: config.proxyURL+'/'+config.portalURL+'/'+config.apiURL+'/node/drill/'+drillID+'?fields[node--drill]=title,created,field_branch,field_apparatus,field_drill_type,field_video_id,field_video_source,field_vide_url,comments'
+  })
+  callDrills = $http({
+      method: 'GET',
+      url: config.proxyURL+'/'+config.portalURL+'/'+config.apiURL+'/node/drill?fields[node--drill]=title,created,field_branch,field_apparatus,field_drill_type,field_video_id,field_video_source,field_vide_url&page[limit]=5&filter[escludi_drill][condition][path]=uuid&filter[escludi_drill][condition][operator]=NOT%20IN&filter[escludi_drill][condition][value]='+drillID
+  })
+
+  $scope.getIframeSrc = function(id, source) {
+    console.log(config[source] + id);
+      return config[source] + id+'?rel=0&amp;showinfo=0';
+    };
+
+  callDrill.then(function success(response){
+    console.log("Drill-->: "+JSON.stringify(response.data.data));
+	  $scope.drill =response.data.data;
+
+  },function error(response){
+	  //console.log("Impossibile reperire la lista di apparatus per il program "+programID);
+      //console.log("Error - "+response.data);
+  });
+  callDrills.then(function success(response){
+    list_drills = response.data.data;
+    console.log("Lista degli Drills: "+JSON.stringify(list_drills));
+    $scope.drills = list_drills;
+    if(response.data.links.next){
+      $scope.drills_next = response.data.links.next;
+    } else {
+      $scope.drills_next = null;
+    }
+  },function error(response){
+    //console.log("Impossibile reperire la lista di apparatus per il program "+programID);
       //console.log("Error - "+response.data);
   });
   angular.element($window).bind("scroll", function() {
