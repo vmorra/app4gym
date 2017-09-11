@@ -2,6 +2,10 @@ body {
 	background : rgba(242, 242, 242, 0.61);
 }
 
+.carousel-item {
+	display: block !important;	
+}
+
 .gym-grey {
    color: #bbbbbb;
 }

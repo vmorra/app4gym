@@ -752,6 +752,7 @@ function allenamentiCtrl($scope, $http, $state, auth, $q, $location, $rootScope)
 detailsProgramCtrl.$inject = ['$scope', '$http', '$state', '$stateParams', 'auth', '$q', '$rootScope'];
 function detailsProgramCtrl($scope, $http, $state, $stateParams,auth, $q, $rootScope) {
   programID = $scope.idProgram = $stateParams.idProgram;
+  $scope.prova = 'test';
   $scope.callExecuted = false;
   $scope.config = config;
   $scope.apparatus = [];

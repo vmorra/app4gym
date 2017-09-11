@@ -1,4 +1,23 @@
 <div ng-controller="detailsProgramCtrl">
+<ui-carousel slides="skills['fd039fef-d8e2-4240-aae0-0dee62a6613c']" slides-to-show="4" dots="true"> 
+	<carousel-item>
+			<div class="skill-container" ng-class="{'obscure':skill_difficulties.indexOf(skills_inclusions['fd039fef-d8e2-4240-aae0-0dee62a6613c'][item.relationships.field_difficulty.data.id].attributes.name)==-1&&skill_difficulties.length>0}">
+			          <div class="row">
+			          	<div class="col-4"><div class="rounded-circle text-center gym-difficulty-indication"><span class="align-middle">{{$parent.skills_inclusions['fd039fef-d8e2-4240-aae0-0dee62a6613c'][item.relationships.field_difficulty.data.id].attributes.name}}</span></div></div>
+			          	<div class="col-4 text-center skill-value">Value {{item.attributes.field_value}} {{}}</div>
+			          	<div class="col-4">
+			          		<div class="pull-right"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></div>
+			          	</div>
+			          </div>
+			          <div class="description-skill-container">
+			          	<p class="gym-program-description-value">{{item.attributes.body.value}} {{$parent}}</p>
+			          </div>
+			       	  <div class="text-center img-skill-container">
+			        	 <img class="img-skill img-responsive center-block" ng-click="alert('funzione eseguita')" src="{{config.portalURL+'/'+skills_inclusions['fd039fef-d8e2-4240-aae0-0dee62a6613c'][item.relationships.field_image.data.id].attributes.url}}" />
+			          </div>
+		         </div>
+	</carousel-item>
+</ui-carousel>
 <div class="flex-row align-items-center">
 	<div class="container">
 		<div class="row apparatus-container justify-content-center">
@@ -39,6 +58,7 @@
 		</div>
 	<div id="accordion" role="tablist" aria-multiselectable="true" ng-show="skills != {} && skills != null">
 	  <div ng-repeat="group in groups" class="card  gym-branch-card">
+	  	
 	    <div class="card-header gym-card-header" role="tab" id="{{'heading-'+$index}}">
 	      <h6 class="mb-0 text-center">
 	        <a data-toggle="collapse" href="#" class="gym-branch-title upper-menu-voice" data-parent="#accordion" data-target="{{'#collapse-'+$index}}" aria-expanded="true" aria-controls="{{'collapse-'+$index}}">
@@ -51,8 +71,10 @@
 	    </div>
 	
 	    <div id="{{'collapse-'+$index}}" ng-class="{'collapse': true, 'show': $first, 'container':true}" role="tabpanel" aria-labelledby="{{'heading-'+$index}}">
-	      <div class="card-block row">		
+	      <div class="card-block row">
+	        	
 	        <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3 container" ng-repeat="skill in skills[group.id]">
+	        	
 		         <div class="skill-container" ng-class="{'obscure':skill_difficulties.indexOf(skills_inclusions[group.id][skill.relationships.field_difficulty.data.id].attributes.name)==-1&&skill_difficulties.length>0}">
 			          <div class="row">
 			          	<div class="col-4"><div class="rounded-circle text-center gym-difficulty-indication"><span class="align-middle">{{skills_inclusions[group.id][skill.relationships.field_difficulty.data.id].attributes.name}}</span></div></div>
