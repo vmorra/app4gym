@@ -1,99 +1,122 @@
 <div ng-controller="drillDetailsCtrl">
-	<div class="row justify-content-center">
-			<div class="col-sm-8">
-				 <div class="drill-container text-justify">
-					 <div class="gym-drill-preview-container text-center">
-						 	<iframe width="854" height="480" src="{{getIframeSrc(drill.attributes.field_video_id,drill.attributes.field_video_source)}}" frameborder="0" allowfullscreen></iframe>
-					 </div>
-					 <div class="row">
-						 <div class="col-sm-10 gym-program-title text-justify">{{drill.attributes.title}}</div>
-						 <div class="col-sm-2"><button type="button" class="btn btn-primary btn-md">Save</button></div>
-					 </div>
-					 <div class="row" style="padding-top:10px">
-						 <div class="col-sm-8 gym-program-title text-justify">1000 visualizzazioni</div>
-						 <div class="col-sm-4 rating">
-
-							 <label>
-						    <input type="radio" name="rating" value="5" title="5 stars"> 5
-						  </label>
-						  <label>
-						    <input type="radio" name="rating" value="4" title="4 stars"> 4
-						  </label>
-						  <label>
-						    <input type="radio" name="rating" value="3" title="3 stars"> 3
-						  </label>
-						  <label>
-						    <input type="radio" name="rating" value="2" title="2 stars"> 2
-						  </label>
-						  <label>
-						    <input type="radio" name="rating" value="1" title="1 star"> 1
-						  </label>
-							<i class="fa-3 fa-thumbs-up fa" style="font-size: 30px;" aria-hidden="true"></i>
+  <div class="row justify-content-center" ng-if="drill != null">
+    <div class="col-sm-8">
+      <div class="drill-container text-justify">
+        <div class="gym-drill-preview-container text-center">
+          <iframe width="854" height="480" src="{{getIframeSrc(drill.attributes.field_video_id,drill.attributes.field_video_source)}}" frameborder="0" allowfullscreen></iframe>
+        </div>
+        <div class="row">
+          <div class="col-sm-10 gym-program-title text-justify">{{drill.attributes.title}}</div>
+          <div class="col-sm-2"><button type="button" class="btn btn-primary btn-md">Save</button></div>
+        </div>
+        <div class="row" style="padding-top:10px">
+          <div class="col-sm-8 gym-program-title text-justify">1000 visualizzazioni</div>
+          <div class="col-sm-4 rating">
+						<i class="fa fa-star-o fa-2x" aria-hidden="true"></i>
+						<i class="fa fa-star-o fa-2x" aria-hidden="true"></i>
+						<i class="fa fa-star fa-2x" aria-hidden="true"></i>
+						<i class="fa fa-star fa-2x" aria-hidden="true"></i>
+						<i class="fa fa-star fa-2x" aria-hidden="true"></i>
+						<i class="fa fa-thumbs-up fa-2x" aria-hidden="true"></i>
+          </div>
+        </div>
+        <hr />
+        <div class="row" style="padding-top:10px" ng-if="comments.length >0">
+          <div class="col-sm-1">
+            <i class="fa fa-comment-o" aria-hidden="true" style="font-size:20px"></i>
+          </div>
+          <div class="col-sm-11" style="margin-left:-40px">
+            Comments
+          </div>
+        </div>
+        <div class="comments" ng-repeat="comment in comments">
+					<div class="row">
+						<div class="col-sm-12" ng-class="{'offset-sm-1':comment.attributes.thread.split('.').length==2,'offset-sm-2':comment.attributes.thread.split('.').length==3}">
+							<div class="row" style="padding-top:10px">
+								<div class="col-sm-1" >
+									<i class="fa fa-user fa-2x" aria-hidden="true"></i>
+								</div>
+								<div class="col-sm-11" style="margin-left:-40px">
+									<div class="row">
+										<div class="col-sm-1" >
+											{{comment.attributes.name}}
+										</div>
+										<div class="col-sm-11" style="margin-left:-15px">
+											{{comment.attributes.created | date}}
+										</div>
+										<div class="col-sm-12" >
+											{{comment.attributes.comment_body.value}}
+										</div>
+										<div class="col-sm-12" ng-if="comment.attributes.thread.split('.').length<=2">
+											<a href="#">REPLY <i class="fa fa-thumbs-up fa-2x" aria-hidden="true"></i></a>
+										</div>
+									</div>
+								</div>
+							</div>
 						</div>
-					 </div>
-				</div>
-			</div>
-			<div class="col-sm-4">
-				<ul class="nav nav-tabs">
-				  <li class="nav-item">
-				    <a class="nav-link active" href="#">Altri Risultati</a>
-				  </li>
-				  <li class="nav-item">
-				    <a class="nav-link" href="#">Skill</a>
-				  </li>
-				  <li class="nav-item">
-				    <a class="nav-link" href="#">Attrezzi</a>
-				  </li>
-				</ul>
-				<div class="drill-container-wrapper" ng-repeat="drill in drills">
-					<div class="row drill-container" style="margin-top:20px">
-						<div class="col-sm-6 gym-drill-preview-container">
-							<a href="/#!/drill-details/{{drill.id}}">
-							<img width="210" class="drill-video-preview" height="118" src="{{'http://img.youtube.com/vi/'+drill.attributes.field_video_id+'/default.jpg'}}"/>
-							<!-- <iframe src="{{getIframeSrc(drill.attributes.field_video_id,drill.attributes.field_video_source)}}" frameborder="0" allowfullscreen></iframe> -->
-							</a>
-						</div>
-						<div class="col-sm-6 gym-program-title drill-description">{{drill.attributes.title}}</div>
 					</div>
-				</div>
-			</div>
-	</div>
+        </div>
+      </div>
+    </div>
+    <div class="col-sm-4">
+      <ul class="nav nav-tabs">
+        <li class="nav-item">
+          <a class="nav-link active" href="#">Altri Risultati</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="#">Skill</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="#">Attrezzi</a>
+        </li>
+      </ul>
+      <div class="drill-container-wrapper" ng-repeat="drill in drills">
+        <div class="row drill-container" style="margin-top:20px">
+          <div class="col-sm-6 gym-drill-preview-container">
+            <a href="/#!/drill-details/{{drill.id}}">
+							<img width="210" class="drill-video-preview" height="118" src="{{'http://img.youtube.com/vi/'+drill.attributes.field_video_id+'/default.jpg'}}"/>
+							</a>
+          </div>
+          <div class="col-sm-6 gym-program-title drill-description">{{drill.attributes.title}}</div>
+        </div>
+      </div>
+    </div>
+  </div>
 </div>
 <style>
-	.rating {
-	    unicode-bidi: bidi-override;
-	    direction: rtl;
-	}
+  .rating {
+    unicode-bidi: bidi-override;
+    direction: rtl;
+  }
 
-	.rating input {
-	    position: absolute;
-	    left: -999999px;
-	}
+  .rating input {
+    position: absolute;
+    left: -999999px;
+  }
 
-	.rating label {
-	    display: inline-block;
-	    font-size: 0;
-	}
+  .rating label {
+    display: inline-block;
+    font-size: 0;
+  }
 
-	.rating > label:before {
-	    position: relative;
-	    font: 24px/1 FontAwesome;
-	    display: block;
-	    content: "\f005";
-	    color: #ccc;
-	    background: -webkit-linear-gradient(-45deg, #d9d9d9 0%, #b3b3b3 100%);
-	    -webkit-background-clip: text;
-	    -webkit-text-fill-color: transparent;
-	}
+  .rating>label:before {
+    position: relative;
+    font: 24px/1 FontAwesome;
+    display: block;
+    content: "\f005";
+    color: #ccc;
+    background: -webkit-linear-gradient(-45deg, #d9d9d9 0%, #b3b3b3 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
 
-	.rating > label:hover:before,
-	.rating > label:hover ~ label:before,
-	.rating > label.selected:before,
-	.rating > label.selected ~ label:before {
-	    color: #f0ad4e;
-	    background: -webkit-linear-gradient(-45deg, #fcb551 0%, #d69a45 100%);
-	    -webkit-background-clip: text;
-	    -webkit-text-fill-color: transparent;
-	}
-
+  .rating>label:hover:before,
+  .rating>label:hover~label:before,
+  .rating>label.selected:before,
+  .rating>label.selected~label:before {
+    color: #f0ad4e;
+    background: -webkit-linear-gradient(-45deg, #fcb551 0%, #d69a45 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
 </style>

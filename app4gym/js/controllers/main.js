@@ -977,11 +977,11 @@ drillDetailsCtrl.$inject = ['$scope', '$http', '$state', '$stateParams', 'auth',
 function drillDetailsCtrl($scope, $http, $state, $stateParams,auth, $q, $window, $rootScope) {
   drillID = $scope.idProgram = $stateParams.idDrill;
   $scope.config = config;
-  $scope.drill = {};
+  $scope.drill = null;
   $scope.drills = [];
   $scope.drills_next = {};
   $scope.apparatus_inclusions = {};
-  $scope.difficulties = [];
+  $scope.comments = [];
   $scope.groups = [];
   $scope.skills = {};
   $scope.promises = [];
@@ -1008,11 +1008,16 @@ function drillDetailsCtrl($scope, $http, $state, $stateParams,auth, $q, $window,
 
   callDrill = $http({
 	  	method: 'GET',
-	  	url: config.proxyURL+'/'+config.portalURL+'/'+config.apiURL+'/node/drill/'+drillID+'?fields[node--drill]=title,created,field_branch,field_apparatus,field_drill_type,field_video_id,field_video_source,field_vide_url,comments'
+	  	url: config.proxyURL+'/'+config.portalURL+'/'+config.apiURL+'/node/drill/'+drillID+'?fields[node--drill]=title,created,field_branch,field_apparatus,field_drill_type,field_video_id,field_video_source,field_vide_url'
   })
   callDrills = $http({
       method: 'GET',
       url: config.proxyURL+'/'+config.portalURL+'/'+config.apiURL+'/node/drill?fields[node--drill]=title,created,field_branch,field_apparatus,field_drill_type,field_video_id,field_video_source,field_vide_url&page[limit]=5&filter[escludi_drill][condition][path]=uuid&filter[escludi_drill][condition][operator]=NOT%20IN&filter[escludi_drill][condition][value]='+drillID
+  })
+
+  callComments = $http({
+      method: 'GET',
+      url: config.proxyURL+'/'+config.portalURL+'/'+config.apiURL+'/comment/comment?fields[comment--comment]=uuid,subject,name,created,comment_body,pid,uid,thread&filter[drill][condition][path]=entity_id.uuid&filter[drill][condition][value]='+drillID
   })
 
   $scope.getIframeSrc = function(id, source) {
@@ -1037,6 +1042,14 @@ function drillDetailsCtrl($scope, $http, $state, $stateParams,auth, $q, $window,
     } else {
       $scope.drills_next = null;
     }
+  },function error(response){
+    //console.log("Impossibile reperire la lista di apparatus per il program "+programID);
+      //console.log("Error - "+response.data);
+  });
+  callComments.then(function success(response){
+    list_comments = response.data.data;
+    console.log("Lista degli Comments: "+JSON.stringify(list_comments));
+    $scope.comments = list_comments;
   },function error(response){
     //console.log("Impossibile reperire la lista di apparatus per il program "+programID);
       //console.log("Error - "+response.data);
