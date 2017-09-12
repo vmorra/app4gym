@@ -19,7 +19,7 @@ angular
   'oc.lazyLoad',
   'ncy-angular-breadcrumb',
   'angular-loading-bar',
-  'ui.carousel'
+  'slickCarousel'
 ])
 .config(['cfpLoadingBarProvider', '$sceDelegateProvider', function(cfpLoadingBarProvider,$sceDelegateProvider) {
   cfpLoadingBarProvider.includeSpinner = false;

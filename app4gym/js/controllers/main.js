@@ -749,8 +749,8 @@ function allenamentiCtrl($scope, $http, $state, auth, $q, $location, $rootScope)
 
 }
 
-detailsProgramCtrl.$inject = ['$scope', '$http', '$state', '$stateParams', 'auth', '$q', '$rootScope'];
-function detailsProgramCtrl($scope, $http, $state, $stateParams,auth, $q, $rootScope) {
+detailsProgramCtrl.$inject = ['$scope', '$http', '$state', '$stateParams', 'auth', '$q', '$rootScope','$timeout'];
+function detailsProgramCtrl($scope, $http, $state, $stateParams,auth, $q, $rootScope, $timeout) {
   programID = $scope.idProgram = $stateParams.idProgram;
   $scope.prova = 'test';
   $scope.callExecuted = false;
@@ -765,7 +765,58 @@ function detailsProgramCtrl($scope, $http, $state, $stateParams,auth, $q, $rootS
   $rootScope.menuList = [];
   $scope.skills_inclusions = {};
   $scope.skill_difficulties = [];
-
+  
+  //Slick Carousel Config
+  $scope.number3 = [{label: 1}, {label: 2}, {label: 3}, {label: 4}, {label: 5}, {label: 6}, {label: 7}, {label: 8}];
+  $scope.slickConfig3Loaded = false;
+  $scope.slickConfig3 = {
+	enabled: true,
+    method: {},
+    dots: true,
+    infinite: false,
+    autoplay:false,
+    speed: 300,
+    slidesToShow: 5,
+    slidesToScroll: 5,
+    event: {
+    	edge: function (event, slick, direction) {
+            console.log('edge');
+          }
+    },
+    responsive: [
+     {
+         breakpoint: 1366,
+         settings: {
+           slidesToShow: 4,
+           slidesToScroll: 4,
+           dots: false
+         }
+       },
+      {
+        breakpoint: 970,
+        settings: {
+          slidesToShow: 3,
+          slidesToScroll: 3,
+          infinite: true,
+          dots: false
+        }
+      },
+      {
+        breakpoint: 720,
+        settings: {
+          slidesToShow: 2,
+          slidesToScroll: 2
+        }
+      },
+      {
+        breakpoint: 544,
+        settings: {
+          slidesToShow: 1,
+          slidesToScroll: 1
+        }
+      }
+    ]
+  };
   callApparatus = $http({
 	  	method: 'GET',
 	  	url: config.proxyURL+'/'+config.portalURL+'/'+config.apiURL+'/taxonomy_term/apparatus?filter[program][condition][path]=field_program.uuid&filter[program][condition][value]='+programID+'&fields[taxonomy_term--apparatus]=name,field_icon&include=field_icon&fields[file--file]=url'
@@ -822,7 +873,8 @@ function detailsProgramCtrl($scope, $http, $state, $stateParams,auth, $q, $rootS
 		  				$scope.skills_inclusions[group_id] = skills_inclusions_with_index;
 
 		  			}
-
+		  			console.log("Gli skills di questo gruppo: "+JSON.stringify($scope.skills['fd039fef-d8e2-4240-aae0-0dee62a6613c']));
+		  			$scope.slickConfig3Loaded=true;
 		  			//console.log("Ecco la lista di tutti gli skills: "+JSON.stringify($scope.skills));
 		  			//console.log("Ecco le inclusioni: "+ JSON.stringify($scope.skills_inclusions));
 		  		},function error(response){
@@ -886,10 +938,16 @@ function detailsProgramCtrl($scope, $http, $state, $stateParams,auth, $q, $rootS
   }
 
   $scope.toggleDifficulty = function (name){
+	  $scope.slickConfig3Loaded = false;
+	  
+	 
 	  i = $scope.skill_difficulties.indexOf(name);
 	  if(i==-1)
 		  $scope.skill_difficulties.push(name)
 	  else $scope.skill_difficulties.splice(i, 1);
+	  $timeout(function () {
+	        $scope.slickConfig3Loaded = true;
+	      });
   }
 
 }

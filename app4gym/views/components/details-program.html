@@ -1,5 +1,5 @@
-<div ng-controller="detailsProgramCtrl">
-
+<div ng-controller="detailsProgramCtrl">	 
+            
 <div class="flex-row align-items-center">
 	<div class="container">
 		<div class="row apparatus-container justify-content-center">
@@ -53,32 +53,29 @@
 	    </div>
 	
 	    <div id="{{'collapse-'+$index}}" role="tabpanel" aria-labelledby="{{'heading-'+$index}}">
-	      
-	        	
-	      <ui-carousel slides="skills['fd039fef-d8e2-4240-aae0-0dee62a6613c']" slides-to-show="3" arrows="true"> 
-		
-		<carousel-item >
-			<div class="skill-container" ng-if="$parent.$parent.skill_difficulties.indexOf($parent.$parent.skills_inclusions['fd039fef-d8e2-4240-aae0-0dee62a6613c'][item.relationships.field_difficulty.data.id].attributes.name)!=-1&&$parent.$parent.skill_difficulties.length>0">
-			          <div class="row">
-			          	<div class="col-4"><div class="rounded-circle text-center gym-difficulty-indication"><span class="align-middle">{{$parent.$parent.skills_inclusions['fd039fef-d8e2-4240-aae0-0dee62a6613c'][item.relationships.field_difficulty.data.id].attributes.name}}</span></div></div>
-			          	<div class="col-4 text-center skill-value">Value {{item.attributes.field_value}}</div>
-			          	<div class="col-4">
-			          		<div class="pull-right"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></div>
-			          	</div>
-			          </div>
-			          <div class="description-skill-container">
-			          	<p class="gym-program-description-value">{{item.attributes.body.value}}</p>
-			          </div>
-			       	  <div class="text-center img-skill-container">
-			        	 <img class="img-skill img-responsive center-block" ng-click="alert('funzione eseguita')" src="{{$parent.$parent.config.portalURL+'/'+$parent.$parent.skills_inclusions['fd039fef-d8e2-4240-aae0-0dee62a6613c'][item.relationships.field_image.data.id].attributes.url}}" />
-			          </div>
-		         </div>
-	</carousel-item>
-	
-</ui-carousel>
-	      
+		    <slick class="slider" settings="slickConfig3" ng-if="slickConfig3Loaded">
+                <div ng-repeat="item in skills['fd039fef-d8e2-4240-aae0-0dee62a6613c']" ng-if="($parent.skill_difficulties.indexOf($parent.skills_inclusions['fd039fef-d8e2-4240-aae0-0dee62a6613c'][item.relationships.field_difficulty.data.id].attributes.name)!=-1&&$parent.skill_difficulties.length>0)||$parent.skill_difficulties.length==0">                              
+					<div class="skill-container" ng-if="($parent.skill_difficulties.indexOf($parent.skills_inclusions['fd039fef-d8e2-4240-aae0-0dee62a6613c'][item.relationships.field_difficulty.data.id].attributes.name)!=-1&&$parent.skill_difficulties.length>0)||$parent.skill_difficulties.length==0">
+				          <div class="row">
+				          	<div class="col-4"><div class="rounded-circle text-center gym-difficulty-indication"><span class="align-middle">{{$parent.skills_inclusions['fd039fef-d8e2-4240-aae0-0dee62a6613c'][item.relationships.field_difficulty.data.id].attributes.name}}</span></div></div>
+				          	<div class="col-4 text-center skill-value">Value {{item.attributes.field_value}}</div>
+				          	<div class="col-4">
+				          		<div class="pull-right"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></div>
+				          	</div>
+				          </div>
+				          <div class="description-skill-container">
+				          	<p class="gym-program-description-value">{{item.attributes.body.value}}</p>
+				          </div>
+				       	  <div class="text-center img-skill-container">
+				        	 <img class="img-skill img-responsive text-center" ng-click="alert('funzione eseguita')" src="{{$parent.config.portalURL+'/'+$parent.skills_inclusions['fd039fef-d8e2-4240-aae0-0dee62a6613c'][item.relationships.field_image.data.id].attributes.url}}" />
+				          </div>
+			         </div>
+	     		</div>
+            </slick>	      
 	    </div>
 	 </div>
+	 </div>
 	<div class="text-center gym-grey" ng-show="groups.length==0 && callExecuted"><h3 class="no-result">No results were found</h3></div>
+</div>
 </div>
 </div>

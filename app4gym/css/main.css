@@ -198,6 +198,8 @@ iframe{
 .skill-container {
 	border: solid 1px;
 	padding-right: 15px;
+	margin-right: 10px;
+	margin-left: 10px;
 	padding-left: 15px;
 	padding-top: 5px;
 	height: 260px;
@@ -222,15 +224,6 @@ iframe{
 	height: 90px;
 }
 
-@media (min-width: 576px) and (max-width: 767px) {
-	.description-skill-container{
-		height: 75px;
-	}
-	
-	.col-custom {
-		width: 70px;
-	}
-}
 @media (min-width: 576px) {
 .selector-container {
 	display:none;
@@ -239,14 +232,6 @@ iframe{
 @media (max-width: 576px) {
 	.apparatus-container {
 	  display:none;
-	}
-	.img-skill {
-		 width: 70%;
-		 height: 110px;
-	}
-
-	.description-skill-container{
-		height: 75px;
 	}
 }
 

@@ -174,7 +174,7 @@ angular
             return $ocLazyLoad.load([{
               serie: true,
               name: 'UI Carousel',
-              files: ['css/ui-carousel.css']
+              files: ['bower_components/angular-slick-carousel/examples/css/app.css']
             }]);
           }],
         loadMyCtrl: ['$ocLazyLoad', function($ocLazyLoad) {
