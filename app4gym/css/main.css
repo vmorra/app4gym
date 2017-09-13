@@ -157,7 +157,7 @@ body {
   width: 1em;
   height: 1em;
   margin-top: 0.2em;
-  background: white;
+  background: #f7f7f7;
 }
 
 .gym-program-description {
@@ -355,4 +355,14 @@ iframe{
 		color: #737070;
 		font-weight: 700;
 	}
+}
+
+.slick-prev:before, .slick-next:before {
+    font-family: 'slick';
+    font-size: 25px !important;
+    line-height: 1;
+    opacity: .75;
+    color: rgb(103, 103, 103) !important;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
 }

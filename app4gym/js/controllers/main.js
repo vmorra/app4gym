@@ -780,7 +780,7 @@ function detailsProgramCtrl($scope, $http, $state, $stateParams,auth, $q, $rootS
     slidesToScroll: 5,
     event: {
     	edge: function (event, slick, direction) {
-            console.log('edge');
+            console.log(direction);
           }
     },
     responsive: [
@@ -834,6 +834,8 @@ function detailsProgramCtrl($scope, $http, $state, $stateParams,auth, $q, $rootS
 
   $scope.getGroupsAndSkills = function(apparatusID){
 	  $scope.callExecuted = false;
+	  $scope.allSkillsLoaded = false;
+	  $scope.slickConfig3Loaded=false;
 	  //console.log("Costruisco la lista di groups and skill per l'apparato "+apparatusID);
 	  getGroups = $http({
 		  	method: 'GET',
@@ -847,7 +849,7 @@ function detailsProgramCtrl($scope, $http, $state, $stateParams,auth, $q, $rootS
 			  p = $http({
 				  method: 'GET',
 				  ignoreLoadingBar: true,
-				  url: config.proxyURL+'/'+config.portalURL+'/'+config.apiURL+'/node/skill?filter[program][condition][path]=field_program.uuid&filter[program][condition][value]='+programID+'&include=field_image,field_difficulty&fields[node--skill]=body,field_code,field_value,field_difficulty,field_element_group,field_image&fields[file--file]=url&field[apparatus][condition][path]=field_apparatus.uuid&field[apparatus][condition][value]='+apparatusID+'&field[group][condition][path]=field_element_group.uuid&field[group][condition][value]='+groupID+'&fields[taxonomy_term--difficulty]=name&page[limit]=8&page[offset]=0'
+				  url: config.proxyURL+'/'+config.portalURL+'/'+config.apiURL+'/node/skill?filter[program][condition][path]=field_program.uuid&filter[program][condition][value]='+programID+'&include=field_image,field_difficulty&fields[node--skill]=body,field_code,field_value,field_difficulty,field_element_group,field_image&fields[file--file]=url&field[apparatus][condition][path]=field_apparatus.uuid&field[apparatus][condition][value]='+apparatusID+'&field[group][condition][path]=field_element_group.uuid&field[group][condition][value]='+groupID+'&fields[taxonomy_term--difficulty]=name&page[limit]=200&page[offset]=0'
 			  });
 			  $scope.promises.push(p);
 		  }
@@ -858,6 +860,7 @@ function detailsProgramCtrl($scope, $http, $state, $stateParams,auth, $q, $rootS
 		  				lista_skills = responses[response].data.data;
 		  				group_id = lista_skills[0].relationships.field_element_group.data.id;
 		  				$scope.skills[group_id] = lista_skills;
+		  			
 		  				$scope.navigation[group_id] = {};
 		  				if (responses[response].data.links.next !=null)
 		  					$scope.navigation[group_id]["next"] = responses[response].data.links.next;
@@ -869,11 +872,12 @@ function detailsProgramCtrl($scope, $http, $state, $stateParams,auth, $q, $rootS
 		  				for (inclusion in included){
 		  					skills_inclusions_with_index[included[inclusion].id] = included[inclusion];
 		  				}
-
+		  				
 		  				$scope.skills_inclusions[group_id] = skills_inclusions_with_index;
 
 		  			}
 		  			console.log("Gli skills di questo gruppo: "+JSON.stringify($scope.skills['fd039fef-d8e2-4240-aae0-0dee62a6613c']));
+		  			$scope.allSkillsLoaded =true; 
 		  			$scope.slickConfig3Loaded=true;
 		  			//console.log("Ecco la lista di tutti gli skills: "+JSON.stringify($scope.skills));
 		  			//console.log("Ecco le inclusioni: "+ JSON.stringify($scope.skills_inclusions));
@@ -938,16 +942,24 @@ function detailsProgramCtrl($scope, $http, $state, $stateParams,auth, $q, $rootS
   }
 
   $scope.toggleDifficulty = function (name){
+	  $timeout(function () {
+		  $scope.allSkillsLoaded = true;
+		  $scope.slickConfig3Loaded = true;
+		   
+	      },300);
+	  $scope.allSkillsLoaded = false;
 	  $scope.slickConfig3Loaded = false;
-	  
 	 
 	  i = $scope.skill_difficulties.indexOf(name);
 	  if(i==-1)
 		  $scope.skill_difficulties.push(name)
 	  else $scope.skill_difficulties.splice(i, 1);
+	 
 	  $timeout(function () {
-	        $scope.slickConfig3Loaded = true;
-	      });
+		  $scope.slickConfig3Loaded = true;
+		   
+	      },300);
+	 
   }
 
 }
