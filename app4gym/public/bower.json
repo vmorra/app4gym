@@ -3,6 +3,7 @@
   "version": "1.0.0-alpha.5 (AngularJS)",
   "dependencies": {
     "bootstrap": "4.0.0-alpha.6",
+     "angular-slick-carousel": "latest",
     "jquery": "^3.0.0",
     "tether": "latest",
     "angular": "latest",

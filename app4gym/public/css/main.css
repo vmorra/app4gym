@@ -2,6 +2,10 @@ body {
 	background : rgba(242, 242, 242, 0.61);
 }
 
+.carousel-item {
+	display: block !important;	
+}
+
 .gym-grey {
    color: #bbbbbb;
 }
@@ -153,7 +157,7 @@ body {
   width: 1em;
   height: 1em;
   margin-top: 0.2em;
-  background: white;
+  background: #f7f7f7;
 }
 
 .gym-program-description {
@@ -194,6 +198,8 @@ iframe{
 .skill-container {
 	border: solid 1px;
 	padding-right: 15px;
+	margin-right: 10px;
+	margin-left: 10px;
 	padding-left: 15px;
 	padding-top: 5px;
 	height: 260px;
@@ -218,15 +224,6 @@ iframe{
 	height: 90px;
 }
 
-@media (min-width: 576px) and (max-width: 767px) {
-	.description-skill-container{
-		height: 75px;
-	}
-	
-	.col-custom {
-		width: 70px;
-	}
-}
 @media (min-width: 576px) {
 .selector-container {
 	display:none;
@@ -235,14 +232,6 @@ iframe{
 @media (max-width: 576px) {
 	.apparatus-container {
 	  display:none;
-	}
-	.img-skill {
-		 width: 70%;
-		 height: 110px;
-	}
-
-	.description-skill-container{
-		height: 75px;
 	}
 }
 
@@ -366,4 +355,14 @@ iframe{
 		color: #737070;
 		font-weight: 700;
 	}
+}
+
+.slick-prev:before, .slick-next:before {
+    font-family: 'slick';
+    font-size: 25px !important;
+    line-height: 1;
+    opacity: .75;
+    color: rgb(103, 103, 103) !important;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
 }

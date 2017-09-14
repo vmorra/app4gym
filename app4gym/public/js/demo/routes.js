@@ -169,6 +169,14 @@ angular
     label: "Program Details"
     },
     resolve: {
+    	loadCSS: ['$ocLazyLoad', function($ocLazyLoad) {
+            // you can lazy load CSS files
+            return $ocLazyLoad.load([{
+              serie: true,
+              name: 'UI Carousel',
+              files: ['bower_components/angular-slick-carousel/examples/css/app.css']
+            }]);
+          }],
         loadMyCtrl: ['$ocLazyLoad', function($ocLazyLoad) {
           // you can lazy load controllers
           return $ocLazyLoad.load({
