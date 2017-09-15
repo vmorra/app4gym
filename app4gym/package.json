@@ -1,7 +1,7 @@
 {
-  "name": "CoreUI",
-  "version": "1.0.0-alpha.5",
-  "description": "",
+  "name": "App4GymFE",
+  "version": "1.0.0",
+  "description": "App4GymFE",
   "main": "index.html",
   "scripts": {
     "start": "node server.js",
