@@ -1,0 +1,15 @@
+<div ng-controller="favouritesCtrl">
+	<div class="drills d-flex flex-row flex-wrap justify-content-start">
+		
+			<div class="p-2 drill-container-wrapper" ng-repeat="favourite in favourites">
+				 <div class="drill-container text-justify">
+					 <div class="gym-drill-preview-container text-center">
+						 <img width="210" class="drill-video-preview" height="118" src="{{'http://img.youtube.com/vi/'+favourites_include[$index].attributes.field_video_id+'/default.jpg'}}"/>
+						 <!-- <iframe src="{{getIframeSrc(drill.attributes.field_video_id,drill.attributes.field_video_source)}}" frameborder="0" allowfullscreen></iframe> -->
+					 </div>		
+					 <div class="gym-program-title drill-description text-justify">{{favourites_include[$index].attributes.title}}</div>							
+				</div>
+			</div>
+		
+	</div>
+</div>

@@ -1,0 +1,15 @@
+<div ng-controller="drillCtrl">
+	<div class="drills d-flex flex-row flex-wrap justify-content-center">
+		
+			<div class="p-2 drill-container-wrapper" ng-repeat="drill in drills">
+				 <div class="drill-container text-justify">
+					 <div class="gym-drill-preview-container text-center">
+						 <img ng-click="goToDrillDetail(drill.id)" width="210" class="drill-video-preview" height="118" src="{{'http://img.youtube.com/vi/'+drill.attributes.field_video_id+'/default.jpg'}}"/>
+						 <!-- <iframe src="{{getIframeSrc(drill.attributes.field_video_id,drill.attributes.field_video_source)}}" frameborder="0" allowfullscreen></iframe> -->
+					 </div>		
+					 <div class="gym-program-title drill-description text-justify" ng-click="goToDrillDetail(drill.id)">{{drill.attributes.title}}</div>							
+				</div>
+			</div>
+		
+	</div>
+</div>

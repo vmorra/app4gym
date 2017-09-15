@@ -1,0 +1,368 @@
+body {
+	background : rgba(242, 242, 242, 0.61);
+}
+
+.carousel-item {
+	display: block !important;	
+}
+
+.gym-grey {
+   color: #bbbbbb;
+}
+
+.breadcrumb-menu {
+	position:relative;
+}
+
+.breadcrumb-item.active {
+    color: #000000;
+    font-weight: 600;
+}
+
+.upper-menu-voice {
+	margin-right: 15px;
+	margin-left: 15px;
+	color: #bbbbbb;
+}
+
+.voice-highlighted {
+	color: #737070;
+	font-weight: 600;
+	text-decoration: underline;
+}
+
+.no-result {
+	margin-top: 100px;	
+}
+
+.upper-menu-voice:hover {
+	color: #737070;
+	text-decoration: none;	
+}
+
+.col-custom {
+	width: 110px;	
+}
+
+.card {
+	border: 0;
+}
+
+.gym-program-img {
+	position: relative;
+	top: 15px;
+	border: solid 1px #63c2de;
+	height: 80px;
+	width: 80px;
+	cursor: pointer;
+}
+.gym-img-container {
+	border-bottom: solid 2px #63c2de;
+	background-color: rgba(99, 194, 222, 0.14);
+}
+
+.gym-program {
+	border: solid 1px;
+	border-color: #cfd8dc;
+	margin-bottom:5px;
+	margin-top: 5px;
+}
+
+.gym-card-header {
+	padding: 0.25rem 1rem;
+
+	background-color: rgba(178, 178, 178, 0.21);
+}
+
+.gym-branch-title {
+	color: #808080 !important;
+	
+}
+
+.gym-branch-card {
+	margin-bottom: 0.25rem;
+}
+.gym-program-title {
+	cursor: pointer;
+}
+
+.gym-btn-search:hover {
+	background-color: #263238;
+    border-color: #f2eeea;
+
+}
+
+
+.gym-btn-search {
+	background-color: rgba(38, 50, 56, 0.36);
+    border-color: #f2eeea;
+
+}
+
+.gym-branch-card {
+	box-shadow: -8px 8px 10px #dedede;
+}
+
+.ico-allenamenti {
+	font-family: SportFamily;
+	font-size: 18px;
+}
+
+@media (min-width: 1220px) {
+	.gym-program {
+		width: 300px;
+	}
+}
+
+.gym-program-feeds {
+	margin-bottom: 5px;
+	position: absolute;
+	bottom: 10px;
+	left: 15%;
+	right: 15%;
+}
+
+.gym-program-description-wrapper {
+	height: 200px;
+	margin-top: 15px;
+
+}
+.gym-drill-description-wrapper {
+	height: 125px;
+	margin-top: 15px;
+
+}
+.gym-program-description-value {
+  overflow: hidden;
+  position: relative;
+  line-height: 1.2em;
+  max-height: 5.8em;
+  text-align: center;
+  margin-right: -1em;
+  padding-right: 1em;
+  margin-top: 15px;
+}
+
+.gym-program-description-value:before {
+  content: '...';
+  position: absolute;
+  right: 5px;
+  bottom: 0;
+}
+
+.gym-program-description-value:after {
+  content: '';
+  position: absolute;
+  right: 0;
+  width: 1em;
+  height: 1em;
+  margin-top: 0.2em;
+  background: #f7f7f7;
+}
+
+.gym-program-description {
+	margin-top: 10px;
+}
+
+
+.gym-img-container {
+	padding-right: 10px;
+	padding-left: 10px;
+	margin-top: 1px;
+	margin-bottom:10px;
+}
+
+.gym-drill-preview-container {
+
+	margin-bottom:10px;
+}
+iframe{
+	width: 100%;
+}
+.gym-footer-image {
+	margin-top: 20px;
+}
+
+.gym-feed-distance {
+	margin-left: 15px;
+	margin-right: 15px;
+}
+
+.img-skill {
+	width: 100%;
+	height: 100px;
+}
+
+
+
+.skill-container {
+	border: solid 1px;
+	padding-right: 15px;
+	margin-right: 10px;
+	margin-left: 10px;
+	padding-left: 15px;
+	padding-top: 5px;
+	height: 260px;
+	margin-bottom: 10px;
+}
+
+.skill-value {
+	font-size: 0.7rem;
+	padding-right: 0px;
+	padding-left: 0px;
+}
+
+.gym-difficulty-indication {
+	background-color: grey;
+	height: 25px;
+	width: 25px;
+	color: white;
+
+}
+
+.description-skill-container{
+	height: 90px;
+}
+
+@media (min-width: 576px) {
+.selector-container {
+	display:none;
+}
+}
+@media (max-width: 576px) {
+	.apparatus-container {
+	  display:none;
+	}
+}
+
+.apparatus-img {
+	width: 55px;
+	height: 55px;
+	transition: width .15s ease-in-out, height .15s ease-in-out;;
+    -webkit-transition: width .15s ease-in-out, height .15s ease-in-out;; /* Safari 3.1 to 6.0 */
+}
+
+.apparatus-img:hover {
+    cursor: pointer;
+	width: 65px;
+	height: 65px;
+}
+
+.apparatus-selection {
+	width: 100%;
+}
+
+.program-details-title{
+	margin-bottom: 40px;
+}
+
+.apparatus-container {
+	margin-bottom: 30px;
+	height: 100px;
+}
+
+.pagination-button {
+	color: #0080c0;
+	margin-left: 15px;
+	font-size:1.5rem;
+}
+
+.pagination-button:hover {
+	cursor: pointer;
+}
+
+.apparatus-selected img{
+	width: 65px;
+	height: 65px;
+}
+
+.apparatus-selected {
+	font-weight:600;
+	font-size:1rem;
+}
+
+.obscure{
+	-webkit-filter: blur(10px);
+  -moz-filter: blur(4px);
+  -o-filter: blur(4px);
+  -ms-filter: blur(4px);
+  filter: blur(4px);
+  background: #b0bec5
+}
+
+.difficulty {
+	width: 50px;
+	height: 50px;
+	display: inline-block;
+}
+
+.difficulty-img {
+	width: 30px;
+	height: 30px;
+}
+
+.difficulty-img:hover {
+	border: solid 5px;
+	border-radius: 30%;
+	border-color: #1d90b9;
+	cursor: pointer;
+}
+
+.difficulty-selected{
+	border: solid 5px;
+	border-radius: 50%;
+	border-color: #1d90b9;
+	width: 35px;
+	height: 35px;
+}
+
+.selector-container {
+	margin-bottom: 50px;
+}
+
+.view-mode {
+	color: #b2b2b2;
+	margin-left: 15px;
+}
+
+.drill-video-preview:hover {
+	cursor: pointer;
+}
+
+.drill-description {
+	max-width:  210px;
+	font-weight: 600;
+}
+
+.drill-container-wrapper {
+	margin-bottom: 15px;
+}
+
+@media (max-width: 544px) {
+	.drill-video-preview {
+		height: 236px;
+		width: 430px;
+	}
+	
+	.drill-container-wrapper {
+		margin-bottom: 40px;
+	}
+	
+	.drill-description {
+		max-width: 430px;
+		text-align: center !important;
+		font-size:larger;
+		color: #737070;
+		font-weight: 700;
+	}
+}
+
+.slick-prev:before, .slick-next:before {
+    font-family: 'slick';
+    font-size: 25px !important;
+    line-height: 1;
+    opacity: .75;
+    color: rgb(103, 103, 103) !important;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
