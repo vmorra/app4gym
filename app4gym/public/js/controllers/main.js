@@ -965,13 +965,30 @@ function detailsProgramCtrl($scope, $http, $state, $stateParams,auth, $q, $rootS
   }
 
 }
-favouritesCtrl.$inject = ['$scope', '$http', '$state', '$stateParams', 'auth', '$q', '$window', '$rootScope'];
-function favouritesCtrl($scope, $http, $state, $stateParams,auth, $q, $window, $rootScope) {
+favouritesCtrl.$inject = ['$scope', '$http', '$state', '$stateParams', 'auth', '$q', '$window', '$rootScope', '$location'];
+function favouritesCtrl($scope, $http, $state, $stateParams,auth, $q, $window, $rootScope, $location) {
 	$scope.userPin;
 	$scope.favourites = [];
 	$scope.userID = JSON.parse(auth.getUserSession()).uid;
 	console.log("User ID: "+$scope.userID);
 	$scope.favourites_include = {};
+	$rootScope.menuList = [
+	                       {
+	                    	  'name' : 'Search',
+	                    		  'callBack' :  $rootScope.goToPage,
+	                    		   'elementID' : 'drill'
+	                       },
+	                       {
+	                    		  'name' : 'My Favourites',
+	                    			  'callBack' :  $rootScope.goToPage,
+	                    			   'elementID' : 'favourites'
+	                       },
+	                       {
+	                    		  'name' : 'Collections',
+	                    		  'callBack' :  $rootScope.goToPage,
+	                    		   'elementID' : 'collections'
+	                       }
+	                      ];
 
 	$scope.getIframeSrc = function(id, source) {
 	  console.log(config[source] + id);
@@ -990,6 +1007,17 @@ function favouritesCtrl($scope, $http, $state, $stateParams,auth, $q, $window, $
 		console.log("errore nel recupero dei favourites")
 	})
 
+	$scope.goToPage = function (location, event) {
+		 current = angular.element(event.target);
+		 current.parent().find('.upper-menu-voice').removeClass("voice-highlighted");
+		 current.addClass('voice-highlighted');
+		 $location.url("/"+location);
+	}
+
+	$rootScope.goToPage = $scope.goToPage;
+	$scope.goToDrillDetail = function(id){
+		  $location.url("/drill-details/"+id);
+	  }
 }
 
 drillCtrl.$inject = ['$scope', '$http', '$state', '$stateParams', 'auth', '$q', '$window', '$rootScope', '$location'];

@@ -1,10 +1,9 @@
 {
-  "name": "CoreUI",
-  "version": "1.0.0-alpha.5",
-  "description": "",
+  "name": "App4GymFE",
+  "version": "1.0.0",
+  "description": "App4GymFE",
   "main": "index.html",
   "scripts": {
-    "prestart": "cd ./public && bower install",
     "start": "node server.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
