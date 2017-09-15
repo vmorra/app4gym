@@ -15,6 +15,8 @@ angular
 .controller('allenamentiCtrl', allenamentiCtrl)
 .controller('detailsProgramCtrl', detailsProgramCtrl)
 .controller('drillCtrl', drillCtrl)
+.controller('favouritesCtrl',favouritesCtrl)
+.controller('drillDetailsCtrl', drillDetailsCtrl)
 
 //convert Hex to RGBA
 function convertHex(hex,opacity){
@@ -963,10 +965,35 @@ function detailsProgramCtrl($scope, $http, $state, $stateParams,auth, $q, $rootS
   }
 
 }
+favouritesCtrl.$inject = ['$scope', '$http', '$state', '$stateParams', 'auth', '$q', '$window', '$rootScope'];
+function favouritesCtrl($scope, $http, $state, $stateParams,auth, $q, $window, $rootScope) {
+	$scope.userPin;
+	$scope.favourites = [];
+	$scope.userID = JSON.parse(auth.getUserSession()).uid;
+	console.log("User ID: "+$scope.userID);
+	$scope.favourites_include = {};
+	
+	$scope.getIframeSrc = function(id, source) {
+	  console.log(config[source] + id);
+      return config[source] + id+'?rel=0&amp;showinfo=0';
+	};
+	
+	callPins = $http({
+	  	method: 'GET',
+	  	url: config.proxyURL+'/'+config.portalURL+'/'+config.apiURL+'/node/drill_pin?filter[uid][condition][path]=uid&filter[uid][condition][value]='+$scope.userID+'&fields[node--drill_pin]=uuid,title,body,comment.comment_count,field_drill&include=field_drill&fields[node--drill]=title,body,field_video_id,field_video_source'
+	}).then(function success(response){
+		$scope.favourites = response.data.data;
+		console.log('Favourites: '+JSON.stringify(response.data.data));
+		$scope.favourites_include = response.data.included;
+		console.log('Favourites include: '+JSON.stringify(response.data.included));
+	},function error(response){
+		console.log("errore nel recupero dei favourites")
+	})
+	
+}
 
-
-drillCtrl.$inject = ['$scope', '$http', '$state', '$stateParams', 'auth', '$q', '$window', '$rootScope'];
-function drillCtrl($scope, $http, $state, $stateParams,auth, $q, $window, $rootScope) {
+drillCtrl.$inject = ['$scope', '$http', '$state', '$stateParams', 'auth', '$q', '$window', '$rootScope', '$location'];
+function drillCtrl($scope, $http, $state, $stateParams,auth, $q, $window, $rootScope,$location) {
   programID = $scope.idProgram = $stateParams.idProgram;
   $scope.config = config;
   $scope.drills = [];
@@ -1040,4 +1067,90 @@ function drillCtrl($scope, $http, $state, $stateParams,auth, $q, $window, $rootS
                });
              }
             });
+  $scope.goToDrillDetail = function(id){
+	  $location.url("/drill-details/"+id);
+  }
+}
+
+drillDetailsCtrl.$inject = ['$scope', '$http', '$state', '$stateParams', 'auth', '$q', '$window', '$rootScope'];
+function drillDetailsCtrl($scope, $http, $state, $stateParams,auth, $q, $window, $rootScope) {
+  drillID = $scope.idProgram = $stateParams.idDrill;
+  $scope.config = config;
+  $scope.drill = null;
+  $scope.drills = [];
+  $scope.drills_next = {};
+  $scope.apparatus_inclusions = {};
+  $scope.comments = [];
+  $scope.groups = [];
+  $scope.skills = {};
+  $scope.promises = [];
+  $scope.navigation = {};
+  $scope.skills_inclusions = {};
+  $scope.skill_difficulties = [];
+  $rootScope.menuList = [
+   {
+	  'name' : 'Search',
+		  'callBack' :  $rootScope.selectBranch,
+		   'elementID' : 'id'
+   },
+   {
+		  'name' : 'My Favourite',
+			  'callBack' :  $rootScope.selectBranch,
+			   'elementID' : 'id'
+   },
+   {
+		  'name' : 'Collections',
+		  'callBack' :  $rootScope.selectBranch,
+		   'elementID' : 'id'
+   }
+  ];
+
+  callDrill = $http({
+	  	method: 'GET',
+	  	url: config.proxyURL+'/'+config.portalURL+'/'+config.apiURL+'/node/drill/'+drillID+'?fields[node--drill]=title,created,field_branch,field_apparatus,field_drill_type,field_video_id,field_video_source,field_vide_url'
+  })
+  callDrills = $http({
+      method: 'GET',
+      url: config.proxyURL+'/'+config.portalURL+'/'+config.apiURL+'/node/drill?fields[node--drill]=title,created,field_branch,field_apparatus,field_drill_type,field_video_id,field_video_source,field_vide_url&page[limit]=5&filter[escludi_drill][condition][path]=uuid&filter[escludi_drill][condition][operator]=NOT%20IN&filter[escludi_drill][condition][value]='+drillID
+  })
+
+  callComments = $http({
+      method: 'GET',
+      url: config.proxyURL+'/'+config.portalURL+'/'+config.apiURL+'/comment/comment?fields[comment--comment]=uuid,subject,name,created,comment_body,pid,uid,thread&filter[drill][condition][path]=entity_id.uuid&filter[drill][condition][value]='+drillID
+  })
+
+  $scope.getIframeSrc = function(id, source) {
+    console.log(config[source] + id);
+      return config[source] + id+'?rel=0&amp;showinfo=0';
+    };
+
+  callDrill.then(function success(response){
+    console.log("Drill-->: "+JSON.stringify(response.data.data));
+	  $scope.drill =response.data.data;
+
+  },function error(response){
+	  //console.log("Impossibile reperire la lista di apparatus per il program "+programID);
+      //console.log("Error - "+response.data);
+  });
+  callDrills.then(function success(response){
+    list_drills = response.data.data;
+    console.log("Lista degli Drills: "+JSON.stringify(list_drills));
+    $scope.drills = list_drills;
+    if(response.data.links.next){
+      $scope.drills_next = response.data.links.next;
+    } else {
+      $scope.drills_next = null;
+    }
+  },function error(response){
+    //console.log("Impossibile reperire la lista di apparatus per il program "+programID);
+      //console.log("Error - "+response.data);
+  });
+  callComments.then(function success(response){
+    list_comments = response.data.data;
+    console.log("Lista degli Comments: "+JSON.stringify(list_comments));
+    $scope.comments = list_comments;
+  },function error(response){
+    //console.log("Impossibile reperire la lista di apparatus per il program "+programID);
+      //console.log("Error - "+response.data);
+  });
 }

@@ -200,4 +200,41 @@ angular
         }]
       }
   })
+  .state('app.drill-details', {
+    url: '/drill-details/:idDrill',
+    templateUrl: 'views/components/drill_details.html',
+    ncyBreadcrumb: {
+      parent: 'app.drill',
+      label: "Drill Details"
+    },
+    resolve: {
+        loadMyCtrl: ['$ocLazyLoad', function($ocLazyLoad) {
+          // you can lazy load controllers
+          return $ocLazyLoad.load({
+            files: ['js/controllers/main.js']
+          });
+        }]
+      }
+  })
+   .state('app.favourites', {
+    url: '/favourites',
+    templateUrl: 'views/components/favourites.html',
+    ncyBreadcrumb: {
+    label: "Favourites"
+    },
+    resolve: {
+    	loadPlugin: ['$ocLazyLoad', function ($ocLazyLoad) {
+            // you can lazy load files for an existing module
+            return $ocLazyLoad.load([{
+              files: ['js/auth.js']
+            }]);
+          }],
+        loadMyCtrl: ['$ocLazyLoad', function($ocLazyLoad) {
+          // you can lazy load controllers
+          return $ocLazyLoad.load({
+            files: ['js/controllers/main.js']
+          });
+        }]
+      }
+  })
 }]);
