@@ -736,7 +736,7 @@ function allenamentiCtrl($scope, $http, $state, auth, $q, $location, $rootScope)
   $scope.goToDetails = function (programID){
 	  $location.url("/details-program/"+programID);
   }
-  
+
   $scope.selectBranch = function(elementId, event){
 	  current = angular.element(event.target);
 	  current.parent().find('.upper-menu-voice').removeClass("voice-highlighted");
@@ -746,7 +746,7 @@ function allenamentiCtrl($scope, $http, $state, auth, $q, $location, $rootScope)
 	  angular.element('#'+elementId).parent().show();
 	  angular.element('#'+elementId).show();
   }
-  
+
   $rootScope.selectBranch = $scope.selectBranch;
 
 }
@@ -767,7 +767,7 @@ function detailsProgramCtrl($scope, $http, $state, $stateParams,auth, $q, $rootS
   $rootScope.menuList = [];
   $scope.skills_inclusions = {};
   $scope.skill_difficulties = [];
-  
+
   //Slick Carousel Config
   $scope.number3 = [{label: 1}, {label: 2}, {label: 3}, {label: 4}, {label: 5}, {label: 6}, {label: 7}, {label: 8}];
   $scope.slickConfig3Loaded = false;
@@ -862,7 +862,7 @@ function detailsProgramCtrl($scope, $http, $state, $stateParams,auth, $q, $rootS
 		  				lista_skills = responses[response].data.data;
 		  				group_id = lista_skills[0].relationships.field_element_group.data.id;
 		  				$scope.skills[group_id] = lista_skills;
-		  			
+
 		  				$scope.navigation[group_id] = {};
 		  				if (responses[response].data.links.next !=null)
 		  					$scope.navigation[group_id]["next"] = responses[response].data.links.next;
@@ -874,12 +874,12 @@ function detailsProgramCtrl($scope, $http, $state, $stateParams,auth, $q, $rootS
 		  				for (inclusion in included){
 		  					skills_inclusions_with_index[included[inclusion].id] = included[inclusion];
 		  				}
-		  				
+
 		  				$scope.skills_inclusions[group_id] = skills_inclusions_with_index;
 
 		  			}
 		  			console.log("Gli skills di questo gruppo: "+JSON.stringify($scope.skills['fd039fef-d8e2-4240-aae0-0dee62a6613c']));
-		  			$scope.allSkillsLoaded =true; 
+		  			$scope.allSkillsLoaded =true;
 		  			$scope.slickConfig3Loaded=true;
 		  			//console.log("Ecco la lista di tutti gli skills: "+JSON.stringify($scope.skills));
 		  			//console.log("Ecco le inclusioni: "+ JSON.stringify($scope.skills_inclusions));
@@ -947,21 +947,21 @@ function detailsProgramCtrl($scope, $http, $state, $stateParams,auth, $q, $rootS
 	  $timeout(function () {
 		  $scope.allSkillsLoaded = true;
 		  $scope.slickConfig3Loaded = true;
-		   
+
 	      },300);
 	  $scope.allSkillsLoaded = false;
 	  $scope.slickConfig3Loaded = false;
-	 
+
 	  i = $scope.skill_difficulties.indexOf(name);
 	  if(i==-1)
 		  $scope.skill_difficulties.push(name)
 	  else $scope.skill_difficulties.splice(i, 1);
-	 
+
 	  $timeout(function () {
 		  $scope.slickConfig3Loaded = true;
-		   
+
 	      },300);
-	 
+
   }
 
 }
@@ -972,12 +972,12 @@ function favouritesCtrl($scope, $http, $state, $stateParams,auth, $q, $window, $
 	$scope.userID = JSON.parse(auth.getUserSession()).uid;
 	console.log("User ID: "+$scope.userID);
 	$scope.favourites_include = {};
-	
+
 	$scope.getIframeSrc = function(id, source) {
 	  console.log(config[source] + id);
       return config[source] + id+'?rel=0&amp;showinfo=0';
 	};
-	
+
 	callPins = $http({
 	  	method: 'GET',
 	  	url: config.proxyURL+'/'+config.portalURL+'/'+config.apiURL+'/node/drill_pin?filter[uid][condition][path]=uid&filter[uid][condition][value]='+$scope.userID+'&fields[node--drill_pin]=uuid,title,body,comment.comment_count,field_drill&include=field_drill&fields[node--drill]=title,body,field_video_id,field_video_source'
@@ -989,7 +989,7 @@ function favouritesCtrl($scope, $http, $state, $stateParams,auth, $q, $window, $
 	},function error(response){
 		console.log("errore nel recupero dei favourites")
 	})
-	
+
 }
 
 drillCtrl.$inject = ['$scope', '$http', '$state', '$stateParams', 'auth', '$q', '$window', '$rootScope', '$location'];
@@ -1023,7 +1023,7 @@ function drillCtrl($scope, $http, $state, $stateParams,auth, $q, $window, $rootS
 		   'elementID' : 'id'
    }
   ];
-  
+
   callDrills = $http({
 	  	method: 'GET',
 	  	url: config.proxyURL+'/'+config.portalURL+'/'+config.apiURL+'/node/drill?fields[node--drill]=title,created,field_branch,field_apparatus,field_drill_type,field_video_id,field_video_source,field_vide_url&page[limit]=30'
@@ -1081,6 +1081,7 @@ function drillDetailsCtrl($scope, $http, $state, $stateParams,auth, $q, $window,
   $scope.drills_next = {};
   $scope.apparatus_inclusions = {};
   $scope.comments = [];
+  $scope.commentmsg = "";
   $scope.groups = [];
   $scope.skills = {};
   $scope.promises = [];
@@ -1104,6 +1105,51 @@ function drillDetailsCtrl($scope, $http, $state, $stateParams,auth, $q, $window,
 		   'elementID' : 'id'
    }
   ];
+
+  $scope.config = {
+      headers: {
+        "Content-Type":"application/json"
+      }
+  }
+
+  $scope.commentJson = {
+     "data":{
+       "type": "comment--comment",
+       "attributes": {
+         "langcode": "en",
+         "status": true,
+         "subject": "prova",
+         "name": JSON.parse(auth.getUserSession()).name,
+         "homepage": null,
+         "entity_type": "node",
+         "field_name": "comment",
+         "default_langcode": true,
+         "comment_body": {
+           "value": $scope.commentmsg
+         }
+       },
+       "relationships": {
+         "pid": {
+           "data": {
+             "type": "comment--comment",
+             "id": ""
+           }
+         },
+         "entity_id": {
+           "data": {
+             "type": "node--drill",
+             "id": drillID
+           }
+         },
+         "uid": {
+           "data": {
+             "type": "user--user",
+             "id": "c67a30ab-99b2-4314-bf91-cf5c143aa8d0"
+           }
+         }
+       }
+     }
+   };
 
   callDrill = $http({
 	  	method: 'GET',
@@ -1153,4 +1199,21 @@ function drillDetailsCtrl($scope, $http, $state, $stateParams,auth, $q, $window,
     //console.log("Impossibile reperire la lista di apparatus per il program "+programID);
       //console.log("Error - "+response.data);
   });
+
+
+  addcomment = function(){
+    alert("hello");
+    $http({
+        method: 'POST',
+        url: config.proxyURL+'/'+config.portalURL+'/'+config.apiURL+'/comment/comment',
+        data: $scope.commentJson,
+        config : $scope.headers
+    }).then(function success(response){
+      response = response.data.data;
+      console.log("Lista degli Comments: "+JSON.stringify(response));
+    },function error(response){
+      //console.log("Impossibile reperire la lista di apparatus per il program "+programID);
+        //console.log("Error - "+response.data);
+    });
+  }
 }
