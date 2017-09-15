@@ -1081,7 +1081,7 @@ function drillDetailsCtrl($scope, $http, $state, $stateParams,auth, $q, $window,
   $scope.drills_next = {};
   $scope.apparatus_inclusions = {};
   $scope.comments = [];
-  $scope.commentmsg = "";
+  $scope.nameUserComment = "";
   $scope.groups = [];
   $scope.skills = {};
   $scope.promises = [];
@@ -1125,7 +1125,7 @@ function drillDetailsCtrl($scope, $http, $state, $stateParams,auth, $q, $window,
          "field_name": "comment",
          "default_langcode": true,
          "comment_body": {
-           "value": $scope.commentmsg
+           "value": ""
          }
        },
        "relationships": {
@@ -1144,7 +1144,7 @@ function drillDetailsCtrl($scope, $http, $state, $stateParams,auth, $q, $window,
          "uid": {
            "data": {
              "type": "user--user",
-             "id": "c67a30ab-99b2-4314-bf91-cf5c143aa8d0"
+             "id": "1c9d49dc-c3e0-4630-9c59-2c85e7cf4713"
            }
          }
        }
@@ -1200,9 +1200,17 @@ function drillDetailsCtrl($scope, $http, $state, $stateParams,auth, $q, $window,
       //console.log("Error - "+response.data);
   });
 
-
-  addcomment = function(){
-    alert("hello");
+  $scope.callAddElement = function(e){
+    $scope.commentJson.data.relationships.pid.data.id = "";
+    $scope.nameUserComment = "";
+    idComment = angular.element(e.currentTarget).data("whatever");
+    angular.element("#message-text").val("");
+    if(idComment){
+        $scope.commentJson.data.relationships.pid.data.id = idComment
+        $scope.nameUserComment = " @"+angular.element(e.currentTarget).data("who");
+    }
+  }
+  $scope.addcomment = function(e){
     $http({
         method: 'POST',
         url: config.proxyURL+'/'+config.portalURL+'/'+config.apiURL+'/comment/comment',
@@ -1215,5 +1223,6 @@ function drillDetailsCtrl($scope, $http, $state, $stateParams,auth, $q, $window,
       //console.log("Impossibile reperire la lista di apparatus per il program "+programID);
         //console.log("Error - "+response.data);
     });
+    angular.element("#exampleModal").modal('hide');
   }
 }
