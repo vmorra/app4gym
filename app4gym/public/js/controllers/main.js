@@ -1146,20 +1146,7 @@ function drillDetailsCtrl($scope, $http, $state, $stateParams,auth, $q, $window,
   angular.element('.voice-highlighted').removeClass('voice-highlighted');  
   angular.element('.'+$state.href('app.drill').split('/')[1]).addClass('voice-highlighted');
   console.log("stato attuale"+$state.href());
-  callPins = $http({
-	  	method: 'GET',
-	  	url: config.proxyURL+'/'+config.portalURL+'/'+config.apiURL+'/node/drill_pin?filter[uid][condition][path]=uid&filter[uid][condition][value]='+$scope.userID+'&fields[node--drill_pin]=uuid,title,body,comment.comment_count,field_drill&include=field_drill&fields[node--drill]=title,body,field_video_id,field_video_source'
-	}).then(function success(response){
-		$scope.favourites = response.data.data;
-		stringResult = JSON.stringify($scope.favourites);
-		if (stringResult.indexOf(drillID)!=-1){
-			$scope.showDelete = true;
-		}
-		else $scope.showDelete = false;
-		
-	},function error(response){
-		console.log("errore nel recupero dei favourites")
-	})
+ 
   $scope.config = {
 		  headers: {
 			  "Content-Type":"application/vnd.api+json"
@@ -1341,8 +1328,14 @@ function drillDetailsCtrl($scope, $http, $state, $stateParams,auth, $q, $window,
 	  	method: 'GET',
 	  	url: config.proxyURL+'/'+config.portalURL+'/'+config.apiURL+'/node/drill_pin?filter[field_drill.uuid][value]='+drillID+'&fields[node--drill_pin]=uuid'
 	}).then(function success(response){
-		$scope.pin = response.data.data[0].attributes.uuid;
-		console.log('Pin necessario: '+JSON.stringify(response.data.data[0]));
+		if (response.data.data.length!=0) {
+			$scope.pin = response.data.data[0].attributes.uuid;
+		}
+		
+		if ($scope.pin !==null && $scope.pin !==undefined && $scope.pin!=''){
+			$scope.showDelete = true;
+		}
+		else $scope.showDelete = false;
 		
 	},function error(response){
 		console.log("errore nel recupero dei favourites")
@@ -1359,17 +1352,7 @@ function drillDetailsCtrl($scope, $http, $state, $stateParams,auth, $q, $window,
 		})
 		
   }
-  callPins = $http({
-	  	method: 'GET',
-	  	url: config.proxyURL+'/'+config.portalURL+'/'+config.apiURL+'/node/drill_pin?filter[uid][condition][path]=uid&filter[uid][condition][value]='+$scope.userID+'&fields[node--drill_pin]=uuid,title,body,comment.comment_count,field_drill&include=field_drill&fields[node--drill]=title,body,field_video_id,field_video_source'
-	}).then(function success(response){
-		$scope.favourites = response.data.data;
-		console.log('Favourites: '+JSON.stringify(response.data.data));
-		$scope.favourites_include = response.data.included;
-		console.log('Favourites include: '+JSON.stringify(response.data.included));
-	},function error(response){
-		console.log("errore nel recupero dei favourites")
-	})
+  
 	
 	angular.element($window).bind("scroll", function() {
         if ($(window).scrollTop() + $(window).height() == $(document).height() && $scope.drills_next ) {
