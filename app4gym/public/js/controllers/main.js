@@ -1058,7 +1058,7 @@ function drillCtrl($scope, $http, $state, $stateParams,auth, $q, $window, $rootS
 	
 	$rootScope.goToPage = $scope.goToPage;
 	
-  $rootScope.menuList = [
+  $rootScope.menuList = [ 
 	                       {
 	                    	  'name' : 'Search',
 	                    		  'callBack' :  $rootScope.goToPage,
