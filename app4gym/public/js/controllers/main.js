@@ -753,6 +753,7 @@ function allenamentiCtrl($scope, $http, $state, auth, $q, $location, $rootScope)
 
 detailsProgramCtrl.$inject = ['$scope', '$http', '$state', '$stateParams', 'auth', '$q', '$rootScope','$timeout'];
 function detailsProgramCtrl($scope, $http, $state, $stateParams,auth, $q, $rootScope, $timeout) {
+	
   programID = $scope.idProgram = $stateParams.idProgram;
   $scope.prova = 'test';
   $scope.callExecuted = false;
@@ -965,13 +966,27 @@ function detailsProgramCtrl($scope, $http, $state, $stateParams,auth, $q, $rootS
   }
 
 }
-favouritesCtrl.$inject = ['$scope', '$http', '$state', '$stateParams', 'auth', '$q', '$window', '$rootScope', '$location'];
-function favouritesCtrl($scope, $http, $state, $stateParams,auth, $q, $window, $rootScope, $location) {
+favouritesCtrl.$inject = ['$scope', '$http', '$state', '$stateParams', 'auth', '$q', '$window', '$rootScope', '$location', '$timeout'];
+function favouritesCtrl($scope, $http, $state, $stateParams,auth, $q, $window, $rootScope, $location,$timeout) {
 	$scope.userPin;
 	$scope.favourites = [];
 	$scope.userID = JSON.parse(auth.getUserSession()).uid;
 	console.log("User ID: "+$scope.userID);
 	$scope.favourites_include = {};
+	console.log($state.href('app.favourites').split('/')[1]);
+	$scope.goToPage = function (location, event) {
+		 if (location.url!=''){
+			 $location.url("/"+location);
+		 }		 
+	}
+	$timeout(function () {
+		angular.element('.voice-highlighted').removeClass('voice-highlighted');  
+		  angular.element('.'+$state.href('app.favourites').split('/')[1]).addClass('voice-highlighted');
+		   
+	      },300);
+	 
+	
+	$rootScope.goToPage = $scope.goToPage;
 	
 	$rootScope.menuList = [
 	                       {
@@ -987,7 +1002,7 @@ function favouritesCtrl($scope, $http, $state, $stateParams,auth, $q, $window, $
 	                       {
 	                    		  'name' : 'Collections',
 	                    		  'callBack' :  $rootScope.goToPage,
-	                    		   'elementID' : 'collections'
+	                    		   'elementID' : ''
 	                       }
 	                      ];
 	
@@ -1008,14 +1023,7 @@ function favouritesCtrl($scope, $http, $state, $stateParams,auth, $q, $window, $
 		console.log("errore nel recupero dei favourites")
 	})
 	
-	$scope.goToPage = function (location, event) {
-		 current = angular.element(event.target);
-		 current.parent().find('.upper-menu-voice').removeClass("voice-highlighted");
-		 current.addClass('voice-highlighted');
-		 $location.url("/"+location);
-	}
 	
-	$rootScope.goToPage = $scope.goToPage;
 	$scope.goToDrillDetail = function(id){
 		  $location.url("/drill-details/"+id);
 	  }
@@ -1035,23 +1043,38 @@ function drillCtrl($scope, $http, $state, $stateParams,auth, $q, $window, $rootS
   $scope.navigation = {};
   $scope.skills_inclusions = {};
   $scope.skill_difficulties = [];
+  console.log($state.href('app.drill').split('/')[1]);
+  angular.element('.voice-highlighted').removeClass('voice-highlighted');  
+  angular.element('.'+$state.href('app.drill').split('/')[1]).addClass('voice-highlighted');
+  
+  $scope.goToPage = function (location, event) {
+		 current = angular.element(event.target);
+		 current.parent().find('.upper-menu-voice').removeClass("voice-highlighted");
+		 current.addClass('voice-highlighted');
+		 if (location.url!=''){
+			 $location.url("/"+location);
+		 }		 
+	}
+	
+	$rootScope.goToPage = $scope.goToPage;
+	
   $rootScope.menuList = [
-   {
-	  'name' : 'Search',
-		  'callBack' :  $rootScope.selectBranch,
-		   'elementID' : 'id'
-   },
-   {
-		  'name' : 'My Favourite',
-			  'callBack' :  $rootScope.selectBranch,
-			   'elementID' : 'id'
-   },
-   {
-		  'name' : 'Collections',
-		  'callBack' :  $rootScope.selectBranch,
-		   'elementID' : 'id'
-   }
-  ];
+	                       {
+	                    	  'name' : 'Search',
+	                    		  'callBack' :  $rootScope.goToPage,
+	                    		   'elementID' : 'drill'
+	                       },
+	                       {
+	                    		  'name' : 'My Favourites',
+	                    			  'callBack' :  $rootScope.goToPage,
+	                    			   'elementID' : 'favourites'
+	                       },
+	                       {
+	                    		  'name' : 'Collections',
+	                    		  'callBack' :  $rootScope.goToPage,
+	                    		   'elementID' : ''
+	                       }
+	                      ];
   
   callDrills = $http({
 	  	method: 'GET',
@@ -1101,8 +1124,8 @@ function drillCtrl($scope, $http, $state, $stateParams,auth, $q, $window, $rootS
   }
 }
 
-drillDetailsCtrl.$inject = ['$scope', '$http', '$state', '$stateParams', 'auth', '$q', '$window', '$rootScope'];
-function drillDetailsCtrl($scope, $http, $state, $stateParams,auth, $q, $window, $rootScope) {
+drillDetailsCtrl.$inject = ['$scope', '$http', '$state', '$stateParams', 'auth', '$q', '$window', '$rootScope','$location'];
+function drillDetailsCtrl($scope, $http, $state, $stateParams,auth, $q, $window, $rootScope,$location) {
   drillID = $scope.idProgram = $stateParams.idDrill;
   $scope.config = config;
   $scope.drill = null;
@@ -1116,23 +1139,90 @@ function drillDetailsCtrl($scope, $http, $state, $stateParams,auth, $q, $window,
   $scope.navigation = {};
   $scope.skills_inclusions = {};
   $scope.skill_difficulties = [];
+  angular.element('.voice-highlighted').removeClass('voice-highlighted');  
+  angular.element('.'+$state.href('app.drill').split('/')[1]).addClass('voice-highlighted');
+  console.log("stato attuale"+$state.href());
+  $scope.config = {
+		  headers: {
+			  "Content-Type":"application/vnd.api+json",
+				  "Accept": "application/vnd.api+json"
+		  }
+  }
+  $scope.pinToSave = {
+		    "data": {
+				"attributes": {
+			    "status": true,
+			    "title": "novalue",
+			    "body": {
+			      "value": "novalue",
+			      "summary": "novalue"
+			    }
+			  },
+			  "relationships": {
+			    "uid": {
+			      "data": {
+			        "type": "user--user",
+			        "id": ""
+			      }
+			    },
+			    "field_drill": {
+			      "data": {
+			        "type": "node--drill",
+			        "id": drillID
+			      }
+			    }
+			  },
+			  "type": "node--drill_pin"
+			}
+	}
+  getUser = $http({
+	  	method: 'GET',
+	  	url: config.proxyURL+'/'+config.portalURL+'/'+config.apiURL+'/user/user?filter[uid][value]='+JSON.parse(auth.getUserSession()).uid,
+	  	config : $scope.headers
+  }).then(function success(response){
+		$scope.currentUser = response.data.data[0];
+		console.log("Utente attuale "+JSON.stringify($scope.currentUser));
+		$scope.pinToSave.data.relationships.uid.data.id = $scope.currentUser.id;
+  },function error(response){
+	  
+  })
+  $scope.saveInFavourites = function (){
+	  $http({
+		  method: 'POST',
+		  url: config.proxyURL+'/'+config.portalURL+'/'+config.apiURL+'/node/drill_pin',
+		  data: $scope.pinToSave		  
+		}).then(function successCallback(response) {
+		    console.log("Esito del salvataggio del pin "+ response.data);
+		  }, function errorCallback(response) {
+			  
+		  });
+  }
+  $scope.goToPage = function (location, event) {
+		 
+		 if (location.url!=''){
+			 $location.url("/"+location);
+		 }		 
+	}
+	
+	$rootScope.goToPage = $scope.goToPage;
+	
   $rootScope.menuList = [
-   {
-	  'name' : 'Search',
-		  'callBack' :  $rootScope.selectBranch,
-		   'elementID' : 'id'
-   },
-   {
-		  'name' : 'My Favourite',
-			  'callBack' :  $rootScope.selectBranch,
-			   'elementID' : 'id'
-   },
-   {
-		  'name' : 'Collections',
-		  'callBack' :  $rootScope.selectBranch,
-		   'elementID' : 'id'
-   }
-  ];
+	                       {
+	                    	  'name' : 'Search',
+	                    		  'callBack' :  $rootScope.goToPage,
+	                    		   'elementID' : 'drill'
+	                       },
+	                       {
+	                    		  'name' : 'My Favourites',
+	                    			  'callBack' :  $rootScope.goToPage,
+	                    			   'elementID' : 'favourites'
+	                       },
+	                       {
+	                    		  'name' : 'Collections',
+	                    		  'callBack' :  $rootScope.goToPage,
+	                    		   'elementID' : ''
+	                       }
+	                      ];
 
   callDrill = $http({
 	  	method: 'GET',
@@ -1182,4 +1272,23 @@ function drillDetailsCtrl($scope, $http, $state, $stateParams,auth, $q, $window,
     //console.log("Impossibile reperire la lista di apparatus per il program "+programID);
       //console.log("Error - "+response.data);
   });
+  angular.element($window).bind("scroll", function() {
+      if ($(window).scrollTop() + $(window).height() == $(document).height() && $scope.drills_next ) {
+        callDrillsNext = $http({
+      	  	method: 'GET',
+      	  	url: config.proxyURL+'/'+  $scope.drills_next
+        }).then(function success(response){
+      	  $scope.drills =  $scope.drills.concat(response.data.data);
+         if(response.data.links.next){
+           $scope.drills_next = response.data.links.next;
+         } else {
+           $scope.drills_next = null;
+           angular.element($window).unbind("scroll");
+         }
+      },function error(response){
+    	  //console.log("Impossibile reperire la lista di apparatus per il program "+programID);
+          //console.log("Error - "+response.data);
+      });
+    }
+   });
 }

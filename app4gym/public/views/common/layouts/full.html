@@ -16,7 +16,7 @@
 			<div class="col-xs-12 col-md-4">
 				<li class="upper-menu center-block text-center">
 	                <div class="btn-group" role="group" aria-label="Button group with nested dropdown">
-	                    <a ng-repeat="voice in menuList" ng-click="voice.callBack(voice.elementID, $event)" ng-class="{'upper-menu-voice': true, 'voice-highlighted': $first}" href="#">{{voice.name}}</a>
+	                    <a ng-repeat="voice in menuList" ng-click="voice.callBack(voice.elementID, $event)" class="{{voice.elementID}}" ng-class="{'upper-menu-voice': true, 'voice-highlighted': $first}" href="#">{{voice.name}}</a>
 	                </div>
 	            </li>
 			</div>
