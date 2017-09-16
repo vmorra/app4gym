@@ -1129,6 +1129,7 @@ function drillDetailsCtrl($scope, $http, $state, $stateParams,auth, $q, $window,
   drillID = $scope.idProgram = $stateParams.idDrill;
   $scope.userID = JSON.parse(auth.getUserSession()).uid;
   $scope.config = config;
+  $scope.pin = '';
   $scope.showDelete = null;
   $scope.drill = null;
   $scope.drills = [];
@@ -1211,6 +1212,7 @@ function drillDetailsCtrl($scope, $http, $state, $stateParams,auth, $q, $window,
 		  config : $scope.config.headers
 		}).then(function successCallback(response) {
 		    console.log("Esito del salvataggio del pin "+ response.data);
+		    $scope.showDelete = true;
 		  }, function errorCallback(response) {
 			  
 		  });
@@ -1335,7 +1337,28 @@ function drillDetailsCtrl($scope, $http, $state, $stateParams,auth, $q, $window,
     //console.log("Impossibile reperire la lista di apparatus per il program "+programID);
       //console.log("Error - "+response.data);
   });
-  
+  callFav = $http({
+	  	method: 'GET',
+	  	url: config.proxyURL+'/'+config.portalURL+'/'+config.apiURL+'/node/drill_pin?filter[field_drill.uuid][value]='+drillID+'&fields[node--drill_pin]=uuid'
+	}).then(function success(response){
+		$scope.pin = response.data.data[0].attributes.uuid;
+		console.log('Pin necessario: '+JSON.stringify(response.data.data[0]));
+		
+	},function error(response){
+		console.log("errore nel recupero dei favourites")
+	})
+  $scope.deletePin = function(){
+	  $http({
+		  	method: 'DELETE',
+		  	url: config.proxyURL+'/'+config.portalURL+'/'+config.apiURL+'/node/drill_pin/'+$scope.pin,
+		  	header:{'Content-Type': 'application/vnd.api+json'}
+		}).then(function success(response){
+			$scope.showDelete = false;
+		},function error(response){
+			console.log("errore nella cancellazione")
+		})
+		
+  }
   callPins = $http({
 	  	method: 'GET',
 	  	url: config.proxyURL+'/'+config.portalURL+'/'+config.apiURL+'/node/drill_pin?filter[uid][condition][path]=uid&filter[uid][condition][value]='+$scope.userID+'&fields[node--drill_pin]=uuid,title,body,comment.comment_count,field_drill&include=field_drill&fields[node--drill]=title,body,field_video_id,field_video_source'
@@ -1347,4 +1370,25 @@ function drillDetailsCtrl($scope, $http, $state, $stateParams,auth, $q, $window,
 	},function error(response){
 		console.log("errore nel recupero dei favourites")
 	})
+	
+	angular.element($window).bind("scroll", function() {
+        if ($(window).scrollTop() + $(window).height() == $(document).height() && $scope.drills_next ) {
+          callDrillsNext = $http({
+        	  	method: 'GET',
+        	  	url: config.proxyURL+'/'+  $scope.drills_next
+          }).then(function success(response){
+        	  $scope.drills =  $scope.drills.concat(response.data.data);
+        	  console.log("lista drills next scaricata")
+           if(response.data.links.next){
+             $scope.drills_next = response.data.links.next;
+           } else {
+             $scope.drills_next = null;
+             angular.element($window).unbind("scroll");
+           }
+        },function error(response){
+      	  //console.log("Impossibile reperire la lista di apparatus per il program "+programID);
+            //console.log("Error - "+response.data);
+        });
+      }
+     });
 }
