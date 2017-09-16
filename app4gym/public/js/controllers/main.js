@@ -522,7 +522,7 @@ function usersTableCtrl($scope, $timeout) {
     {
       avatar: '4.jpg',
       status: 'offline',
-      name: 'Enéas Kwadwo',
+      name: 'EnÃ©as Kwadwo',
       new: true,
       registered: 'Jan 1, 2015',
       country: 'France',
@@ -536,7 +536,7 @@ function usersTableCtrl($scope, $timeout) {
     {
       avatar: '5.jpg',
       status: 'active',
-      name: 'Agapetus Tadeáš',
+      name: 'Agapetus TadeÃ¡Å¡',
       new: true,
       registered: 'Jan 1, 2015',
       country: 'Spain',
@@ -550,7 +550,7 @@ function usersTableCtrl($scope, $timeout) {
     {
       avatar: '6.jpg',
       status: 'busy',
-      name: 'Friderik Dávid',
+      name: 'Friderik DÃ¡vid',
       new: true,
       registered: 'Jan 1, 2015',
       country: 'Poland',
@@ -598,7 +598,7 @@ function clientsTableCtrl($scope, $timeout) {
     {
       avatar: '4.jpg',
       status: 'offline',
-      name: 'Enéas Kwadwo',
+      name: 'EnÃ©as Kwadwo',
       registered: 'Jan 1, 2015',
       activity: 'Last month',
       transactions: 189,
@@ -607,7 +607,7 @@ function clientsTableCtrl($scope, $timeout) {
     {
       avatar: '5.jpg',
       status: 'active',
-      name: 'Agapetus Tadeáš',
+      name: 'Agapetus TadeÃ¡Å¡',
       registered: 'Jan 1, 2015',
       activity: 'Last week',
       transactions: 189,
@@ -616,7 +616,7 @@ function clientsTableCtrl($scope, $timeout) {
     {
       avatar: '6.jpg',
       status: 'busy',
-      name: 'Friderik Dávid',
+      name: 'Friderik DÃ¡vid',
       registered: 'Jan 1, 2015',
       activity: 'Yesterday',
       transactions: 189,
@@ -716,7 +716,7 @@ function allenamentiCtrl($scope, $http, $state, auth, $q, $location, $rootScope)
 	  $q.all($scope.promises)
 	  		.then(function(values){
 	  			for (value in values){
-	  				//console.log("Value è "+JSON.stringify(values[value]));
+	  				//console.log("Value Ã¨ "+JSON.stringify(values[value]));
 	  				lista_programs = values[value].data.data;
 	  				branch_id = lista_programs[0].relationships.field_branch.data.id;
 	  				//console.log("Branch id: "+branch_id);
@@ -1133,6 +1133,7 @@ function drillDetailsCtrl($scope, $http, $state, $stateParams,auth, $q, $window,
   $scope.drills_next = {};
   $scope.apparatus_inclusions = {};
   $scope.comments = [];
+  $scope.nameUserComment = "";
   $scope.groups = [];
   $scope.skills = {};
   $scope.promises = [];
@@ -1224,6 +1225,51 @@ function drillDetailsCtrl($scope, $http, $state, $stateParams,auth, $q, $window,
 	                       }
 	                      ];
 
+  $scope.config = {
+      headers: {
+        "Content-Type":"application/json"
+      }
+  }
+
+  $scope.commentJson = {
+     "data":{
+       "type": "comment--comment",
+       "attributes": {
+         "langcode": "en",
+         "status": true,
+         "subject": "prova",
+         "name": JSON.parse(auth.getUserSession()).name,
+         "homepage": null,
+         "entity_type": "node",
+         "field_name": "comment",
+         "default_langcode": true,
+         "comment_body": {
+           "value": ""
+         }
+       },
+       "relationships": {
+         "pid": {
+           "data": {
+             "type": "comment--comment",
+             "id": ""
+           }
+         },
+         "entity_id": {
+           "data": {
+             "type": "node--drill",
+             "id": drillID
+           }
+         },
+         "uid": {
+           "data": {
+             "type": "user--user",
+             "id": "1c9d49dc-c3e0-4630-9c59-2c85e7cf4713"
+           }
+         }
+       }
+     }
+   };
+
   callDrill = $http({
 	  	method: 'GET',
 	  	url: config.proxyURL+'/'+config.portalURL+'/'+config.apiURL+'/node/drill/'+drillID+'?fields[node--drill]=title,created,field_branch,field_apparatus,field_drill_type,field_video_id,field_video_source,field_vide_url'
@@ -1272,23 +1318,4 @@ function drillDetailsCtrl($scope, $http, $state, $stateParams,auth, $q, $window,
     //console.log("Impossibile reperire la lista di apparatus per il program "+programID);
       //console.log("Error - "+response.data);
   });
-  angular.element($window).bind("scroll", function() {
-      if ($(window).scrollTop() + $(window).height() == $(document).height() && $scope.drills_next ) {
-        callDrillsNext = $http({
-      	  	method: 'GET',
-      	  	url: config.proxyURL+'/'+  $scope.drills_next
-        }).then(function success(response){
-      	  $scope.drills =  $scope.drills.concat(response.data.data);
-         if(response.data.links.next){
-           $scope.drills_next = response.data.links.next;
-         } else {
-           $scope.drills_next = null;
-           angular.element($window).unbind("scroll");
-         }
-      },function error(response){
-    	  //console.log("Impossibile reperire la lista di apparatus per il program "+programID);
-          //console.log("Error - "+response.data);
-      });
-    }
-   });
 }

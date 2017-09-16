@@ -12,12 +12,12 @@
         <div class="row" style="padding-top:10px">
           <div class="col-sm-8 gym-program-title text-justify">1000 visualizzazioni</div>
           <div class="col-sm-4 rating">
-						<i class="fa fa-star-o fa-2x" aria-hidden="true"></i>
-						<i class="fa fa-star-o fa-2x" aria-hidden="true"></i>
-						<i class="fa fa-star fa-2x" aria-hidden="true"></i>
-						<i class="fa fa-star fa-2x" aria-hidden="true"></i>
-						<i class="fa fa-star fa-2x" aria-hidden="true"></i>
-						<i class="fa fa-thumbs-up fa-2x" aria-hidden="true"></i>
+            <i class="fa fa-star-o fa-2x" aria-hidden="true"></i>
+            <i class="fa fa-star-o fa-2x" aria-hidden="true"></i>
+            <i class="fa fa-star fa-2x" aria-hidden="true"></i>
+            <i class="fa fa-star fa-2x" aria-hidden="true"></i>
+            <i class="fa fa-star fa-2x" aria-hidden="true"></i>
+            <i class="fa fa-thumbs-up fa-2x" aria-hidden="true"></i>
           </div>
         </div>
         <hr />
@@ -26,35 +26,36 @@
             <i class="fa fa-comment-o" aria-hidden="true" style="font-size:20px"></i>
           </div>
           <div class="col-sm-11" style="margin-left:-40px">
-            Comments
+            <button type="button" class="btn btn-link" data-toggle="modal" ng-click="callAddElement($event)" data-target="#exampleModal">Comments</button>
           </div>
         </div>
         <div class="comments" ng-repeat="comment in comments">
-					<div class="row">
-						<div class="col-sm-12" ng-class="{'offset-sm-1':comment.attributes.thread.split('.').length==2,'offset-sm-2':comment.attributes.thread.split('.').length==3}">
-							<div class="row" style="padding-top:10px">
-								<div class="col-sm-1" >
-									<i class="fa fa-user fa-2x" aria-hidden="true"></i>
-								</div>
-								<div class="col-sm-11" style="margin-left:-40px">
-									<div class="row">
-										<div class="col-sm-1" >
-											{{comment.attributes.name}}
-										</div>
-										<div class="col-sm-11" style="margin-left:-15px">
-											{{comment.attributes.created | date}}
-										</div>
-										<div class="col-sm-12" >
-											{{comment.attributes.comment_body.value}}
-										</div>
-										<div class="col-sm-12" ng-if="comment.attributes.thread.split('.').length<=2">
-											<a href="#">REPLY <i class="fa fa-thumbs-up fa-2x" aria-hidden="true"></i></a>
-										</div>
-									</div>
-								</div>
-							</div>
-						</div>
-					</div>
+          <div class="row">
+            <div class="col-sm-12" ng-class="{'offset-sm-1':comment.attributes.thread.split('.').length==2,'offset-sm-2':comment.attributes.thread.split('.').length==3}">
+              <div class="row" style="padding-top:10px">
+                <div class="col-sm-1">
+                  <i class="fa fa-user fa-2x" aria-hidden="true"></i>
+                </div>
+                <div class="col-sm-11" style="margin-left:-40px">
+                  <div class="row">
+                    <div class="col-sm-1">
+                      {{comment.attributes.name}}
+                    </div>
+                    <div class="col-sm-11" style="margin-left:-15px">
+                      {{comment.attributes.created | date}}
+                    </div>
+                    <div class="col-sm-12">
+                      {{comment.attributes.comment_body.value}}
+                    </div>
+                    <div class="col-sm-12" ng-if="comment.attributes.thread.split('.').length<=2">
+                      <button type="button" ng-click="callAddElement($event)" class="btn btn-link" data-toggle="modal" data-target="#exampleModal" data-who="{{comment.attributes.name}}" data-whatever="{{comment.id}}">REPLY</button>
+                      <i class="fa fa-thumbs-up fa-2x" aria-hidden="true"></i>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
     </div>
@@ -78,6 +79,30 @@
 							</a>
           </div>
           <div class="col-sm-6 gym-program-title drill-description">{{drill.attributes.title}}</div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">Add Comment</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+        </div>
+        <div class="modal-body">
+
+          <div class="form-group">
+            <label for="message-text" class="form-control-label">Message:{{nameUserComment}}</label>
+            <textarea class="form-control" id="message-text" ng-model="commentJson.attributes.comment_body.value"></textarea>
+          </div>
+
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+          <button type="button" class="btn btn-primary" ng-click="addcomment($event)">Comment</button>
         </div>
       </div>
     </div>
