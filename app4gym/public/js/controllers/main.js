@@ -522,7 +522,7 @@ function usersTableCtrl($scope, $timeout) {
     {
       avatar: '4.jpg',
       status: 'offline',
-      name: 'EnÃ©as Kwadwo',
+      name: 'Enéas Kwadwo',
       new: true,
       registered: 'Jan 1, 2015',
       country: 'France',
@@ -536,7 +536,7 @@ function usersTableCtrl($scope, $timeout) {
     {
       avatar: '5.jpg',
       status: 'active',
-      name: 'Agapetus TadeÃ¡Å¡',
+      name: 'Agapetus Tadeáš',
       new: true,
       registered: 'Jan 1, 2015',
       country: 'Spain',
@@ -550,7 +550,7 @@ function usersTableCtrl($scope, $timeout) {
     {
       avatar: '6.jpg',
       status: 'busy',
-      name: 'Friderik DÃ¡vid',
+      name: 'Friderik Dávid',
       new: true,
       registered: 'Jan 1, 2015',
       country: 'Poland',
@@ -598,7 +598,7 @@ function clientsTableCtrl($scope, $timeout) {
     {
       avatar: '4.jpg',
       status: 'offline',
-      name: 'EnÃ©as Kwadwo',
+      name: 'Enéas Kwadwo',
       registered: 'Jan 1, 2015',
       activity: 'Last month',
       transactions: 189,
@@ -607,7 +607,7 @@ function clientsTableCtrl($scope, $timeout) {
     {
       avatar: '5.jpg',
       status: 'active',
-      name: 'Agapetus TadeÃ¡Å¡',
+      name: 'Agapetus Tadeáš',
       registered: 'Jan 1, 2015',
       activity: 'Last week',
       transactions: 189,
@@ -616,7 +616,7 @@ function clientsTableCtrl($scope, $timeout) {
     {
       avatar: '6.jpg',
       status: 'busy',
-      name: 'Friderik DÃ¡vid',
+      name: 'Friderik Dávid',
       registered: 'Jan 1, 2015',
       activity: 'Yesterday',
       transactions: 189,
@@ -716,7 +716,7 @@ function allenamentiCtrl($scope, $http, $state, auth, $q, $location, $rootScope)
 	  $q.all($scope.promises)
 	  		.then(function(values){
 	  			for (value in values){
-	  				//console.log("Value Ã¨ "+JSON.stringify(values[value]));
+	  				//console.log("Value è "+JSON.stringify(values[value]));
 	  				lista_programs = values[value].data.data;
 	  				branch_id = lista_programs[0].relationships.field_branch.data.id;
 	  				//console.log("Branch id: "+branch_id);
