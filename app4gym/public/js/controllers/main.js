@@ -1013,7 +1013,7 @@ function favouritesCtrl($scope, $http, $state, $stateParams,auth, $q, $window, $
 	
 	callPins = $http({
 	  	method: 'GET',
-	  	url: config.proxyURL+'/'+config.portalURL+'/'+config.apiURL+'/node/drill_pin?filter[uid][condition][path]=uid&filter[uid][condition][value]='+$scope.userID+'&fields[node--drill_pin]=uuid,title,body,comment.comment_count,field_drill&include=field_drill&fields[node--drill]=title,body,field_video_id,field_video_source'
+	  	url: config.proxyURL+'/'+config.portalURL+'/'+config.apiURL+'/node/drill_pin?filter[uid][condition][path]=uid&filter[uid][condition][value]='+$scope.userID+'&fields[node--drill_pin]=uuid,title,body,comment.comment_count,nid,field_drill&include=field_drill&fields[node--drill]=title,body,field_video_id,field_video_source'
 	}).then(function success(response){
 		$scope.favourites = response.data.data;
 		console.log('Favourites: '+JSON.stringify(response.data.data));
@@ -1127,7 +1127,9 @@ function drillCtrl($scope, $http, $state, $stateParams,auth, $q, $window, $rootS
 drillDetailsCtrl.$inject = ['$scope', '$http', '$state', '$stateParams', 'auth', '$q', '$window', '$rootScope','$location'];
 function drillDetailsCtrl($scope, $http, $state, $stateParams,auth, $q, $window, $rootScope,$location) {
   drillID = $scope.idProgram = $stateParams.idDrill;
+  $scope.userID = JSON.parse(auth.getUserSession()).uid;
   $scope.config = config;
+  $scope.showDelete = null;
   $scope.drill = null;
   $scope.drills = [];
   $scope.drills_next = {};
@@ -1143,10 +1145,23 @@ function drillDetailsCtrl($scope, $http, $state, $stateParams,auth, $q, $window,
   angular.element('.voice-highlighted').removeClass('voice-highlighted');  
   angular.element('.'+$state.href('app.drill').split('/')[1]).addClass('voice-highlighted');
   console.log("stato attuale"+$state.href());
+  callPins = $http({
+	  	method: 'GET',
+	  	url: config.proxyURL+'/'+config.portalURL+'/'+config.apiURL+'/node/drill_pin?filter[uid][condition][path]=uid&filter[uid][condition][value]='+$scope.userID+'&fields[node--drill_pin]=uuid,title,body,comment.comment_count,field_drill&include=field_drill&fields[node--drill]=title,body,field_video_id,field_video_source'
+	}).then(function success(response){
+		$scope.favourites = response.data.data;
+		stringResult = JSON.stringify($scope.favourites);
+		if (stringResult.indexOf(drillID)!=-1){
+			$scope.showDelete = true;
+		}
+		else $scope.showDelete = false;
+		
+	},function error(response){
+		console.log("errore nel recupero dei favourites")
+	})
   $scope.config = {
 		  headers: {
-			  "Content-Type":"application/vnd.api+json",
-				  "Accept": "application/vnd.api+json"
+			  "Content-Type":"application/vnd.api+json"
 		  }
   }
   $scope.pinToSave = {
@@ -1178,8 +1193,8 @@ function drillDetailsCtrl($scope, $http, $state, $stateParams,auth, $q, $window,
 	}
   getUser = $http({
 	  	method: 'GET',
-	  	url: config.proxyURL+'/'+config.portalURL+'/'+config.apiURL+'/user/user?filter[uid][value]='+JSON.parse(auth.getUserSession()).uid,
-	  	config : $scope.headers
+	  	url: config.proxyURL+'/'+config.portalURL+'/'+config.apiURL+'/user/user?filter[uid][value]='+JSON.parse(auth.getUserSession()).uid
+	  	
   }).then(function success(response){
 		$scope.currentUser = response.data.data[0];
 		console.log("Utente attuale "+JSON.stringify($scope.currentUser));
@@ -1191,7 +1206,9 @@ function drillDetailsCtrl($scope, $http, $state, $stateParams,auth, $q, $window,
 	  $http({
 		  method: 'POST',
 		  url: config.proxyURL+'/'+config.portalURL+'/'+config.apiURL+'/node/drill_pin',
-		  data: $scope.pinToSave		  
+		  headers: {'Content-Type': 'application/vnd.api+json'},
+		  data: $scope.pinToSave,
+		  config : $scope.config.headers
 		}).then(function successCallback(response) {
 		    console.log("Esito del salvataggio del pin "+ response.data);
 		  }, function errorCallback(response) {
@@ -1272,7 +1289,7 @@ function drillDetailsCtrl($scope, $http, $state, $stateParams,auth, $q, $window,
 
   callDrill = $http({
 	  	method: 'GET',
-	  	url: config.proxyURL+'/'+config.portalURL+'/'+config.apiURL+'/node/drill/'+drillID+'?fields[node--drill]=title,created,field_branch,field_apparatus,field_drill_type,field_video_id,field_video_source,field_vide_url'
+	  	url: config.proxyURL+'/'+config.portalURL+'/'+config.apiURL+'/node/drill/'+drillID+'?fields[node--drill]=title,created,uid,field_branch,field_apparatus,field_drill_type,field_drill_pin,field_video_id,field_video_source,field_vide_url'
   })
   callDrills = $http({
       method: 'GET',
@@ -1318,4 +1335,16 @@ function drillDetailsCtrl($scope, $http, $state, $stateParams,auth, $q, $window,
     //console.log("Impossibile reperire la lista di apparatus per il program "+programID);
       //console.log("Error - "+response.data);
   });
+  
+  callPins = $http({
+	  	method: 'GET',
+	  	url: config.proxyURL+'/'+config.portalURL+'/'+config.apiURL+'/node/drill_pin?filter[uid][condition][path]=uid&filter[uid][condition][value]='+$scope.userID+'&fields[node--drill_pin]=uuid,title,body,comment.comment_count,field_drill&include=field_drill&fields[node--drill]=title,body,field_video_id,field_video_source'
+	}).then(function success(response){
+		$scope.favourites = response.data.data;
+		console.log('Favourites: '+JSON.stringify(response.data.data));
+		$scope.favourites_include = response.data.included;
+		console.log('Favourites include: '+JSON.stringify(response.data.included));
+	},function error(response){
+		console.log("errore nel recupero dei favourites")
+	})
 }
