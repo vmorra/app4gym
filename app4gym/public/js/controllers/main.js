@@ -1231,11 +1231,6 @@ function drillDetailsCtrl($scope, $http, $state, $stateParams,auth, $q, $window,
 	                       }
 	                      ];
 
-  $scope.config = {
-      headers: {
-        "Content-Type":"application/vnd.api+json"
-      }
-  }
 
   $scope.commentJson = {
      "data":{
