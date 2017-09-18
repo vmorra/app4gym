@@ -736,7 +736,7 @@ function allenamentiCtrl($scope, $http, $state, auth, $q, $location, $rootScope)
   $scope.goToDetails = function (programID){
 	  $location.url("/details-program/"+programID);
   }
-  
+
   $scope.selectBranch = function(elementId, event){
 	  current = angular.element(event.target);
 	  current.parent().find('.upper-menu-voice').removeClass("voice-highlighted");
@@ -746,14 +746,14 @@ function allenamentiCtrl($scope, $http, $state, auth, $q, $location, $rootScope)
 	  angular.element('#'+elementId).parent().show();
 	  angular.element('#'+elementId).show();
   }
-  
+
   $rootScope.selectBranch = $scope.selectBranch;
 
 }
 
 detailsProgramCtrl.$inject = ['$scope', '$http', '$state', '$stateParams', 'auth', '$q', '$rootScope','$timeout'];
 function detailsProgramCtrl($scope, $http, $state, $stateParams,auth, $q, $rootScope, $timeout) {
-	
+
   programID = $scope.idProgram = $stateParams.idProgram;
   $scope.prova = 'test';
   $scope.callExecuted = false;
@@ -768,7 +768,7 @@ function detailsProgramCtrl($scope, $http, $state, $stateParams,auth, $q, $rootS
   $rootScope.menuList = [];
   $scope.skills_inclusions = {};
   $scope.skill_difficulties = [];
-  
+
   //Slick Carousel Config
   $scope.number3 = [{label: 1}, {label: 2}, {label: 3}, {label: 4}, {label: 5}, {label: 6}, {label: 7}, {label: 8}];
   $scope.slickConfig3Loaded = false;
@@ -863,7 +863,7 @@ function detailsProgramCtrl($scope, $http, $state, $stateParams,auth, $q, $rootS
 		  				lista_skills = responses[response].data.data;
 		  				group_id = lista_skills[0].relationships.field_element_group.data.id;
 		  				$scope.skills[group_id] = lista_skills;
-		  			
+
 		  				$scope.navigation[group_id] = {};
 		  				if (responses[response].data.links.next !=null)
 		  					$scope.navigation[group_id]["next"] = responses[response].data.links.next;
@@ -875,12 +875,12 @@ function detailsProgramCtrl($scope, $http, $state, $stateParams,auth, $q, $rootS
 		  				for (inclusion in included){
 		  					skills_inclusions_with_index[included[inclusion].id] = included[inclusion];
 		  				}
-		  				
+
 		  				$scope.skills_inclusions[group_id] = skills_inclusions_with_index;
 
 		  			}
 		  			console.log("Gli skills di questo gruppo: "+JSON.stringify($scope.skills['fd039fef-d8e2-4240-aae0-0dee62a6613c']));
-		  			$scope.allSkillsLoaded =true; 
+		  			$scope.allSkillsLoaded =true;
 		  			$scope.slickConfig3Loaded=true;
 		  			//console.log("Ecco la lista di tutti gli skills: "+JSON.stringify($scope.skills));
 		  			//console.log("Ecco le inclusioni: "+ JSON.stringify($scope.skills_inclusions));
@@ -948,21 +948,21 @@ function detailsProgramCtrl($scope, $http, $state, $stateParams,auth, $q, $rootS
 	  $timeout(function () {
 		  $scope.allSkillsLoaded = true;
 		  $scope.slickConfig3Loaded = true;
-		   
+
 	      },300);
 	  $scope.allSkillsLoaded = false;
 	  $scope.slickConfig3Loaded = false;
-	 
+
 	  i = $scope.skill_difficulties.indexOf(name);
 	  if(i==-1)
 		  $scope.skill_difficulties.push(name)
 	  else $scope.skill_difficulties.splice(i, 1);
-	 
+
 	  $timeout(function () {
 		  $scope.slickConfig3Loaded = true;
-		   
+
 	      },300);
-	 
+
   }
 
 }
@@ -977,17 +977,17 @@ function favouritesCtrl($scope, $http, $state, $stateParams,auth, $q, $window, $
 	$scope.goToPage = function (location, event) {
 		 if (location.url!=''){
 			 $location.url("/"+location);
-		 }		 
+		 }
 	}
 	$timeout(function () {
-		angular.element('.voice-highlighted').removeClass('voice-highlighted');  
+		angular.element('.voice-highlighted').removeClass('voice-highlighted');
 		  angular.element('.'+$state.href('app.favourites').split('/')[1]).addClass('voice-highlighted');
-		   
+
 	      },300);
-	 
-	
+
+
 	$rootScope.goToPage = $scope.goToPage;
-	
+
 	$rootScope.menuList = [
 	                       {
 	                    	  'name' : 'Search',
@@ -1005,12 +1005,12 @@ function favouritesCtrl($scope, $http, $state, $stateParams,auth, $q, $window, $
 	                    		   'elementID' : ''
 	                       }
 	                      ];
-	
+
 	$scope.getIframeSrc = function(id, source) {
 	  console.log(config[source] + id);
       return config[source] + id+'?rel=0&amp;showinfo=0';
 	};
-	
+
 	callPins = $http({
 	  	method: 'GET',
 	  	url: config.proxyURL+'/'+config.portalURL+'/'+config.apiURL+'/node/drill_pin?filter[uid][condition][path]=uid&filter[uid][condition][value]='+$scope.userID+'&fields[node--drill_pin]=uuid,title,body,comment.comment_count,nid,field_drill&include=field_drill&fields[node--drill]=title,body,field_video_id,field_video_source'
@@ -1022,8 +1022,8 @@ function favouritesCtrl($scope, $http, $state, $stateParams,auth, $q, $window, $
 	},function error(response){
 		console.log("errore nel recupero dei favourites")
 	})
-	
-	
+
+
 	$scope.goToDrillDetail = function(id){
 		  $location.url("/drill-details/"+id);
 	  }
@@ -1044,21 +1044,21 @@ function drillCtrl($scope, $http, $state, $stateParams,auth, $q, $window, $rootS
   $scope.skills_inclusions = {};
   $scope.skill_difficulties = [];
   console.log($state.href('app.drill').split('/')[1]);
-  angular.element('.voice-highlighted').removeClass('voice-highlighted');  
+  angular.element('.voice-highlighted').removeClass('voice-highlighted');
   angular.element('.'+$state.href('app.drill').split('/')[1]).addClass('voice-highlighted');
-  
+
   $scope.goToPage = function (location, event) {
 		 current = angular.element(event.target);
 		 current.parent().find('.upper-menu-voice').removeClass("voice-highlighted");
 		 current.addClass('voice-highlighted');
 		 if (location.url!=''){
 			 $location.url("/"+location);
-		 }		 
+		 }
 	}
-	
+
 	$rootScope.goToPage = $scope.goToPage;
-	
-  $rootScope.menuList = [ 
+
+  $rootScope.menuList = [
 	                       {
 	                    	  'name' : 'Search',
 	                    		  'callBack' :  $rootScope.goToPage,
@@ -1075,7 +1075,7 @@ function drillCtrl($scope, $http, $state, $stateParams,auth, $q, $window, $rootS
 	                    		   'elementID' : ''
 	                       }
 	                      ];
-  
+
   callDrills = $http({
 	  	method: 'GET',
 	  	url: config.proxyURL+'/'+config.portalURL+'/'+config.apiURL+'/node/drill?fields[node--drill]=title,created,field_branch,field_apparatus,field_drill_type,field_video_id,field_video_source,field_vide_url&page[limit]=30'
@@ -1143,10 +1143,10 @@ function drillDetailsCtrl($scope, $http, $state, $stateParams,auth, $q, $window,
   $scope.navigation = {};
   $scope.skills_inclusions = {};
   $scope.skill_difficulties = [];
-  angular.element('.voice-highlighted').removeClass('voice-highlighted');  
+  angular.element('.voice-highlighted').removeClass('voice-highlighted');
   angular.element('.'+$state.href('app.drill').split('/')[1]).addClass('voice-highlighted');
   console.log("stato attuale"+$state.href());
- 
+
   $scope.config = {
 		  headers: {
 			  "Content-Type":"application/vnd.api+json"
@@ -1182,13 +1182,13 @@ function drillDetailsCtrl($scope, $http, $state, $stateParams,auth, $q, $window,
   getUser = $http({
 	  	method: 'GET',
 	  	url: config.proxyURL+'/'+config.portalURL+'/'+config.apiURL+'/user/user?filter[uid][value]='+JSON.parse(auth.getUserSession()).uid
-	  	
+
   }).then(function success(response){
 		$scope.currentUser = response.data.data[0];
 		console.log("Utente attuale "+JSON.stringify($scope.currentUser));
 		$scope.pinToSave.data.relationships.uid.data.id = $scope.currentUser.id;
   },function error(response){
-	  
+
   })
   $scope.saveInFavourites = function (){
 	  $http({
@@ -1201,18 +1201,18 @@ function drillDetailsCtrl($scope, $http, $state, $stateParams,auth, $q, $window,
 		    console.log("Esito del salvataggio del pin "+ response.data);
 		    $scope.showDelete = true;
 		  }, function errorCallback(response) {
-			  
+
 		  });
   }
   $scope.goToPage = function (location, event) {
-		 
+
 		 if (location.url!=''){
 			 $location.url("/"+location);
-		 }		 
+		 }
 	}
-	
+
 	$rootScope.goToPage = $scope.goToPage;
-	
+
   $rootScope.menuList = [
 	                       {
 	                    	  'name' : 'Search',
@@ -1233,7 +1233,7 @@ function drillDetailsCtrl($scope, $http, $state, $stateParams,auth, $q, $window,
 
   $scope.config = {
       headers: {
-        "Content-Type":"application/json"
+        "Content-Type":"application/vnd.api+json"
       }
   }
 
@@ -1324,6 +1324,31 @@ function drillDetailsCtrl($scope, $http, $state, $stateParams,auth, $q, $window,
     //console.log("Impossibile reperire la lista di apparatus per il program "+programID);
       //console.log("Error - "+response.data);
   });
+  $scope.callAddElement = function(e){
+    $scope.commentJson.data.relationships.pid.data.id = "";
+    $scope.nameUserComment = "";
+    idComment = angular.element(e.currentTarget).data("whatever");
+    angular.element("#message-text").val("");
+    if(idComment){
+        $scope.commentJson.data.relationships.pid.data.id = idComment
+        $scope.nameUserComment = " @"+angular.element(e.currentTarget).data("who");
+    }
+  }
+  $scope.addcomment = function(e){
+    $http({
+        method: 'POST',
+        url: config.proxyURL+'/'+config.portalURL+'/'+config.apiURL+'/comment/comment',
+        headers: {'Content-Type': 'application/vnd.api+json'},
+        data: $scope.commentJson
+    }).then(function success(response){
+      response = response.data.data;
+      console.log("Lista degli Comments: "+JSON.stringify(response));
+    },function error(response){
+      //console.log("Impossibile reperire la lista di apparatus per il program "+programID);
+        //console.log("Error - "+response.data);
+    });
+    angular.element("#exampleModal").modal('hide');
+  }
   callFav = $http({
 	  	method: 'GET',
 	  	url: config.proxyURL+'/'+config.portalURL+'/'+config.apiURL+'/node/drill_pin?filter[field_drill.uuid][value]='+drillID+'&fields[node--drill_pin]=uuid'
@@ -1331,12 +1356,12 @@ function drillDetailsCtrl($scope, $http, $state, $stateParams,auth, $q, $window,
 		if (response.data.data.length!=0) {
 			$scope.pin = response.data.data[0].attributes.uuid;
 		}
-		
+
 		if ($scope.pin !==null && $scope.pin !==undefined && $scope.pin!=''){
 			$scope.showDelete = true;
 		}
 		else $scope.showDelete = false;
-		
+
 	},function error(response){
 		console.log("errore nel recupero dei favourites")
 	})
@@ -1350,10 +1375,10 @@ function drillDetailsCtrl($scope, $http, $state, $stateParams,auth, $q, $window,
 		},function error(response){
 			console.log("errore nella cancellazione")
 		})
-		
+
   }
-  
-	
+
+
 	angular.element($window).bind("scroll", function() {
         if ($(window).scrollTop() + $(window).height() == $(document).height() && $scope.drills_next ) {
           callDrillsNext = $http({
