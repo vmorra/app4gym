@@ -852,7 +852,7 @@ function detailsProgramCtrl($scope, $http, $state, $stateParams,auth, $q, $rootS
 			  p = $http({
 				  method: 'GET',
 				  ignoreLoadingBar: true,
-				  url: config.proxyURL+'/'+config.portalURL+'/'+config.apiURL+'/node/skill?filter[program][condition][path]=field_program.uuid&filter[program][condition][value]='+programID+'&include=field_image,field_difficulty&fields[node--skill]=body,field_code,field_value,field_difficulty,field_element_group,field_image&fields[file--file]=url&field[apparatus][condition][path]=field_apparatus.uuid&field[apparatus][condition][value]='+apparatusID+'&field[group][condition][path]=field_element_group.uuid&field[group][condition][value]='+groupID+'&fields[taxonomy_term--difficulty]=name&page[limit]=200&page[offset]=0'
+				  url: config.proxyURL+'/'+config.portalURL+'/'+config.apiURL+'/node/skill?filter[and-group][group][conjunction]=AND&filter[program][condition][path]=field_program.uuid&filter[program][condition][value]='+programID+'&filter[program][condition][memberOf]=and-group&filter[apparatus][condition][path]=field_apparatus.uuid&filter[apparatus][condition][value]='+apparatusID+'&filter[apparatus][condition][memberOf]=and-group&filter[group][condition][path]=field_element_group.uuid&filter[group][condition][value]='+groupID+'&include=field_image,field_difficulty&fields[node--skill]=body,field_code,field_value,field_difficulty,field_image,field_element_group&fields[file--file]=url&fields[taxonomy_term--difficulty]=name'
 			  });
 			  $scope.promises.push(p);
 		  }
@@ -879,7 +879,7 @@ function detailsProgramCtrl($scope, $http, $state, $stateParams,auth, $q, $rootS
 		  				$scope.skills_inclusions[group_id] = skills_inclusions_with_index;
 
 		  			}
-		  			console.log("Gli skills di questo gruppo: "+JSON.stringify($scope.skills['fd039fef-d8e2-4240-aae0-0dee62a6613c']));
+		  			
 		  			$scope.allSkillsLoaded =true; 
 		  			$scope.slickConfig3Loaded=true;
 		  			//console.log("Ecco la lista di tutti gli skills: "+JSON.stringify($scope.skills));
