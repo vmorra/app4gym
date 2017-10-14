@@ -1,9 +1,9 @@
 <div ng-controller="drillDetailsCtrl">
   <div class="row justify-content-center" ng-if="drill != null">
-    <div class="col-xs-12 col-sm-12 col-md-9 col-lg-9">
+    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-7">
       <div class="drill-container text-justify">
         <div class="gym-drill-preview-container-detail text-center rwd-video">
-          <iframe width="854" height="480" src="{{getIframeSrc(drill.attributes.field_video_id,drill.attributes.field_video_source)}}" frameborder="0" allowfullscreen></iframe>
+          <iframe class="pull-right" width="854" height="480" src="{{getIframeSrc(drill.attributes.field_video_id,drill.attributes.field_video_source)}}" frameborder="0" allowfullscreen></iframe>
         </div>
         <div>
           <div class="col-xs-12 gym-program-title text-justify">{{drill.attributes.title}}
@@ -12,14 +12,15 @@
           </div>
         </div>
         <div class="row" style="padding-top:10px">
-          <div class="col-sm-8 gym-program-title text-justify">1000 visualizzazioni</div>
-          <div class="col-sm-4 rating">
-            <i class="fa fa-star-o fa-2x" aria-hidden="true"></i>
-            <i class="fa fa-star-o fa-2x" aria-hidden="true"></i>
-            <i class="fa fa-star fa-2x" aria-hidden="true"></i>
-            <i class="fa fa-star fa-2x" aria-hidden="true"></i>
-            <i class="fa fa-star fa-2x" aria-hidden="true"></i>
-            <i class="fa fa-thumbs-up fa-2x" aria-hidden="true"></i>
+          <div class="col-xs-12 col-sm-6 gym-program-title">1000 visualizzazioni</div>
+          <div class="col-xs-12 col-sm-6">
+            
+            <i class="fa fa-star fa-drill" aria-hidden="true"></i>
+            <i class="fa fa-star fa-drill" aria-hidden="true"></i>
+            <i class="fa fa-star fa-drill" aria-hidden="true"></i>
+            <i class="fa fa-star-o fa-drill" aria-hidden="true"></i>
+            <i class="fa fa-star-o fa-drill" aria-hidden="true"></i>
+            <i class="fa fa-thumbs-up pull-right fa-drill" aria-hidden="true"></i>
           </div>
         </div>
         <hr />
@@ -61,7 +62,7 @@
         </div>
       </div>
     </div>
-    <div class="col-xs-12 col-sm-12 col-md-3 col-lg-3">
+    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-5">
       <ul class="nav nav-tabs gym-drill-detail-navs">
         <li class="nav-item">
           <a class="nav-link active" href="#">Altri Risultati</a>
@@ -78,7 +79,7 @@
 	        
 	          <div class="gym-drill-preview-container" style="background-image:url({{'http://img.youtube.com/vi/'+drill.attributes.field_video_id+'/0.jpg'}})">				
 	          </div>
-	          <div class="related-video-title"><b>{{drill.attributes.title}}</b></div>
+	          <b class="pull-right gym-margin-left-xs related-video-text-size">{{drill.attributes.title}}</b>
 	        
 	      </div>
       </div>

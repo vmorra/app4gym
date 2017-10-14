@@ -1102,9 +1102,10 @@ function drillCtrl($scope, $http, $state, $stateParams,auth, $q, $window, $rootS
       //console.log("Error - "+response.data);
   });
   angular.element($window).bind("scroll", function() {
-	  console.log($(window).scrollTop() + $(window).height())
-		console.log($(document).height()+" "+$scope.drills_next);
-               if (Math.round($(window).scrollTop() + $(window).height()) >= $(document).height() && $scope.drills_next) {
+//	  console.log($(window).scrollTop() + $(window).height())
+//		console.log($(document).height()+" "+$scope.drills_next);
+               if (Math.round($(window).scrollTop() + $(window).height()) >= ($(document).height()) && $scope.drills_next && $scope.drills_next_old !== $scope.drills_next) {
+            	   $scope.drills_next_old = $scope.drills_next;
             	   callDrillsNext = $http({
                	  	method: 'GET',
                	  	url: config.proxyURL+'/'+  $scope.drills_next
@@ -1360,8 +1361,9 @@ function drillDetailsCtrl($scope, $http, $state, $stateParams,auth, $q, $window,
 	angular.element($window).bind("scroll", function() {
 //		console.log($(window).scrollTop() + $(window).height())
 //		console.log($(document).height()+" "+$scope.drills_next);
-        if (Math.round($(window).scrollTop() + $(window).height()) >= 700 && $scope.drills_next ) {
-          callDrillsNext = $http({
+        if (Math.round($(window).scrollTop() + $(window).height()) >= $(document).height() && $scope.drills_next && $scope.drills_next_old !== $scope.drills_next ) {
+            $scope.drills_next_old = $scope.drills_next;
+        	callDrillsNext = $http({
         	  	method: 'GET',
         	  	url: config.proxyURL+'/'+  $scope.drills_next
           }).then(function success(response){

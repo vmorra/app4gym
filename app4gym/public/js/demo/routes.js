@@ -237,4 +237,26 @@ angular
         }]
       }
   })
+  
+     .state('app.test', {
+    url: '/test',
+    templateUrl: 'views/test.html',
+    ncyBreadcrumb: {
+    label: "TEST PAGE"
+    },
+    resolve: {
+    	loadPlugin: ['$ocLazyLoad', function ($ocLazyLoad) {
+            // you can lazy load files for an existing module
+            return $ocLazyLoad.load([{
+              files: ['js/auth.js']
+            }]);
+          }],
+        loadMyCtrl: ['$ocLazyLoad', function($ocLazyLoad) {
+          // you can lazy load controllers
+          return $ocLazyLoad.load({
+            files: ['js/tester.js']
+          });
+        }]
+      }
+  })
 }]);
