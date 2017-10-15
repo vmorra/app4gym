@@ -122,8 +122,8 @@ body {
 	top: 0;
 	width: 100%;
 }
-.drill-container{
-	max-width: 900px;
+.drill-container-detail{
+	max-width: 815px;
 }
 
 .gym-margin-left-xs{
@@ -131,7 +131,7 @@ body {
 }
 
 .related-video-text-size{
-	
+	cursor:pointer;
 	width:45%;
 }
 .drills {
@@ -139,18 +139,57 @@ body {
 	min-width:400px;
 }
 
-@media (min-width : 1000px) and (max-width: 1150px){
-	.drill-container{
+.drills-page {
+	margin-bottom: 30px;
+	min-width:210px;
+}
+
+@media (min-width : 992px) and (max-width: 1150px){
+	.drill-container-detail{
 	    display: inline-block;
-		width: 500px;
+		width: 85%;
 		float: right;
 	}
 }
 
+.gym-drill-preview-container {
+    height: 157px;
+    width: 210px;
+    background-size: 280px 210px;
+    background-position: center center;
+    margin-bottom: 10px;
+    background-repeat: no-repeat;
+}
+.gym-drill-preview-container:hover {
+	cursor: pointer;
+}
+
+@media (min-width : 401px) and (max-width: 528px){
+	.gym-drill-preview-container-right {
+	    height: 300px !important;
+	    width: 400px !important;
+	    background-size: 400px 300px !important;
+	    background-position: center center;
+	    margin-bottom: 10px;
+	    background-repeat: no-repeat;
+	}
+	
+	.drill-description {
+		max-width:450px !important;
+	}
+}
+@media (max-width : 450px){
+	.related-video-text-size{
+	width: 210px;
+	}
+	.gym-margin-left-xs {
+	  margin-left: 0px;
+	}
+}
 @media (min-width : 1151px){
-	.drill-container{
+	.drill-container-detail{
 	    display: inline-block;
-		width: 640px;
+		width: 85%;
 		float: right;
 	}
 	
@@ -260,8 +299,11 @@ body {
 .gym-drill-detail-navs {
 	margin-bottom: 20px;
 }
-
 .gym-drill-preview-container {
+
+	margin-bottom:10px;
+}
+.gym-drill-preview-container-right {
     height: 157px;
     width: 210px;
     background-size: 280px 210px;
@@ -269,7 +311,7 @@ body {
     margin-bottom: 10px;
     background-repeat: no-repeat;
 }
-.gym-drill-preview-container:hover {
+.gym-drill-preview-container-right:hover {
 	cursor: pointer;
 }
 
@@ -442,6 +484,10 @@ iframe{
 	margin-bottom: 15px;
 }
 
+.drill-container-wrapper {
+	margin-bottom: 15px;
+}
+
 @media (max-width: 544px) {
 	.drill-video-preview {
 		height: 236px;
@@ -453,7 +499,6 @@ iframe{
 	}
 	
 	.drill-description {
-		max-width: 430px;
 		text-align: center !important;
 		font-size:larger;
 		color: #737070;

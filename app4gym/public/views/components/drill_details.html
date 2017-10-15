@@ -1,7 +1,7 @@
 <div ng-controller="drillDetailsCtrl">
   <div class="row justify-content-center" ng-if="drill != null">
     <div class="col-xs-12 col-sm-12 col-md-12 col-lg-7">
-      <div class="drill-container text-justify">
+      <div class="drill-container-detail text-justify">
         <div class="gym-drill-preview-container-detail text-center rwd-video">
           <iframe class="pull-right" width="854" height="480" src="{{getIframeSrc(drill.attributes.field_video_id,drill.attributes.field_video_source)}}" frameborder="0" allowfullscreen></iframe>
         </div>
@@ -77,9 +77,9 @@
       <div class="drill-container-wrapper-detail">
 	      <div class="drills d-flex flex-row flex-wrap" ng-repeat="drill in drills">
 	        
-	          <div class="gym-drill-preview-container" style="background-image:url({{'http://img.youtube.com/vi/'+drill.attributes.field_video_id+'/0.jpg'}})">				
+	          <div class="gym-drill-preview-container" ng-click="goToPage('drill-details/'+drill.id,$event)" style="background-image:url({{'http://img.youtube.com/vi/'+drill.attributes.field_video_id+'/0.jpg'}})">				
 	          </div>
-	          <b class="pull-right gym-margin-left-xs related-video-text-size">{{drill.attributes.title}}</b>
+	          <b class="pull-right gym-margin-left-xs related-video-text-size" ng-click="goToPage('drill-details/'+drill.id,$event)">{{drill.attributes.title}}</b>
 	        
 	      </div>
       </div>
