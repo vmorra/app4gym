@@ -1,9 +1,10 @@
 angular
 .module('app')
-.config(['$stateProvider', '$urlRouterProvider', '$ocLazyLoadProvider', '$breadcrumbProvider', function($stateProvider, $urlRouterProvider, $ocLazyLoadProvider, $breadcrumbProvider) {
+.config(['$stateProvider', '$urlRouterProvider', '$ocLazyLoadProvider', '$breadcrumbProvider', '$locationProvider', function($stateProvider, $urlRouterProvider, $ocLazyLoadProvider, $breadcrumbProvider,$locationProvider) {
 
-  $urlRouterProvider.otherwise('/dashboard');
-
+  $urlRouterProvider.otherwise('/test');
+  $locationProvider.hashPrefix('');
+ 
   $ocLazyLoadProvider.config({
     // Set to true if you want to see what and when is dynamically loaded
     debug: true

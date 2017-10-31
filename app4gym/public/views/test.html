@@ -1,3 +1,37 @@
-<div class="container" ng-controller="testerCtrl">
+<div ng-controller="testerCtrl">
+	<div id="modal-youtube" class="modal fade bd-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+	  <div class="modal-dialog modal-lg">
+	    <div class="modal-content">
+		    <div class="modal-header">
+	        	<h5 class="modal-title" id="exampleModalLabel">Your Playlists</h5>
+	        	<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+	          		<span aria-hidden="true">&times;</span>
+	        	</button>
+	      	</div>
+	      	<div ng-repeat="playlist in playlists" ng-show="playlistmode">
+	      		<div ng-click="goToPlayList(playlist.id)"><h1>{{playlist.snippet.title}}</h1></div>
+	      	</div>
+	      	
+	      	
+	      	<div class="drills-page d-flex flex-row flex-wrap justify-content-center" ng-show="!playlistmode">
+		
+				<div class="p-2 drill-container-wrapper" ng-repeat="videoItem in playlistItems">
+					 <div class="drill-container text-justify">
+						 <div class="gym-drill-preview-container-right text-center" style="background-image:url({{'http://img.youtube.com/vi/'+videoItem.contentDetails.videoId+'/0.jpg'}})">
+						 </div>		
+						 <div class="gym-program-title drill-description text-justify" ng-click="goToDrillDetail(drill.id)">{{videoItem.snippet.title}}</div>							
+					</div>
+				</div>
+		
+			</div>
+		
+	    </div>
+	  </div>
+	</div>
 	
+	
+	<div class="container">
+		<button ng-click="getUserChannel();">Add drill pin</button>
+	</div>
 </div>
+

@@ -16,9 +16,9 @@
     <meta name="author" content="Łukasz Holeczek">
     <meta name="keyword" content="Bootstrap,Admin,Template,Open,Source,AngularJS,Angular,Angular2,Angular 2,Angular4,Angular 4,jQuery,CSS,HTML,RWD,Dashboard,React,React.js,Vue,Vue.js">
     <link rel="shortcut icon" href="img/favicon.png">
-
+	<base href="/">
     <title>CoreUI - Open Source Bootstrap Admin Template</title>
-
+	
     <!-- Main styles for this application -->
     <link href="css/style.css" rel="stylesheet">
     <link href="css/main.css" rel="stylesheet">
@@ -50,7 +50,20 @@
 	-->
 
 <body class="app header-fixed sidebar-hidden sidebar-fixed aside-menu-fixed aside-menu-hidden footer-fixed">
-
+    <script>
+	var queryString = location.hash.substring(1);
+	
+	// Parse query string to see if page request is coming from OAuth 2.0 server.
+      params = {};
+	  var regex = /([^&=]+)=([^&]*)/g, m;
+	  while (m = regex.exec(queryString)) {
+	    params[decodeURIComponent(m[1])] = decodeURIComponent(m[2]);
+	  }
+	 
+	  //store params in localStorage
+	  localStorage.setItem('params', JSON.stringify(params));	
+    </script>
+	
     <!-- User Interface -->
     <ui-view></ui-view>
 
