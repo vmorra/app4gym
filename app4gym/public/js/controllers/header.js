@@ -17,7 +17,7 @@ function headerCtrl($scope, $http, $state, auth, $rootScope) {
 			  }
 	  }
 	
-	$scope.user.name = JSON.parse(auth.getUserSession()).name;	
+	$scope.user.name = auth.getUserSession();	
 	
 			
 	

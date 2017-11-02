@@ -6,12 +6,12 @@ angular
 testerCtrl.$inject = ['$scope','$timeout','$http'];
 function testerCtrl($scope,$timeout,$http) {
 	  $scope.playlistmode = true;
-	  console.log("controller loaded");
+	  //console.log("controller loaded");
 	  var API_KEY = "AIzaSyAMkHWnLNAvpKte-XA9nh3RheX7lFn_dNM";
 	  var YOUR_CLIENT_ID = '662672391959-7u2ejqfcrn6b1ludoitifdhv4vkoakdo.apps.googleusercontent.com';
 	  var YOUR_REDIRECT_URI = 'http://localhost:3000';
 	  var accountId = "";
-	  
+	  $scope.videoSelected = [];
 	  $scope.playlists = [];
 	  $scope.playlistItems = {};
 
@@ -22,9 +22,9 @@ function testerCtrl($scope,$timeout,$http) {
 	    localStorage.setItem('params','');
 	  }
 	  
-	  angular.element('#modal-youtube').on('hide.bs.modal', function (event) {
-		  console.log("cello");
+	  angular.element('#modal-youtube').on('hide.bs.modal', function (event) {		 
 		$scope.playlistmode = true;
+		$scope.videoSelected = [];
 	  })
 	  
 	  // If there's an access token, try an API request.
@@ -58,7 +58,7 @@ function testerCtrl($scope,$timeout,$http) {
 	   */
 	  
 	  $scope.goToPlayList = function(id){
-		
+		  	$scope.videoSelected = [];
 		  	var params = JSON.parse(localStorage.getItem('oauth2-test-params'));
 			getPlayListItems = $http({
 		  	  	method: 'GET',
@@ -70,7 +70,7 @@ function testerCtrl($scope,$timeout,$http) {
 				
 	    	  	$scope.playlistItems = response.data.items;
 	    	  	
-			  	console.log("json playlist"+JSON.stringify($scope.playlistItems));
+			  	//console.log("json playlist"+JSON.stringify($scope.playlistItems));
 			  	
 	    	  	$scope.playlistmode = false;
 			},function error(response){
@@ -89,7 +89,7 @@ function testerCtrl($scope,$timeout,$http) {
 			
     	  	$scope.playlists = response.data.items;
     	  	
-		  	//console.log("json playlist"+JSON.stringify($scope.playlists));
+		  	console.log("json playlist"+JSON.stringify($scope.playlists));
 		  	
 		  	angular.element("#modal-youtube").modal('show');
 		},function error(response){
@@ -155,11 +155,28 @@ function testerCtrl($scope,$timeout,$http) {
 	        	  $scope.getUserChannel();
 	          }
 	        } else if (xhr.readyState == 4) {
-	          console.log('There was an error processing the token, another ' +
-	                      'response was returned, or the token was invalid.')
+	          //console.log('There was an error processing the token, another ' +
+	              //        'response was returned, or the token was invalid.')
 	        }
 	      };
 	      xhr.send(null);
 	    }
+	  }
+	  
+	 
+	  $scope.toggleVideoSelection = function (event,index){
+		  currentElement = angular.element(event.target);
+		  if (currentElement.hasClass('video-selected')){
+			  currentElement.removeClass('video-selected');
+			  ind = $scope.videoSelected.indexOf(index);
+			  if (ind > -1){
+				  $scope.videoSelected = $scope.videoSelected.splice(index, 1);
+			  }
+		  }
+		  else {
+			  currentElement.addClass('video-selected');
+			  $scope.videoSelected.push(index);
+		  }
+		  
 	  }
 }

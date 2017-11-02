@@ -2,7 +2,7 @@ angular
 .module('app')
 .config(['$stateProvider', '$urlRouterProvider', '$ocLazyLoadProvider', '$breadcrumbProvider', '$locationProvider', function($stateProvider, $urlRouterProvider, $ocLazyLoadProvider, $breadcrumbProvider,$locationProvider) {
 
-  $urlRouterProvider.otherwise('/test');
+  $urlRouterProvider.otherwise('/drill');
   $locationProvider.hashPrefix('');
  
   $ocLazyLoadProvider.config({
@@ -29,7 +29,7 @@ angular
        entity: function($stateParams) {
     		//console.log("in entity function: "+JSON.parse(auth.getUserSession()).i_account_name);
     		if(localStorage.getItem("current_user")!=null)
-    			return JSON.parse(localStorage.getItem("current_user")).name;
+    			return localStorage.getItem("current_user")
     		else return "";
     		
       },

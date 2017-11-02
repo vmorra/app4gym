@@ -8,16 +8,25 @@
 	          		<span aria-hidden="true">&times;</span>
 	        	</button>
 	      	</div>
-	      	<div ng-repeat="playlist in playlists" ng-show="playlistmode">
-	      		<div ng-click="goToPlayList(playlist.id)"><h1>{{playlist.snippet.title}}</h1></div>
+	      	
+	      	<div ng-repeat="playlist in playlists" class="row playlist-element" ng-show="playlistmode" ng-if="playlist.snippet.title!='Favorites'">
+	      		<div class="col-6 text-center">
+	      			<img ng-click="goToPlayList(playlist.id)" class="gym-playlist-preview" src="{{playlist.snippet.thumbnails.default.url}}"></img>
+	      		</div>
+	      		<div class="col-6 playlist-info">
+	      			<h4>{{playlist.snippet.title}}</h4>
+	      			<p class="playlist-description">{{playlist.snippet.description}}</p>
+	      			<span>Items: {{playlist.contentDetails.itemCount}}</span>	      			
+	      		</div>
+	      		<hr class="playlist-divider">
 	      	</div>
 	      	
-	      	
+	      	<span class="text-right back-to-playlist" ng-click="playlistmode=true" ng-show="!playlistmode"><i class="fa fa-chevron-left fa-1" aria-hidden="true"></i>  Indietro</span>
 	      	<div class="drills-page d-flex flex-row flex-wrap justify-content-center" ng-show="!playlistmode">
-		
+				
 				<div class="p-2 drill-container-wrapper" ng-repeat="videoItem in playlistItems">
 					 <div class="drill-container text-justify">
-						 <div class="gym-drill-preview-container-right text-center" style="background-image:url({{'http://img.youtube.com/vi/'+videoItem.contentDetails.videoId+'/0.jpg'}})">
+						 <div class="gym-drill-preview-container-right text-center" ng-click="toggleVideoSelection($event,$index)" style="background-image:url({{'http://img.youtube.com/vi/'+videoItem.contentDetails.videoId+'/0.jpg'}})">
 						 </div>		
 						 <div class="gym-program-title drill-description text-justify" ng-click="goToDrillDetail(drill.id)">{{videoItem.snippet.title}}</div>							
 					</div>

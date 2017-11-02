@@ -517,3 +517,66 @@ iframe{
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
 }
+
+
+.playlist-element {
+	margin-top:10px;	
+	padding-bottom:5px;
+}
+
+.gym-playlist-preview {
+	height: 157px;
+    width: 210px;
+}
+
+.playlist-divider{
+	color:silver;
+	width: 90%;
+}
+
+.playlist-description {
+  overflow: hidden;
+  position: relative;
+  line-height: 1.4em;
+  max-height: 5.6em;
+  text-align: left;
+  margin-right: -1em;
+  padding-right: 1em;
+  margin-top: 15px;
+}
+
+.playlist-description:before {
+  content: '...';
+  position: absolute;
+  right: 5px;
+  bottom: 0;
+}
+
+.playlist-description:after {
+  content: '';
+  position: absolute;
+  right: 0;
+  width: 1em;
+  height: 1em;
+  margin-top: 0.2em;
+  background: #f7f7f7;
+}
+
+.playlist-info {
+   padding-right: 30px;
+}
+
+.back-to-playlist{
+	margin-right: 10px;
+	cursor: pointer;
+}
+
+.video-selected {
+    border: 5px solid red;
+}
+
+.fixedbutton {
+    position: fixed;
+    bottom: 80px;
+    right: 80px; 
+}
