@@ -37,8 +37,8 @@ angular
 	}
     
     this.getRefreshToken = function(){
-	    if (localStorage.getItem('access_token')!=null){
-	    	return localStorage.getItem('access_token');
+	    if (localStorage.getItem('refresh_token')!=null){
+	    	return localStorage.getItem('refresh_token');
 	    }
 	    else return "{}";
 	}
