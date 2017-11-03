@@ -13,7 +13,9 @@ function testerCtrl($scope,$timeout,$http) {
 	  var accountId = "";
 	  $scope.videoSelected = [];
 	  $scope.playlists = [];
-	  $scope.playlistItems = {};
+	  $scope.playlistItems = [];
+	  $scope.drillVideos = [];
+	  $scope.drillVideosMode = false;
 
 	 params = JSON.parse(localStorage.getItem('params'));
 	 
@@ -89,7 +91,7 @@ function testerCtrl($scope,$timeout,$http) {
 			
     	  	$scope.playlists = response.data.items;
     	  	
-		  	console.log("json playlist"+JSON.stringify($scope.playlists));
+		  	//console.log("json playlist"+JSON.stringify($scope.playlists));
 		  	
 		  	angular.element("#modal-youtube").modal('show');
 		},function error(response){
@@ -176,7 +178,18 @@ function testerCtrl($scope,$timeout,$http) {
 		  else {
 			  currentElement.addClass('video-selected');
 			  $scope.videoSelected.push(index);
+		  }		  
+	  }
+	  
+	  $scope.addToVideoSelection = function(){
+		  length = $scope.videoSelected.length;
+		  console.log("videoSelected length: "+$scope.videoSelected.length);
+		  for (i=0;i<length;i++){
+			  $scope.drillVideos.push($scope.playlistItems[$scope.videoSelected[i]]);
 		  }
+		  console.log(JSON.stringify($scope.drillVideos));
 		  
+		  $scope.drillVideosMode = true;
+		  $("#videoDrills").scrollTop();
 	  }
 }

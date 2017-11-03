@@ -580,3 +580,10 @@ iframe{
     bottom: 80px;
     right: 80px; 
 }
+
+.button-video-selection {
+ 	width: 50%;
+ 	align-self:center;
+ 	position: relative;
+ 	bottom: 15px;
+}

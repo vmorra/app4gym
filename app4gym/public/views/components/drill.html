@@ -38,8 +38,8 @@
 	      		<hr class="playlist-divider">
 	      	</div>
 	      	
-	      	<span class="text-right back-to-playlist" ng-click="playlistmode=true" ng-show="!playlistmode"><i class="fa fa-chevron-left fa-1" aria-hidden="true"></i>  Indietro</span>
-	      	<div class="drills-page d-flex flex-row flex-wrap justify-content-center" ng-show="!playlistmode">
+	      	<span class="text-right back-to-playlist" ng-click="playlistmode=true" ng-show="!playlistmode && !drillVideosMode"><i class="fa fa-chevron-left fa-1" aria-hidden="true"></i>  Indietro</span>
+	      	<div class="drills-page d-flex flex-row flex-wrap justify-content-center" ng-show="!playlistmode && !drillVideosMode">
 				
 				<div class="p-2 drill-container-wrapper" ng-repeat="videoItem in playlistItems">
 					 <div class="drill-container text-justify">
@@ -47,10 +47,25 @@
 						 </div>		
 						 <div class="gym-program-title drill-description text-justify" ng-click="goToDrillDetail(drill.id)">{{videoItem.snippet.title}}</div>							
 					</div>
-				</div>
-				<button type="button" class="btn btn-danger btn-lg" ng-click="addToVideoSelection()">Add drill pin</button>
+				</div>				
 			</div>
+			
+			<span class="text-right back-to-playlist" ng-click="playlistmode=true; drillVideosMode=false" ng-show="!playlistmode && drillVideosMode"><i class="fa fa-chevron-left fa-1" aria-hidden="true"></i>  PlayLists</span>
+			
+			<div ng-repeat="videoDrill in drillVideos" class="row playlist-element" ng-show="!playlistmode && drillVideosMode">
+	      		<div class="col-6 text-center">
+	      			<img class="gym-playlist-preview" src="{{videoDrill.snippet.thumbnails.default.url}}"></img>
+	      			<h6>{{videoDrill.snippet.title}}</h6>
+	      		</div>
+	      		<div class="col-6 playlist-info">
+	      			
+	      			<p class="playlist-description">{{videoDrill.snippet.description}}</p>
+	      			      			
+	      		</div>
+	      		<hr class="playlist-divider">
+	      	</div>
 		
+		<button type="button" class="btn btn-danger btn-lg button-video-selection" ng-show="!playlistmode" ng-click="addToVideoSelection()">Aggiungi all'elenco</button>
 	    </div>
 	  </div>
 	</div>
