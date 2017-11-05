@@ -36,6 +36,14 @@ function loginCtrl($scope, $http, $state, auth) {
 			  data: fd
 			  
 			}).then(function successCallback(response) {
+				getLoggedUser = $http({
+				  	method: 'GET',
+				  	url: config.proxyURL+'/'+config.portalURL+'/'+config.apiURL+'/user/user'+'?filter[user][condition][path]=name&filter[user][condition][value]='+$scope.data.username
+				}).then(function successCallback(response){
+					auth.setUserInfo(response.data.data.attributes);
+				}, function errorCallback(response){
+					
+				})
 			    console.log("response data:" +JSON.stringify(response.data));
 			    auth.populateUserSession(response.data, $scope.data.username);
 			    $state.transitionTo('app.main');

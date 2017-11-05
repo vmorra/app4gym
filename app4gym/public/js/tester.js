@@ -15,8 +15,36 @@ function testerCtrl($scope,$timeout,$http) {
 	  $scope.playlists = [];
 	  $scope.playlistItems = [];
 	  $scope.drillVideos = [];
+	  $scope.branches = [];
+	  $scope.apparatusList = [];
 	  $scope.drillVideosMode = false;
-
+	  
+	  
+	// Lista dei branches
+	  $http({
+		  method: 'GET',
+		  url: config.proxyURL+'/'+config.portalURL+'/'+config.apiURL+'/taxonomy_term/branch?fields[taxonomy_term--branch]=name,uuid,field_label'
+	  }).then(function successCallback(response) {
+		  console.log("Lista dei branches:" +JSON.stringify(response.data.data));
+		  $scope.branches = response.data.data;
+	  },function errorCallback(response){
+		  
+	  });
+	  
+	//Lista degli apparatus  
+	  callApparatus = $http({
+		  	method: 'GET',
+		  	url: config.proxyURL+'/'+config.portalURL+'/'+config.apiURL+'/taxonomy_term/apparatus?fields[taxonomy_term--apparatus]=name,field_icon&include=field_icon&fields[file--file]=url'
+	  }).then(function success(response){
+		  list_apparatus = response.data.data;
+		  console.log("Lista degli apparatus: "+JSON.stringify(list_apparatus));
+		  $scope.apparatusList = list_apparatus;
+		  
+	  },function error(response){
+		  //console.log("Impossibile reperire la lista di apparatus per il program "+programID);
+	      //console.log("Error - "+response.data);
+	  });
+		  
 	 params = JSON.parse(localStorage.getItem('params'));
 	 
 	  if (localStorage.getItem('params')){
@@ -71,9 +99,12 @@ function testerCtrl($scope,$timeout,$http) {
 			}).then(function success(response){
 				
 	    	  	$scope.playlistItems = response.data.items;
-	    	  	
-			  	//console.log("json playlist"+JSON.stringify($scope.playlistItems));
-			  	
+	    	  	for (item in $scope.playlistItems){
+	    	  		$scope.playlistItems[item].branch = null;
+	    	  		$scope.playlistItems[item].apparatus = null;
+	    	  	}
+			  	console.log("json playlist"+JSON.stringify($scope.playlistItems));
+			  
 	    	  	$scope.playlistmode = false;
 			},function error(response){
 			});

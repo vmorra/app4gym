@@ -16,6 +16,10 @@ angular
     	localStorage.setItem('refresh_token', data.refresh_token);
     }
     
+    this.setUserInfo = function(data){
+    	localStorage.setItem('userInfo', JSON.stringify(data));
+    }
+    
     this.clearUserSession = function(){
     	localStorage.removeItem('access_token');
     	localStorage.removeItem('refresh_token');
@@ -25,6 +29,13 @@ angular
     this.getUserSession = function(){
 	    if (localStorage.getItem('current_user')!=null){
 	    	return localStorage.getItem('current_user');
+	    }
+	    else return "{}";
+	}
+    
+    this.getUserInfo = function(){
+	    if (localStorage.getItem('userInfo')!=null){
+	    	return localStorage.getItem('userInfo');
 	    }
 	    else return "{}";
 	}

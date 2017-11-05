@@ -1131,7 +1131,7 @@ function drillCtrl($scope, $http, $state, $stateParams,auth, $q, $window, $rootS
 drillDetailsCtrl.$inject = ['$scope', '$http', '$state', '$stateParams', 'auth', '$q', '$window', '$rootScope','$location'];
 function drillDetailsCtrl($scope, $http, $state, $stateParams,auth, $q, $window, $rootScope,$location) {
   drillID = $scope.idProgram = $stateParams.idDrill;
-  $scope.userID = JSON.parse(auth.getUserSession()).uid;
+  $scope.userID = JSON.parse(auth.getUserInfo()).uid;
   $scope.config = config;
   $scope.pin = '';
   $scope.showDelete = null;

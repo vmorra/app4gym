@@ -50,17 +50,27 @@
 				</div>				
 			</div>
 			
-			<span class="text-right back-to-playlist" ng-click="playlistmode=true; drillVideosMode=false" ng-show="!playlistmode && drillVideosMode"><i class="fa fa-chevron-left fa-1" aria-hidden="true"></i>  PlayLists</span>
+			<span class="text-right back-to-playlist" ng-click="playlistmode=true; drillVideosMode=false; drillVideos=[]" ng-show="!playlistmode && drillVideosMode"><i class="fa fa-chevron-left fa-1" aria-hidden="true"></i>  PlayLists</span>
 			
 			<div ng-repeat="videoDrill in drillVideos" class="row playlist-element" ng-show="!playlistmode && drillVideosMode">
 	      		<div class="col-6 text-center">
 	      			<img class="gym-playlist-preview" src="{{videoDrill.snippet.thumbnails.default.url}}"></img>
 	      			<h6>{{videoDrill.snippet.title}}</h6>
 	      		</div>
-	      		<div class="col-6 playlist-info">
-	      			
-	      			<p class="playlist-description">{{videoDrill.snippet.description}}</p>
-	      			      			
+	      		<div class="col-6 playlist-info">	      		
+	      			<form>
+	      				 <label for="branchSelection"> Branch: </label><br>
+	      				 <select name="select" ng-model="videoDrill.branch">
+	      				 	
+	      				 	<option ng-selected="selected" value="">-- Select branch --</option>
+      						<option value="branch.id" ng-repeat="branch in branches">{{branch.attributes.field_label}}</option>
+    					 </select><br>
+    					 <label for="apparatusSelection"> Apparatus: </label><br>
+    					 <select name="apparatusSelection" ng-model="videoDrill.apparatus">
+    					 	<option ng-selected="selected" value="">-- Select apparatus --</option>
+      						<option value="apparatus.id" ng-repeat="apparatus in apparatusList">{{apparatus.attributes.name}}</option>
+    					 </select><br>
+	      			</form>     				      			      			
 	      		</div>
 	      		<hr class="playlist-divider">
 	      	</div>
